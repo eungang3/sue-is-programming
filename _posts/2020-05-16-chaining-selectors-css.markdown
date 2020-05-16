@@ -247,13 +247,19 @@ a[target="_blank"]{
 <br/>
 
 ### 3) [attribute~="value"] selector
-속성값에 특정 단어가 들어간 것을 모두 선택
+- 속성값에 특정 단어가 들어간 것을 모두 선택
 
 {% highlight css %}
-/* class 속성값 "top"이 들어간 모든 요소를 가운데 정렬 */
+/* class 속성값 "top"이 들어간 모든 div 요소를 가운데 정렬 */
 /* "top text"나 "top", "text top"은 선택하지만 "toptext"나 "top-text"는 선택 못함 */
 
-[class~="top"]{
+div[class~="top"]{
+    text-align: center;
+}
+
+/* 아래 코드도 같은 효과 있음 */
+
+div.top{   /* div과 .top을 공백 없이 붙여 씀 */
     text-align: center;
 }
 {% endhighlight %}
