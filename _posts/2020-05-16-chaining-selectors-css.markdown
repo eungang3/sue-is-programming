@@ -68,6 +68,7 @@ div {
 }
 {% endhighlight %}
 
+
 <br/>
 
 ### 4) 아이디 선택자 (id selector)
@@ -101,9 +102,9 @@ div, p, .summary {
 서로 연관된 단순 선택자들을 연결자(combinator)로 연결해서 만드는 선택자.
 
 <br/>
-### 1) 하위 선택자 (descendant selector)
-자손 요소(자식, 자식의 자식 이하 모두 포함)를 선택. 두 개 이상의 선택자를 공백으로 분리해서 사용. 
 
+### 1) 하위 선택자 (descendant selector)
+- 자손 요소(자식, 자식의 자식 이하 모두 포함)를 선택. 두 개 이상의 선택자를 공백으로 분리해서 사용. 
 {% highlight html %}
 <!--div의 자손 중 p만 배경색을 노랑으로 지정. -->
 
