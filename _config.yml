@@ -21,7 +21,7 @@
 title: Sue is programming
 email: eungang3@naver.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Sue was drawing before. Now she is programming
+  Sue was drawing. Now she is programming
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://eungang3.github.io/sue-is-programming/" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  eungang3
