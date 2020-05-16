@@ -445,7 +445,7 @@ input:focus{
 
 ## 5. 가상 요소(pseudo-element)
 XHTML(EXtensible HTML. HTML과 비슷하지만 문법이 더 엄격)에서 최초의 줄이나 문자 등 지정할 수 있게 해줌. CSS3부터 ::로 사용.
-ㄴIE 5.5 - 8에선 CSS2 문법인 :로 사용해야 작동함. 
+IE 5.5 - 8에선 CSS2 문법인 :로 사용해야 작동함. 
 
 ### 1) ::first-line
 - 문단 첫번째 줄 선택.
