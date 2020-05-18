@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "CSS 박스 모델 이해하기"
-date:   2020-05-12 21:35:27 +0900
+date:   2020-05-18 21:35:27 +0900
 categories: HTML
 ---
 
@@ -124,11 +124,11 @@ auto값 지정하면 부모 박스 가로축으로 가운데 정렬 가능. 단,
 #### b. margin collapse
 상하로 박스 두개가 만나면, 더 큰 마진만 적용됨. (BUT 인라인 요소의 박스인 경우 상하로 만나더라도 마진의 합으로 적용)
 
-![box2](/assets/box2.jpg)
+![box2](https://eungang3.github.io/sue-is-programming/assets/box2.jpg)
 
 <br/>
 
-![box3](/assets/box3.jpg)
+![box3](https://eungang3.github.io/sue-is-programming/assets/box3.jpg)
 
 <br/>
 
@@ -238,6 +238,63 @@ very very very very very very very very very very very very very
 very very very very very very very very very very very very very 
 very very very very very very very very very very very long paragraph</p></div>
 
+<br/>
+
+## 2. Box sizing property
+- 패딩, 보더를 컨텐츠 크기에 포함할지 뺄지 설정가능.
+- 값 : content-box, border-box
+
+a. content-box (디폴트 값. 박스 크기에 패딩, 보더를 더함.)
+{% highlight html %}
+<!-- 가로 400px, 세로 200px의 상자 바깥에 보더, 패딩을 더해서 460px * 260px로 구현됨 -->
+
+<head>
+<style>
+    div{
+        padding: 10px;
+        border: 10px solid;
+        margin: 10px;
+        width: 400px;
+        height: 200px;
+    }
+</style>
+<body>
+<div></div>
+</body>
+</head>
+{% endhighlight %}
+
+![box4](https://eungang3.github.io/sue-is-programming/assets/box4.jpg)
+
+<br/>
+
+b. border-box (패딩, 마진, 보더 설정하면 박스 크기에서 뺀 후 남는 공간에 컨텐츠 할당.)
+{% highlight html %}
+<!-- 가로 400px, 세로 200px의 상자 안쪽에 보더, 패딩을 더해서 400px * 200px로 구현됨 -->
+
+<head>
+<style>
+    /* 전체 선택자로 설정 */
+    * {
+        box-sizing: border-box;
+    }
+
+    div {
+        padding: 10px;
+        border: 10px solid;
+        margin: 10px;
+        width: 400px;
+        height: 200px;
+    }
+</style>
+<body>
+<div></div>
+</body>
+</head>
+{% endhighlight %}
+
+![box5](https://eungang3.github.io/sue-is-programming/assets/box5.jpg)
+
 <br/><br/>
 
-참조 : [w3schools.com - CSS Box Model](https://www.w3schools.com/css/css_boxmodel.asp), [codecademy.com - Learn CSS(2. The Box Model)](https://www.codecademy.com/learn/learn-css)
+참조 : [w3schools.com - CSS Box Model](https://www.w3schools.com/css/css_boxmodel.asp), [codecademy.com - Learn CSS(2. The Box Model)](https://www.codecademy.com/learn/learn-css), [bitDegree - css box sizing](https://www.bitdegree.org/learn/css-box-sizing)

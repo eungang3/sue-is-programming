@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "CSS 선택자 올바르게 사용하기"
-date:   2020-05-12 21:35:27 +0900
+date:   2020-05-17 18:35:27 +0900
 categories: HTML
 ---
 
