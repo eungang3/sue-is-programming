@@ -9,7 +9,7 @@ categories: HTML
 - 모든 html 요소는 박스 모델을 따름. (=모든 html 요소는 박스 안에 들어가 있음). 
 - property : width, height, border, padding, margin
 
-![box1](/assets/box1.jpg)
+![box1]({{"/assets/box1.jpg" | absolute_url}})
 
 <br/>
 
