@@ -2,7 +2,7 @@
 layout: post
 title:  "CSS 선택자 올바르게 사용하기"
 date:   2020-05-17 18:35:27 +0900
-categories: HTML
+categories: CSS
 ---
 
 ## 0. 선택자란?
@@ -503,6 +503,6 @@ p::after {
 
 <br/><br/>
 
-참조 : [생활코딩 CSS Reference](https://www.opentutorials.org/module/484/4150),
-[w3schools.com](https://www.w3schools.com/cssref/css_selectors.asp), 
+참조 : [생활코딩 CSS Reference](https://www.opentutorials.org/module/484/4150)<br/>
+[w3schools.com](https://www.w3schools.com/cssref/css_selectors.asp)<br/>
 [edwith 초보자를 위한 HTML & CSS 동작과 원리](https://www.edwith.org/htmlcss/joinLectures/12826?null)

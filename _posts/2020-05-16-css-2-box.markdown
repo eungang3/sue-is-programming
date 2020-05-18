@@ -2,12 +2,12 @@
 layout: post
 title:  "CSS 박스 모델 이해하기"
 date:   2020-05-18 21:35:27 +0900
-categories: HTML
+categories: CSS
 ---
 
 ## 0. 박스 모델이란?
 - 모든 html 요소는 박스 모델을 따름. (=모든 html 요소는 박스 안에 들어가 있음). 
-- property : width, height, border, padding, margin
+- 박스 property : width, height, border, padding, margin, overflow
 
 ![box1](https://eungang3.github.io/sue-is-programming/assets/box1.jpg)
 
@@ -99,13 +99,14 @@ h4 {
 <br/>
 
 #### a. margin auto
-auto값 지정하면 부모 박스 가로축으로 가운데 정렬 가능. 단, 블록 레벨 요소인 div 등은 디폴트 width가 전체 화면을 채우게 되어있으므로 width값을 따로 설정해줘야 효과를 볼 수 있음.
+auto값 지정하면 부모 박스 가로축으로 가운데 정렬 가능. 단, 블록 레벨 요소인 div 등은 디폴트 width가 전체 화면을 채우게 되어있으므로 width값을 따로 설정해줘야 효과를 볼 수 있음. DOCTYPE설정 정확하게 해줘야만 동작.
 
 {% highlight html %}
 <!-- 부모인 div container 속 자식 div 가운데 정렬하기 -->
+<!-- margin: 0 auto;로 지정하면 위아래 여백없이 가운데 정렬 (가장 기본 서식) -->
 
 <div style="border: 1px solid">
-  <div style="background-color: yellow; width: 300px; margin: auto; 
+  <div style="background-color: yellow; width: 300px; margin: 0 auto; 
   text-align: center;">
   자식 div
   </div>
@@ -268,7 +269,7 @@ a. content-box (디폴트 값. 박스 크기에 패딩, 보더를 더함.)
 
 <br/>
 
-b. border-box (패딩, 마진, 보더 설정하면 박스 크기에서 뺀 후 남는 공간에 컨텐츠 할당.)
+b. border-box (패딩, 보더 설정하면 박스 크기에서 빼고 남는 공간에 컨텐츠 할당. 레이아웃 잡기 편함)
 {% highlight html %}
 <!-- 가로 400px, 세로 200px의 상자 안쪽에 보더, 패딩을 더해서 400px * 200px로 구현됨 -->
 
@@ -297,4 +298,4 @@ b. border-box (패딩, 마진, 보더 설정하면 박스 크기에서 뺀 후 �
 
 <br/><br/>
 
-참조 : [w3schools.com - CSS Box Model](https://www.w3schools.com/css/css_boxmodel.asp), [codecademy.com - Learn CSS(2. The Box Model)](https://www.codecademy.com/learn/learn-css), [bitDegree - css box sizing](https://www.bitdegree.org/learn/css-box-sizing)
+참조 : [w3schools.com - CSS Box Model](https://www.w3schools.com/css/css_boxmodel.asp)<br/> [codecademy.com - Learn CSS(2. The Box Model)](https://www.codecademy.com/learn/learn-css)<br/> [bitDegree - css box sizing](https://www.bitdegree.org/learn/css-box-sizing)

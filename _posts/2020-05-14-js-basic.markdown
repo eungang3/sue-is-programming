@@ -2,7 +2,7 @@
 layout: post
 title:  "FCC 자바스크립트 기본편에서 기억할 내용"
 date:   2020-05-14 22:35:27 +0900
-categories: HTML
+categories: Javascript
 ---
 
 
