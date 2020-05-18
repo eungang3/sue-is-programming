@@ -7,7 +7,7 @@ categories: CSS
 
 ## 0. position이란?
 - 요소를 어떻게 위치시킬지 정해주는 프로퍼티.
-- 값 : static(디폴트), absolute, fixed, relative, sticky, initial, inherit
+- 값 : static(디폴트), relative, absolute, fixed
 
 <br/>
 
@@ -19,8 +19,8 @@ categories: CSS
 <style>
     .box1 {
         background-color: yellow;
-        width: 120px;
-        height: 120px;
+        width: 240px;
+        height: 240px;
     }
 
     .box2 {
@@ -41,7 +41,7 @@ categories: CSS
 <br/>
 
 ## 2. relative
-- 어떤 요소가 디폴트 값 static인 경우 위치했을 곳을 기준점으로 잡아 이동시킴.
+- 자기가 디폴트 값 static인 경우 위치했을 곳을 기준점으로 잡아 이동시킴.
 - 오프셋 프로퍼티 top, bottom, left, right 값 지정해서 어디에 위치시킬 지 정함
 - static일 때는 오프셋 프로퍼티 값 있어도 적용 안됨.
 
@@ -59,8 +59,8 @@ categories: CSS
         width: 240px;
         height: 120px;
         position: relative;
-        top: 40px; /* static이면 위치했을 곳 상단에서 40px 떨어진 곳에 위치 */
-        left: 50px; /* static이면 위치했을 곳 좌측에서 50px 떨어진 곳에 위치 */
+        top: 40px; /* 자기의 원위치 상단에서 40px 떨어진 곳에 위치 */
+        left: 50px; /* 자기의 원위치 좌측에서 50px 떨어진 곳에 위치 */
     }
 </style>
 <body>
