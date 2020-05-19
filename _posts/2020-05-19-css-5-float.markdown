@@ -1,14 +1,15 @@
 ---
 layout: post
-title:  "CSS float과 clear 이해하기"
+title:  "CSS float과 clear 이해하기 - 1. float"
 date:   2020-05-19 21:30:00 +0900
 categories: CSS
 ---
 
 ## 0. float이란?
 - 요소를 부모의 왼쪽이나 오른쪽에 붙이고 inline 요소와 텍스트가 해당 요소를 감쌀 수 있게 해줌.
-- 웹페이지의 normal flow에서는 제거하지만 flow에는 남김. (= 다른 요소와 상호작용함)   
-- 적용할 요소의 position 값이 static이나 relative인 경우에만 사용 가능. (absolute 요소는 웹페이지의 flow에서 제거된 요소라서, 다른 요소와 상호작용하는 float을 적용시킬 수 없음)
+- 부모의 왼쪽이나 오른쪽으로 가던 중 다른 float 요소가 있으면 거기에 붙음. 
+- 웹페이지의 normal flow는 따르지 않게 되지만 flow에서 삭제되는 건 아님. (= 다른 요소와 상호작용함)   
+- 적용할 요소의 position 값이 static이나 relative인 경우에만 사용 가능. (absolute 요소는 웹페이지의 flow에서 제거된 요소라서 다른 요소와 상호작용하는 float을 적용시킬 수 없음)
 - 적용할 요소의 display 값이 block 요소인 경우 float을 적용하면 inline이나 inline-block처럼 행동함. 즉, width가 컨텐츠 너비로 자동 조절됨 -> 컨텐츠가 없는 블록 요소의 경우 width 설정을 안하면 float적용했을 때 안보임.
 - float 적용된 요소와 붙어있는 다른 요소 사이에 여백을 주려면 float 적용된 요소의 마진 값 조절.  
 - 이미지를 텍스트 사이에 배치할 때 주로 사용. 레이아웃 짤 때도 사용함.
@@ -17,7 +18,7 @@ categories: CSS
 <br/>
 
 ## 1. left / right
-- 부모의 가장 왼쪽 / 가장 오른쪽으로 붙임
+- 부모의 가장 왼쪽 / 가장 오른쪽으로 붙임. 
 
 {% highlight html %}
 <head>
@@ -69,6 +70,52 @@ velit esse cillum dolore eu fugiat nulla pariatur.</p>
 - float 들어간 요소의 width를 설정하지 않은 경우(컨텐츠가 없는 div이라서 안보임) :
  
 <div style="border: solid;"><div style="background-color: yellow; float: left;"></div><p style="margin: 10px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p></div>
+
+<br/>
+
+- 왼쪽/오른쪽으로 가던 중 다른 float요소가 있으면 거기에 붙음.
+
+{% highlight html %}
+<head>
+<style>
+.parent {
+    border: solid; height: 45px;
+}
+
+.float1{
+    background-color: yellow; 
+    width: 100px; 
+    height: 45px; 
+    float: left;
+}
+
+.float2 {
+    background-color: teal; 
+    width: 100px; 
+    height: 45px; 
+    float: left;
+}
+
+.float3 {
+    background-color: green; 
+    width: 100px; 
+    height: 45px; 
+    float: right;
+}
+
+</style>
+</head>
+
+<body>
+<div class="parent">
+<div class="float1">float 1</div>
+<div class="float2">float 2</div>
+<div class="float3">float 3</div>
+</div>
+</body>
+{% endhighlight %}
+
+<div style="border: solid; height: 45px;"><div style="background-color: yellow; width: 100px; height: 45px; float: left;">float 1</div><div style="background-color: teal; width: 100px; height: 45px; float: left;">float 2</div><div style="background-color: green; width: 100px; height: 45px; float: right;">float 3</div></div>
 
 
 <br/><br/>
