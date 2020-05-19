@@ -78,6 +78,7 @@ categories: CSS
 - position이 디폴트 static이 아닌 부모 중 가장 가까운 부모를 기준점으로 잡아 이동시킴. 
 - 모든 부모의 position이 static이라면 body를 기준점으로 잡음.
 - 부모로 잡고싶은 요소의 position은 주로 relative로 설정.
+- 웹페이지의 플로우에서 제거됨. (다른 요소들은 absolute 요소가 없는 것처럼 행동함.) 
 
 {% highlight html %}
 <head>
