@@ -486,7 +486,7 @@ p::first-letter {
 <br/>
 
 ### 3) ::before, ::after
-요소의 앞과 뒤에 삽입할 때 사용.
+요소의 컨텐츠의 앞과 뒤에 삽입할 때 사용. (요소 다음에 삽입하는 게 아님). 디폴트 display 값은 inline.
 
 {% highlight html %}
 <!-- 문서 내 모든 p 앞에 '주의' 삽입 -->

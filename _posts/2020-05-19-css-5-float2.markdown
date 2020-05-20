@@ -1,0 +1,196 @@
+---
+layout: post
+title:  "CSS float과 clear 이해하기 - 2. clear"
+date:   2020-05-20 22:00:00 +0900
+categories: CSS
+---
+
+## 0. clear란?
+- 선행하는 floating 요소를 만났을 때 현재 요소를 floating 요소 밑으로 내릴지 말지 정함.
+- 일반 요소뿐만 아니라 floating 요소에도 clear 프로퍼티 적용 가능. 
+- 값: left, right, both, none(디폴트)
+<br/>
+
+## 1. clear: left / right / both
+- 왼쪽으로 floating하는 요소 만나면 피함 / 오른쪽으로 floating하는 요소 만나면 피함 / 왼쪽, 오른쪽 상관없이 floating하는 요소 만나면 피함
+- non-floating 요소에 clear 적용 시 margin collapse 일어나서 floating 요소의 margin값만 적용됨.
+- floating 요소에 clear 적용 시 margin collapse 일어나지 않음. 두 floating 요소의 margin값 더해서 적용됨.
+
+{% highlight html %}
+<head>
+<style>
+.child1 {
+    background-color: yellow;
+    width: 100px;
+    height: 140px;
+    float: left;
+    }
+
+.child2 {
+    background-color: green;
+    width: 100px;
+    height: 170px;
+    float: right;
+    }
+
+.p1 {
+    border: solid;
+}
+
+.p2 {
+    border: solid;
+    clear: left; /* float이 left인 child1을 피해서 내려감 */
+}
+</style>
+</head>
+
+<body>
+<div class="child1"></div>
+<div class="child2"></div>
+<p class="p1"> (p1) Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+<p class="p2"> (p2) Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in 
+reprehenderit in voluptate velit esse cillum dolore eu fugiat 
+nulla pariatur.</p>
+</body>
+
+{% endhighlight %}
+
+<br/>
+
+ex 0) p2에 clear 적용하지 않은 경우
+
+<div class="child1" style="background-color: yellow; width: 100px; height: 140px; float: left;">float:left</div><div class="child2"  style="background-color: green; width: 100px; height: 170px; float: right;">float:right</div><p class="p1" style="border: solid;">(p1)Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
+eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="p2" style="border:solid;">(p2)Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+
+<br/>
+
+ex 1) p2가 clear:left인 경우
+
+<div class="child1" style="background-color: yellow; width: 100px; height: 140px; float: left;">float:left</div><div class="child2"  style="background-color: green; width: 100px; height: 170px; float: right;">float:right</div><p class="p1" style="border: solid;">(p1)Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
+eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="p2" style="border:solid; clear: left;">(p2)Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+
+<br/>
+
+ex 2) p2가 clear:right인 경우
+
+<div class="child1" style="background-color: yellow; width: 100px; height: 140px; float: left;">float:left</div><div class="child2"  style="background-color: green; width: 100px; height: 170px; float: right;">float:right</div><p class="p1" style="border: solid;">(p1)Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
+eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="p2" style="border:solid; clear: right;">(p2)Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+
+<br/>
+
+ex 3) p2가 clear:both인 경우
+
+<div class="child1" style="background-color: yellow; width: 100px; height: 140px; float: left;">float:left</div><div class="child2"  style="background-color: green; width: 100px; height: 170px; float: right;">float:right</div><p class="p1" style="border: solid;">(p1)Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
+eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p class="p2" style="border:solid; clear: both;">(p2)Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+
+<br/>
+
+ex 4) non-floating 요소가 floating요소 만나면 margin collapse 발생
+
+{% highlight html %}
+<style>
+.float1 {
+        background-color: yellow;
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+        float: left;
+    }
+
+.float2 {
+        background-color: green;
+        width: 100px;
+        height: 100px;
+        clear: left;
+        margin: 20px 20px;
+        float: left;
+    }
+    
+.non-float {
+        background-color: teal;
+        width: 100px;
+        height: 100px;
+        clear: left;
+        margin-top: 20px; /* margin collapse 발생해서 적용 안됨 */
+    }
+</style>
+</head>
+
+<body>
+<div class="float1">floating</div>
+<div class="float2">floating</div>
+<div class="non-float">non-floating</div>
+</body>
+{% endhighlight %}
+
+<div style="background-color: yellow;width: 100px;height: 100px; margin-bottom: 20px;float: left;">floating</div><div style="background-color: green;width: 100px;height: 100px;float:left;clear: left;margin: 20px 2px;">floating</div><div style="background-color: teal;width: 100px;height: 100px;clear: left;margin-top: 20px;">non-floating</div>
+
+<br/>
+
+## 2. Clearfix
+- 어떤 요소에 float을 설정하면 normal flow에서 제거되기 때문에 부모가 자식으로 인식 못함.
+- 부모의 height는 원래 자식 height값을 따라감 -> 자식이 floating 요소가 되면 자식이 없다고 여김 -> floating 자식만 가진 부모의 height는 0이 됨, 여러 자식을 가진 부모의 경우 floating 자식이 밖으로 삐져나올 수 있음.   
+- clearfix는 부모가 floating하는 자식도 자식으로 인식하고 감쌀 수 있게 고쳐주는 방식을 말함. 
+
+<br/>
+
+ex) floating 자식의 부모 값을 디폴트 설정으로 둔 경우
+
+<div style="border: solid;"><div style="background-color: yellow; width: 100px; height: 30px; float: left;">float 1</div><div style="background-color: teal; width: 100px; height: 50px; float: left;">float 2</div></div>
+
+<br/><br/><br/>
+
+ex) floating 자식의 부모 값을 clearfix로 고친 경우
+
+<div style="border: solid; overflow: auto;"><div style="background-color: yellow; width: 100px; height: 30px; float: left;">float 1</div><div style="background-color: teal; width: 100px; height: 50px; float: left;">float 2</div></div>
+
+<br/>
+
+### 1) 부모의 가상 요소 ::after 설정
+- 부모 요소에 ::after 가상 요소를 만들고 content: "", display: block, clear: both로 설정.
+- ::after는 요소의 컨텐츠 뒤에 뭔가 붙이겠다는 뜻이지 요소 밖에 붙이겠다는 뜻이 아님. -> 자식 floating 요소에 floating을 무효화하는 형제 만들어줘서 부모가 floating 자식을 인식할 수 있게 해주는 방식.
+
+{% highlight html %}
+<head>
+<style>
+.parent{
+	border: solid;
+}
+
+.parent::after{
+  content: ""; /* 단, IE8 미만 버전은 빈 content 서포트 안함 */
+  display: block; 
+  clear: both;
+}
+
+.child1 {
+    background-color: yellow;
+    width: 100px;
+    height: 140px;
+    float: left;
+    }
+
+</style>
+</head>
+
+<body>
+<div class="parent">
+<div class="child1"></div>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+</div>
+</body>
+{% endhighlight %}
+
+<br/>
+
+### 2) 부모 요소의 overflow값을 hidden이나 auto로 설정
+- 문제 : overflow를 auto로 설정했을 때 margin, padding을 정확하게 컨트롤하지 못하면 원치 않는 스크롤바 생성될 수 있음, overflow는 원래 이렇게 쓰라고 나온 기능은 아니기 때문에 이렇게 쓸 경우 왜 썼는지 코멘트 다는 게 좋음. => 1)번 방식이 더 안전함.    
+
+<br/><br/>
+
+참조 :<br/>
+[MDN web docs - clear](https://developer.mozilla.org/en-US/docs/Web/CSS/clear)<br/>
+[codecademy.com - Learn CSS(3. CSS Display and Positioning)](https://www.codecademy.com/learn/learn-css)<br/>
+[생활코딩 CSS 수업 - float](https://opentutorials.org/course/2418/13527)

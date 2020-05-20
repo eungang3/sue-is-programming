@@ -149,7 +149,8 @@ div {
 
 ## 5) overflow
 - 박스 안에 들어간 내용물이 박스보다 큰 경우 어떻게 처리할 지 설정.
-- 값: visible, scroll, hidden
+- block 요소에 height를 명시했을 때만 작동. 
+- 값: visible, scroll, hidden, auto
 
 a. visible (디폴트 값, 박스 바깥으로 넘치게 보여줌)
 
@@ -181,7 +182,7 @@ very very very very very very very very very very very long paragraph</p></div>
 
 <br/><br/>
 
-b. scroll (박스에 스크롤 생성)
+b. scroll (넘치는 내용물 자른 후 박스에 스크롤 생성해서 마저 보여줌, 무조건 스크롤 영역 생성)
 
 {% highlight html %}
 <head>
@@ -238,6 +239,10 @@ c. hidden (넘치는 부분 보여주지 않음)
 very very very very very very very very very very very very very
 very very very very very very very very very very very very very 
 very very very very very very very very very very very long paragraph</p></div>
+
+<br/>
+
+d. auto (scroll과 비슷하지만 스크롤 필요할 때만 스크롤 생성)
 
 <br/>
 
