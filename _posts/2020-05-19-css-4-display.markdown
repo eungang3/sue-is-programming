@@ -7,7 +7,7 @@ categories: CSS
 
 ## 0. display란?
 - 가로 공간을 다른 요소와 같이 쓸 것인지 정해주는 프로퍼티. 모든 HTML 요소는 저마다의 디폴트 값 가짐.
-- 값 : inline, block, inline-block
+- 값 : inline, block, inline-block, flex(다른 포스트에서 집중적으로 다룰 예정)
 
 <br/>
 
