@@ -382,7 +382,7 @@ categories: CSS
 ### 1) flex-grow
 - 같은 줄에 있는 모든 flex item을 더한것보다 flex container가 클 때 -> 남는 공간을 각 flex item에 어떤 비율로 할당할 지 정해주는 프로퍼티.
 - 숫자가 클수록 더 많은 공간 할당받음.
-- flex item 너비 값이 정해져있으면 효과 없음.
+- flex item에 width 값이 정해져있으면 효과 없음.
 - 값 : 0(기본값, 기본적으로 커지지 않음), 양의 정수
 
 {% highlight html %}
@@ -417,6 +417,7 @@ categories: CSS
 - 보통 flex 프로퍼티에서 flex-grow, flex-basis와 함께 사용 
 - 숫자가 클수록 더 많은 너비 감소
 - 해당 item에 min-width 속성이 선언되어있다면 이 값 미만으로 수축하지 않음. 
+- 기본값으로 min-width: auto (주축이 column인 경우 min-height: 0) 설정되어있기 때문에 컨텐츠보다 flex container 작아지면 overflow 발생. -> min-width: 0 (min-height: 0) 또는 overflow로 기본값 override 가능.
 - 값 : 0(줄어들지 않음, overflow 발생 가능), 1(기본값, 기본적으로 줄어듦), 양의 정수
 
 {% highlight html %}
@@ -466,45 +467,59 @@ div {
 
 ### 4) flex
 - flex-grow, flex-shrink, flex-basis를 한번에 설정할 수 있는 단축 프로퍼티.
-- 값 : 'flex-grow값 flex-shrink값 flex-basis값'으로 작성. 
+- 값 : 'flex-grow값 flex-shrink값 flex-basis값'으로 작성, initial, none, auto
 - 기본값 (아무것도 안쓰면) : 0 1 auto
-- 값 하나만 쓰면 : flex-grow값 (flex-shrink기본값, flex-basis: 0)
-- 값 두개만 쓰면 : flex-grow값 flex-shrink값 (flex-basis: 0)
+- 값 하나만 쓰면 : flex-grow값 (flex-shrink기본값 1, flex-basis값 0)
+- 값 두개만 쓰면 : flex-grow값 flex-shrink값 (flex-basis값 0)
 
 <br/>
 #### ex 1) flex: 0 1 auto
-- 기본값, flex-basis값을 내용물 너비로 산정, container에 빈 공간 있어도 item 안커짐, container 줄어들면 item도 줄어듦.
+- 기본값. flex: initial과 같은 값
+- flex-basis값을 내용물 너비로 산정, container에 빈 공간 있어도 item 안커짐, container 줄어들면 item도 줄어듦.
 <div style="background-color:yellow;height:150px; display:flex;">
- <div style="background-color:white;margin:10px;">111111111111111111111111</div>
-  <div style="background-color:white;margin:10px;">2222222222222222222222222222222222222222222222222</div>
+ <div style="background-color:white;margin:10px;">Lorem ipsum dolor sit amet,  </div>
+  <div style="background-color:white;margin:10px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit</div>
 </div>
 
 <br/>
 #### ex 2) flex: 0 0 auto
 - flex: none과 같은 값
 - flex-basis값을 내용물 너비로 산정, container에 빈 공간 있어도 item 안커짐, container 줄어들면 item 안 줄어들고 overflow.
+<div style="background-color:yellow;height:150px; display:flex;">
+ <div style="background-color:white;margin:10px; flex: 0 0 auto;">Lorem ipsum dolor sit amet,  </div>
+  <div style="background-color:white;margin:10px; flex: 0 0 auto;">Lorem ipsum dolor sit amet, consectetur adipisicing elit</div>
+</div>
 
 <br/>
 #### ex 3) flex: 1 1 auto
 - flex: auto과 같은 값
 - flex-basis값을 내용물 너비로 산정, container에 빈 공간이 있다면 늘어남, container 커지면 item도 커짐, container 줄어들면 item 줄어듦.
+<div style="background-color:yellow;height:150px; display:flex;">
+ <div style="background-color:white;margin:10px; flex: 1 1 auto;">Lorem ipsum dolor sit amet,  </div>
+  <div style="background-color:white;margin:10px; flex: 1 1 auto;">Lorem ipsum dolor sit amet, consectetur adipisicing elit</div>
+</div>
 
 <br/>
 #### ex 4) flex: 양수
 - flex: 양수 1 0 과 같은 값
-
+- flex-basis를 0으로 만들고 남는 공간을 flex-grow가 채우는 방식. 
+<div style="background-color:yellow;height:150px; display:flex;">
+ <div style="background-color:white;margin:10px; flex: 2;"> flex: 2;  </div>
+  <div style="background-color:white;margin:10px; flex: 1;">flex : 1;</div>
+</div>
 
 <br/>
 
-#### cf1) absolute flex
-- flex-basis 값 설정 안한 경우
-- flex-basis 값은 자동으로 0이 됨. 
+__cf1) absolute flex__
+- flex-basis 값이 0인 경우
+- flex-grow 값에 맞춰서 자동으로 너비 산정.
 - ex) .item {flex: 1 1;}
+- ex) .item {flex: 2;}
 
 <br/>
 
-#### cf2) relative flex
-- flex-basis 값만 설정한 경우
+__cf2) relative flex__
+- flex-basis 값이 0이 아닌 경우. 컨텐츠 값이나 flex-basis 값으로 너비 산정. 
 - ex) .item {flex-basis: 200px;}
 
 <br/>
@@ -541,6 +556,74 @@ div {
 <div style="display:flex;background-color:yellow;"><div style="background-color:white;width:150px;margin:5px;height:20px;order:2;">1</div><div style="background-color:white;width:150px;margin:5px;height: 20px;order:-1;">2</div><div style="background-color:white;width:150px;margin:5px;height:20px;">3</div></div>
 
 <br/>
+
+### 6) Align-self
+- 교차축을 기준으로 개별 item 정렬하는 프로퍼티. (align-items 설정 override, BUT justify-content 설정은 override 못함 -> margin auto 사용)
+- 값 : auto(align-items 값 상속), stretch, flex-start, flex-end, center, baseline
+
+<br/>
+
+## 3. flexbox에서 auto-margin 사용하기 
+- align-self는 justify-content를 override 할 수 없음. 주 축에서 item하나만 따로 떼서 정렬해야 할 때 사용.
+- flex item의 margin이 auto로 설정된 쪽이 있으면, flex container의 남는 공간을 가져와서 auto로 설정된 쪽에 붙임. 
+
+{% highlight html %}
+<head>
+<style>
+ul {
+   padding: 0px;
+   border: solid;
+   display: flex;
+   justify-content: flex-end;
+}
+
+li{
+   list-style: none;
+   flex: 0 0 auto;
+   margin: 10px;
+   background-color: yellow;
+}
+
+li:nth-child(1){
+   margin-right: auto; 
+}
+
+</style>
+</head>
+
+<body>
+<ul>
+<li>Logo</li>
+<li>list1</li>
+<li>list2</li>
+<li>list3</li>
+</ul>
+</body>
+{% endhighlight %}
+
+- margin auto 설정 없을 때:
+<ul style="padding: 0px;border: solid;display: flex;justify-content: flex-end;">
+<li style="list-style: none;flex: 0 0 auto;margin: 10px;background-color: yellow;">Logo</li>
+<li style="list-style: none;flex: 0 0 auto;margin: 10px;background-color: yellow;">list1</li>
+<li style="list-style: none;flex: 0 0 auto;margin: 10px;background-color: yellow;">list2</li>
+<li style="list-style: none;flex: 0 0 auto;margin: 10px;background-color: yellow;">list3</li>
+</ul>
+
+- Logo의 margin-right 값이 auto일 때:
+<ul style="padding: 0px;border: solid;display: flex;justify-content: flex-end;">
+<li style="list-style: none;flex: 0 0 auto;margin: 10px;background-color: yellow;margin-right: auto;">Logo</li>
+<li style="list-style: none;flex: 0 0 auto;margin: 10px;background-color: yellow;">list1</li>
+<li style="list-style: none;flex: 0 0 auto;margin: 10px;background-color: yellow;">list2</li>
+<li style="list-style: none;flex: 0 0 auto;margin: 10px;background-color: yellow;">list3</li>
+</ul>
+
+- Logo의 margin-right, margin-left 값이 auto일 때:
+<ul style="padding: 0px;border: solid;display: flex;justify-content: flex-end;">
+<li style="list-style: none;flex: 0 0 auto;background-color: yellow;margin: 10px auto;">Logo</li>
+<li style="list-style: none;flex: 0 0 auto;margin: 10px;background-color: yellow;">list1</li>
+<li style="list-style: none;flex: 0 0 auto;margin: 10px;background-color: yellow;">list2</li>
+<li style="list-style: none;flex: 0 0 auto;margin: 10px;background-color: yellow;">list3</li>
+</ul>
 
 
 
