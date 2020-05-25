@@ -1,0 +1,269 @@
+---
+layout: post
+title:  "CSS Grid 이해하기"
+date:   2020-05-21 21:00:00 +0900
+categories: CSS
+---
+
+## 0-0. Grid란?
+- Grid Layout. floats이나 position보다 쉽게, Flex box보다 효과적으로 복잡한 레이아웃 구현할 수 있음. 
+- Flex box는 1차원적 레이아웃, Grid는 2차원적 레이아웃(열, 행 존재)에 적합. 
+- 부모-자식 필요 : 부모의 display 값을 grid로 선언하면 부모는 grid container, 자식은 grid item이 됨.
+- Grid container에 사용하는 프로퍼티, grid item에 사용하는 프로퍼티 따로 있음.
+
+<br/>
+
+### 0-1. Grid 주요 개념
+
+![grid-all](https://eungang3.github.io/sue-is-programming/assets/grid-all.jpg)
+
+### 1) Grid Track
+- grid의 행/열. 
+
+### 2) Cell
+- Grid item이 차지할 수 있는 최소 단위 영역. 
+
+### 3) Grid Lines
+- grid에서 셀을 나누는 선. 
+
+### 4) Grid Number
+- Grid line의 번호.
+
+### 5) Grid Gap
+- Grid 셀 사이의 공간
+
+### 7) Greed Area
+- 하나 이상의 cell로 이루어진 cell의 집합.
+
+<br/>
+
+## 1. Grid container(부모)에 사용하는 프로퍼티
+### 1) display
+- grid 사용하기 위해 선언.
+- 값: grid, inline-grid
+
+<br/>
+
+### 2) grid-template-rows/grid-template-columns
+- grid의 행(row) 설정/열(column) 설정(= grid 트랙 크기 설정)
+- [] 사용해서 동시에 라인 이름도 설정 가능(BUT 보통은 디폴트로 지정된 이름 그냥 사용)
+
+{% highlight html %}
+<head>
+<style>
+.grid-container {
+  display: grid;
+  /* 3열 2행의 그리드 생성 */
+  /* 첫 열 너비 50px로 고정, 나머지 열은 전체 너비에서 50px 뺀 값을 1:1로 나눠서 배분 */
+  grid-template-columns: 50px 1fr 1fr; 
+  /* 첫 행 높이 70px로 고정, 나머지 행은 전체 너비에서 70px 뺀 값 모두 배분 */
+  grid-template-rows: 70px 1fr;
+  padding: 10px;
+}
+.grid-item {
+  background-color: yellow;
+  border: 1px solid;
+  font-size: 15px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="grid-container">
+  <div class="grid-item">1</div>
+  <div class="grid-item">2</div>
+  <div class="grid-item">3</div>  
+  <div class="grid-item">4</div>
+  <div class="grid-item">5</div>
+  <div class="grid-item">6</div>   
+</div>
+</body>
+{% endhighlight %}
+
+<div style="display: grid; grid-template-columns: 50px 1fr 1fr; grid-template-rows: 70px 1fr;">
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">1</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">2</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">3</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">4</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">5</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">6</div>   
+</div>
+
+<br/>
+
+#### cf) repeat() 함수 사용해서 반복되는 값 처리하기
+- 사용 방법 : repeat(반복 횟수, 반복값)
+{% highlight css %}
+/* grid-template-columns: 1fr 1fr 1fr 1fr 1fr과 같음 */
+grid-template-columns: repeat(5, 1fr)
+{% endhighlight %}
+
+{% highlight css %}
+/* grid-template-rows: 200px 1fr 200px 1fr과 같음 */
+grid-template-rows: repeat(2, 200px 1fr)
+{% endhighlight %}
+
+<br/>
+
+#### cf) minmax 함수 사용해서 최솟값, 최댓값 설정하기
+- 사용 방법: minmax(최솟값, 최댓값)
+{% highlight html %}
+<head>
+<style>
+.grid-container {
+  display: grid;
+  /* 3열 2행 그리드 생성 */
+  grid-template-columns: 1fr 1fr 1fr;
+  /* 1행은 item 사이즈가 아무리 작아도 높이 최소 50px 유지, 
+  item 사이즈가 50px보다 크면 따라서 높아짐, 
+  2행은 전체 높이에서 1행 높이 뺀 나머지 값 할당  */
+  grid-template-rows: minmax(50px, auto) 1fr;
+  padding: 10px;
+}
+.grid-item {
+  background-color: yellow;
+  border: 1px solid;
+  font-size: 15px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="grid-container">
+  <div class="grid-item">1</div>
+  <div class="grid-item">2</div>
+  <div class="grid-item">3</div>  
+  <div class="grid-item">4</div>
+  <div class="grid-item">5</div>
+  <div class="grid-item">6</div>   
+</div>
+</body>
+{% endhighlight %}
+
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: minmax(50px, auto) 1fr;">
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">1</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">2</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">3</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">4</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">5</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">6</div>   
+</div>
+
+<br/>
+
+#### cf) auto-fill, auto-fit
+- 사용 방법: 셀 개수 미리 알 수 없을 때 사용.
+- auto-fill은 자동으로 채우고 공간이 남았을 때 빈 공간으로 둠.
+- auto-fit은 공간이 남으면 cell을 stretch해서 채움.
+
+{% highlight html %}
+<head>
+<style>
+.grid-container {
+  display: grid;
+  /* 셀 크기를 %로 지정, 한 row당 셀 4개씩 만듦 */
+  grid-template-columns: auto-fill, minmax(60px, 1fr);
+}
+
+.grid-item {
+  background-color: yellow;
+  border: 1px solid;
+  font-size: 15px;
+  text-align: center;
+}
+</style>
+
+</head>
+<body>
+<div class="grid-container">
+  <div class="grid-item">1</div>
+  <div class="grid-item">2</div>
+  <div class="grid-item">3</div>  
+  <div class="grid-item">4</div>
+  <div class="grid-item">5</div>
+  <div class="grid-item">6</div>   
+</div>
+</body>
+{% endhighlight %}
+
+- auto-fill인 경우:
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));">
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">1</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">2</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">3</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">4</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">5</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">6</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">7</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">8</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">9</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">10</div>    
+</div>
+
+<br/>
+
+- auto-fit인 경우:
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));">
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">1</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">2</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">3</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">4</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">5</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">6</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">7</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">8</div>
+  <div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">9</div><div style="background-color: yellow;border: 1px solid;font-size: 15px;text-align: center;">10</div>  
+</div>
+
+<br/>
+
+### 3) grid-template-areas
+- 사용 방법 : grid item에 grid-area 이름을 주고, 그것을 바탕으로 그리드 생성.
+- 빈 칸은 none 또는 .로 표시
+
+{% highlight html %}
+<style>
+.grid-container {
+  display: grid;
+  /* 2열 3행 그리드 생성 */
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: "header header"
+                       "body ." /* 한 칸 비움 */
+                       "body ad"
+}
+
+.item1{
+  grid-area: header; /* grid-area 이름 설정 */
+  background-color: teal;
+}
+
+.item2{
+  grid-area: body; /* grid-area 이름 설정 */
+  background-color: yellow;
+}
+
+.item3{
+  grid-area: ad; /* grid-area 이름 설정 */
+  background-color: blue;
+}
+</style>
+
+</head>
+<body>
+<div class="grid-container">
+  <div class="item1">header</div>
+  <div class="item2">body</div>
+  <div class="item3">ad</div>  
+</div>
+</body>
+{% endhighlight %}
+
+<div style="display: grid;grid-template-rows: 1fr 1fr;grid-template-columns: 1fr 1fr 1fr; grid-template-areas: 'header header' 'body .' 'body ad'">
+  <div style="grid-area: header;background-color: teal;">header</div>
+  <div style="grid-area: body;background-color: yellow;">body</div>
+  <div style="grid-area: ad;background-color: blue;">ad</div>  
+</div>
+
+### 4) grid-template
+- grid-template-rows, grid-template-columns, grid-template-areas를 한 번에 쓸 수 있는 프로퍼티
+
+
+<br/><br/>
+
+참조 :<br/>
+[생활코딩 Web2 - css, 그리드](https://opentutorials.org/course/3086/18322)<br/>
+[MDN web docs - CSS Grid Layout](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout)<br/>
+[Free Code Camp - CSS Grid](https://www.freecodecamp.org/learn)<br/>
+[W3Schools.com - CSS Grid](https://www.w3schools.com/css/css_grid.asp)<br/>
+[Heropy Tech - CSS Grid 완벽 가이드](https://heropy.blog/2019/08/17/css-grid/)<br/>
+[How to Efficiently Master the CSS Grid — in a Jiffy](https://medium.com/flexbox-and-grids/how-to-efficiently-master-the-css-grid-in-a-jiffy-585d0c213577)<br/>
+[Codecademy - Learn CSS, 6. Grid](https://www.codecademy.com/learn/learn-css)<br/>
+[1분 코딩 - 이번에야말로 CSS Grid를 익혀보자](https://studiomeal.com/archives/533)
