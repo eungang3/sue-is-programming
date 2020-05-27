@@ -13,7 +13,7 @@ categories: CSS
 
 <br/>
 
-### 0-1. Grid 주요 개념
+## 0-1. Grid 주요 개념
 
 ![grid-all](https://eungang3.github.io/sue-is-programming/assets/grid-all.jpg)
 
@@ -598,6 +598,584 @@ grid-template-rows: repeat(2, 200px 1fr)
   <div style="border: solid;background-color : yellow;">5</div></div>
 <br/>
 
+### 9) grid
+- grid-template-rows, grid-template-columns, grid-auto-rows, grid-auto-columns 줄여쓰는 프로퍼티.
+
+#### ex 1) grid : grid-template 값
+
+{% highlight css %}
+.parent {
+   /* 3열 2행 그리드 생성 */
+   grid: 100px 100px / 200px 300px 1fr;
+}
+{% endhighlight %}
+
+{% highlight css %}
+.parent {
+   /* 3열 2행 그리드 생성 */
+   grid: "header header ad" 100px
+          "body body ad" 100px
+          / 200px 300px 1fr;
+}
+{% endhighlight %}
+
+#### ex 2) grid : grid-template 값 + (grid-auto-columns / grid-auto-rows 값) + grid-auto-flow값
+
+{% highlight css %}
+.parent {
+  /* 3열 2행 그리드 생성, grid-auto-flow는 row dense, gird-auto-rows는 100px */
+  grid: auto-flow dense 100px / 200px 300px 1fr;
+}
+{% endhighlight %}
+ 
+
+{% highlight css %}
+.parent {
+  /* 3열 2행 그리드 생성, grid-auto-flow는 column, gird-auto-columns는 200px */
+  grid: 100px 100px / auto-flow 200px;
+}
+{% endhighlight %}
+ 
+<br/>
+
+### 10) align-content
+- 그리드의 각 row를 수직 축 위에서 어떻게 정렬할 지 설정하는 프로퍼티.
+- 값 : normal(기본값, stretch와 동일), start(container 가장 상단에 붙임), center, end, space-around, space-between, space-evenly, stretch
+
+{% highlight html %}
+<head>
+<style>
+.grid-container {
+  display: grid;
+  width: 400px;
+  height: 300px;
+  border: solid;
+  grid-template : repeat(2,100px) / repeat(3, 100px);
+  align-content: end;
+}
+
+.grid-container > div {
+  border: solid;
+  background-color : yellow;
+}
+</style>
+</head>
+
+<body>
+<div class="grid-container">
+  <div class="item1">1</div>
+  <div class="item2">2</div>
+  <div class="item3">3</div>  
+  <div class="item4">4</div>
+  <div class="item5">5</div>
+  <div class="item5">6</div>
+</div>
+</body>
+{% endhighlight %}
+
+<div style="display: grid;width: 400px;height: 300px;border: solid;grid-template : repeat(2,100px) / repeat(3, 100px);align-content: end;">
+  <div style="border: solid;background-color:yellow;">1</div>
+  <div style="border: solid;background-color:yellow;">2</div>
+  <div style="border: solid;background-color:yellow;">3</div>  
+  <div style="border: solid;background-color:yellow;">4</div>
+  <div style="border: solid;background-color:yellow;">5</div>
+  <div style="border: solid;background-color:yellow;">6</div></div>
+
+<br/>
+
+### 11) justify-content
+- 그리드의 각 column을 수평 위에서 어떻게 정렬할 지 설정하는 프로퍼티.
+- 값 : normal(기본값, stretch와 동일), start(container 가장 왼쪽에 붙임), center, end, space-around, space-between, space-evenly, stretch
+
+{% highlight html %}
+<head>
+<style>
+.grid-container {
+  display: grid;
+  width: 400px;
+  height: 300px;
+  border: solid;
+  grid-template : repeat(2,100px) / repeat(3, 100px);
+  justify-content: end;
+}
+
+.grid-container > div {
+  border: solid;
+  background-color : yellow;
+}
+</style>
+</head>
+
+<body>
+<div class="grid-container">
+  <div class="item1">1</div>
+  <div class="item2">2</div>
+  <div class="item3">3</div>  
+  <div class="item4">4</div>
+  <div class="item5">5</div>
+  <div class="item5">6</div>
+</div>
+</body>
+{% endhighlight %}
+
+<div style="display: grid;width: 400px;height: 300px;border: solid;grid-template : repeat(2,100px) / repeat(3, 100px);justify-content: end;">
+  <div style="border: solid;background-color:yellow;">1</div>
+  <div style="border: solid;background-color:yellow;">2</div>
+  <div style="border: solid;background-color:yellow;">3</div>  
+  <div style="border: solid;background-color:yellow;">4</div>
+  <div style="border: solid;background-color:yellow;">5</div>
+  <div style="border: solid;background-color:yellow;">6</div></div>
+<br/>
+
+### 12) place-content
+- align-content, justify-content를 동시에 설정하는 프로퍼티.
+- 'place-content: align-content값 justify-content값'으로 표기
+- 값 하나만 있으면 align-content, justify-content에 같은 값으로 적용
+- IE에서 지원 안됨
+
+{% highlight css %}
+.parent{
+   place-content: center start;
+}
+{% endhighlight %}
+
+<br/>
+
+### 13) align-items
+- 그리드 item을 각 셀 안의 수직 축 위에서 어떻게 정렬할 지 설정하는 프로퍼티.
+- 값 : normal(기본값, stretch와 동일), start(셀 가장 상단에 붙임), center, end, stretch
+{% highlight html %}
+<head>
+<style>
+.grid-container {
+  display: grid;
+  width: 400px;
+  height: 300px;
+  border: solid;
+  grid-template : repeat(2,100px) / repeat(3, 100px);
+  align-items: end;
+}
+
+.grid-container > div {
+  border: solid;
+  background-color : yellow;
+}
+</style>
+</head>
+
+<body>
+<div class="grid-container">
+  <div class="item1">1</div>
+  <div class="item2">2</div>
+  <div class="item3">3</div>  
+  <div class="item4">4</div>
+  <div class="item5">5</div>
+  <div class="item5">6</div>
+</div>
+</body>
+{% endhighlight %}
+
+<div style="display: grid;width: 400px;height: 300px;border: solid;grid-template : repeat(2,100px) / repeat(3, 100px);align-items: end;">
+  <div style="border: solid;background-color:yellow;">1</div>
+  <div style="border: solid;background-color:yellow;">2</div>
+  <div style="border: solid;background-color:yellow;">3</div>  
+  <div style="border: solid;background-color:yellow;">4</div>
+  <div style="border: solid;background-color:yellow;">5</div>
+  <div style="border: solid;background-color:yellow;">6</div></div>
+
+<br/>
+
+#### 14) justify-items
+- 그리드 item을 각 셀 안의 수평 축 위에서 어떻게 정렬할 지 설정하는 프로퍼티
+- 값 : normal(기본값, stretch와 동일), start(셀 가장 왼쪽에 붙임), center, end, stretch
+{% highlight html %}
+<head>
+<style>
+.grid-container {
+  display: grid;
+  width: 400px;
+  height: 300px;
+  border: solid;
+  grid-template : repeat(2,100px) / repeat(3, 100px);
+  justify-items: end;
+}
+
+.grid-container > div {
+  border: solid;
+  background-color : yellow;
+}
+</style>
+</head>
+
+<body>
+<div class="grid-container">
+  <div class="item1">1</div>
+  <div class="item2">2</div>
+  <div class="item3">3</div>  
+  <div class="item4">4</div>
+  <div class="item5">5</div>
+  <div class="item5">6</div>
+</div>
+</body>
+{% endhighlight %}
+
+<div style="display: grid;width: 400px;height: 300px;border: solid;grid-template : repeat(2,100px) / repeat(3, 100px);justify-items: end;">
+  <div style="border: solid;background-color:yellow;">1</div>
+  <div style="border: solid;background-color:yellow;">2</div>
+  <div style="border: solid;background-color:yellow;">3</div>  
+  <div style="border: solid;background-color:yellow;">4</div>
+  <div style="border: solid;background-color:yellow;">5</div>
+  <div style="border: solid;background-color:yellow;">6</div></div>
+
+<br/>
+
+#### 15) place-items
+- align-items, justify-items를 동시에 설정하는 프로퍼티
+- 'place-items: align-items값 justify-items값'으로 표기
+- 값 하나만 있으면 align-items, justify-items에 같은 값으로 적용
+- IE에서 지원 안됨.
+
+{% highlight css %}
+.parent{
+   place-items: center start;
+}
+{% endhighlight %}
+
+<br/>
+
+## 2. Grid item(자식)에 사용하는 프로퍼티
+### 1) grid-row-start, grid-row-end, grid-column-start, grid-column-end
+- Grid line의 시작 위치, 끝 위치 지정해서 item 배치.
+- Grid line의 숫자나 이름, 또는 span 키워드 사용. (span 1이 기본값)
+
+{% highlight html %}
+<head>
+<style>
+.grid-container {
+  display: grid;
+  grid-template : repeat(2,100px) / repeat(3, 100px);
+}
+
+.grid-container > div {
+  border: solid;
+  background-color : yellow;
+}
+
+.item1{
+  grid-row-start: 1;
+  grid-row-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+</style>
+</head>
+
+<body>
+<div class="grid-container">
+  <div class="item1">1</div>
+  <div class="item2">2</div>
+  <div class="item3">3</div>  
+  <div class="item4">4</div>
+  <div class="item5">5</div>
+</div>
+</body>
+{% endhighlight %}
+
+<div style="display: grid;grid-template : repeat(2,100px) / repeat(3, 100px);">
+  <div style="border: solid;background-color : yellow;grid-row-start: 1;grid-row-end: 3;grid-column-start: 1;grid-column-end: 2;">1</div>
+  <div style="border: solid;background-color : yellow;">2</div>
+  <div style="border: solid;background-color : yellow;">3</div>  
+  <div style="border: solid;background-color : yellow;">4</div>
+  <div style="border: solid;background-color : yellow;">5</div>
+</div>
+
+<br/>
+
+{% highlight html %}
+<head>
+<style>
+.grid-container {
+  display: grid;
+  grid-template : repeat(2,100px) / repeat(3, 100px);
+}
+
+.grid-container > div {
+  border: solid;
+  background-color : yellow;
+}
+
+.item1{
+  grid-column-start: span 2;
+}
+
+</style>
+</head>
+
+<body>
+<div class="grid-container">
+  <div class="item1">1</div>
+  <div class="item2">2</div>
+  <div class="item3">3</div>  
+  <div class="item4">4</div>
+  <div class="item5">5</div>
+</div>
+</body>
+{% endhighlight %}
+
+<div style="display: grid;grid-template : repeat(2,100px) / repeat(3, 100px);">
+  <div style="border: solid;background-color : yellow;grid-column-start: span 2;">1</div>
+  <div style="border: solid;background-color : yellow;">2</div>
+  <div style="border: solid;background-color : yellow;">3</div>  
+  <div style="border: solid;background-color : yellow;">4</div>
+  <div style="border: solid;background-color : yellow;">5</div>
+</div>
+
+<br/>
+
+### 2) grid-row
+- grid-row-start, grid-row-end를 같이 설정하는 프로퍼티
+- "grid-row: grid-row-start 값 / grid-row-end 값"으로 표기
+
+{% highlight html %}
+.item1{
+   grid-row: 1 / 3;
+}
+{% endhighlight %}
+ 
+{% highlight html %}
+.item1{
+/* line 3에서 6까지 차지 */
+   grid-row: 3 / span 3;
+}
+{% endhighlight %}
+
+<br/>
+
+### 3) grid-column
+- grid-column-start, grid-column-end를 같이 설정하는 프로퍼티
+- "grid-column: grid-column-start 값 / grid-column-end 값"으로 표기
+
+{% highlight html %}
+.item1{
+   grid-column: 1 / 3;
+}
+{% endhighlight %}
+ 
+{% highlight html %}
+.item1{
+/* line 3에서 6까지 차지 */
+   grid-column: 3 / span 3;
+}
+{% endhighlight %}
+
+<br/>
+
+### 4) grid-area
+- grid-template-areas가 참조하는 area 이름 지정
+- 또는 grid-row, grid-column을 동시 설정.
+- area 이름 지정 시 grid-row, grid-column은 무시됨
+- grid-area : grid-row-start값 / grid-column-start 값 / grid-row-end 값 / grid-column-end 값
+
+{% highlight css %}
+.item1{
+/* row는 1번에서 3번까지, column은 3번에서 5번까지 차지 */
+   grid-area: 1 / 3 / span2 / 5;
+}
+{% endhighlight %}
+
+<br/>
+
+### 5) align-self
+- 개별 grid item을 셀 내 수직선상에서 배치하는 방식 설정.
+- 값 : normal(stretch와 동일, 기본값), start(셀 위쪽으로 붙임), center, end, stretch
+
+{% highlight html %}
+<head>
+<style>
+.grid-container {
+  display: grid;
+  grid-template : 100px / repeat(3, 100px);
+}
+
+.grid-container > div {
+  border: solid;
+  background-color : yellow;
+}
+
+.item1{
+  align-self: center;
+}
+
+.item2{
+  align-self: end;
+}
+</style>
+</head>
+
+<body>
+<div class="grid-container">
+  <div class="item1">1</div>
+  <div class="item2">2</div>
+  <div class="item3">3</div>
+</div>
+</body>
+{% endhighlight %}
+
+<div style="display: grid;grid-template : 100px / repeat(3, 100px);">
+<div style="border: solid;background-color : yellow;align-self: center;">1</div>
+<div style="border: solid;background-color : yellow;align-self: end;">2</div>
+<div style="border: solid;background-color : yellow;">3</div></div>
+
+<br/>
+
+### 6) justify-self
+- 개별 grid item을 셀 내 수평선상에서 배치하는 방식 설정.
+- 값 : normal(stretch와 동일, 기본값), start(셀 위쪽으로 붙임), center, end, stretch
+
+{% highlight html %}
+<head>
+<style>
+.grid-container {
+  display: grid;
+  grid-template : 100px / repeat(3, 100px);
+}
+
+.grid-container > div {
+  border: solid;
+  background-color : yellow;
+}
+
+.item1{
+  justify-self: start;
+}
+
+.item2{
+  justify-self: end;
+}
+</style>
+</head>
+
+<body>
+<div class="grid-container">
+  <div class="item1">1</div>
+  <div class="item2">2</div>
+  <div class="item3">3</div>
+</div>
+</body>
+{% endhighlight %}
+
+<div style="display: grid;grid-template : 100px / repeat(3, 100px);">
+<div style="border: solid;background-color : yellow;justify-self: center;">1</div>
+<div style="border: solid;background-color : yellow;justify-self: end;">2</div>
+<div style="border: solid;background-color : yellow;">3</div></div>
+
+<br/>
+
+### 7) place-self
+- align-self와 justify-self를 동시에 쓸 수 있는 프로퍼티
+- "place-self: align-self값 justify-self값"으로 표기
+
+{% highlight css %}
+.item1{
+   place-self: center end;
+}
+{% endhighlight %}
+
+<br/>
+
+### 8) order
+- item이 배치되는 순서 변경하는 프로퍼티
+- 기본값 0. 숫자가 클수록 뒤로 감.
+
+{% highlight html %}
+<head>
+<style>
+.grid-container {
+  display: grid;
+  grid-template : 100px / repeat(3, 100px);
+}
+
+.grid-container > div {
+  border: solid;
+  background-color : yellow;
+}
+
+.item1{
+  order: 1;
+}
+
+.item2{
+  order: -1;
+}
+</style>
+</head>
+
+<body>
+<div class="grid-container">
+  <div class="item1">1</div>
+  <div class="item2">2</div>
+  <div class="item3">3</div>
+</div>
+</body>
+{% endhighlight %}
+
+<div style="display: grid;grid-template : 100px / repeat(3, 100px);">
+<div style="border: solid;background-color : yellow; order: 1;">1</div>
+<div style="border: solid;background-color : yellow; order: -1;">2</div>
+<div style="border: solid;background-color : yellow;">3</div></div>
+
+<br/>
+
+### 9) z-index
+- item 위아래 배치 설정하는 프로퍼티.
+- 기본값 0, 숫자가 클수록 위로 올라옴.
+
+{% highlight html %}
+<head>
+<style>
+.grid-container {
+  display: grid;
+  grid-template : 100px / repeat(3, 100px);
+}
+
+.item1{
+  background-color : green;
+  border: solid;
+  transform: scale(1.2);
+  text-align: center;
+  z-index: -1;
+}
+
+.item2{
+  background-color : yellow;
+  border: solid;
+  text-align: center;
+}
+
+.item3{
+  background-color : yellow;
+  border: solid;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+<div class="grid-container">
+  <div class="item1">1</div>
+  <div class="item2">2</div>
+  <div class="item3">3</div>
+</div>
+</body>
+{% endhighlight %}
+
+<br/>
+<div style="display: grid;grid-template : 100px / repeat(3, 100px);">
+<div style="background-color : green;border: solid;transform: scale(1.2);text-align: center;
+z-index: -1;">1</div>
+<div style="background-color : yellow;border: solid;text-align: center;">2</div>
+<div style="background-color : yellow;border: solid;text-align: center;">3</div></div>
+
 <br/><br/>
 참조 :<br/>
 [생활코딩 Web2 - css, 그리드](https://opentutorials.org/course/3086/18322)<br/>
@@ -605,5 +1183,6 @@ grid-template-rows: repeat(2, 200px 1fr)
 [Free Code Camp - CSS Grid](https://www.freecodecamp.org/learn)<br/>
 [W3Schools.com - CSS Grid](https://www.w3schools.com/css/css_grid.asp)<br/>
 [Heropy Tech - CSS Grid 완벽 가이드](https://heropy.blog/2019/08/17/css-grid/)<br/>
-[How to Efficiently Master the CSS Grid — in a Jiffy](https://medium.com/flexbox-and-grids/how-to-efficiently-master-the-css-grid-in-a-jiffy-585d0c213577)<br/>
+[How to Efficiently Master the CSS Grid ? in a Jiffy](https://medium.com/flexbox-and-grids/how-to-efficiently-master-the-css-grid-in-a-jiffy-585d0c213577)<br/>
 [Codecademy - Learn CSS, 6. Grid](https://www.codecademy.com/learn/learn-css)<br/>
+[1분 코딩 - 이번에야말로 CSS 그리드를 익혀보자](https://studiomeal.com/archives/533)
