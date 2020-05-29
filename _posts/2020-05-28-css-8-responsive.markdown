@@ -113,32 +113,153 @@ a {
     - root 요소(=html)의 font-size를 기준으로 삼음.
     - root 요소의 font-size값은 유저가 브라우저 설정에 등록한 값을 상속받음. (기본값 16px)
     - html 요소의 font-size 프로퍼티를 명시적으로 설정하면 브라우저 설정값 override 가능.
-    - html 요소의 font-size 프로퍼티를 조절하고 싶다면 em이나 rem으로 할 것. px로 정해버리면 유저가 글씨 크거나 작게 보고 싶을 때 설정값 바꿔도 화면에 변화 없음 -> 사용자 경험 저해. 
-    - DO : 꼭 em을 사용해야 할 이유가 없다면 사용하기 (예 : height, width, padding, margin, font-size, shadows 등), Media query에 사용하기. 
+    - html 요소의 font-size 프로퍼티를 조절하고 싶다면 em이나 rem으로 할 것. px로 정해버리면 유저가 글씨 크거나 작게 보고 싶을 때 설정값 바꿔도 화면에 변화 없음 -> 사용자 경험 저해.
+    - DO : 꼭 em을 사용해야 할 이유가 없다면 사용하기 (예 : height, width, padding, margin, font-size, shadows 등)
     - DON't : 브라우저 설정 font-size 값에 영향 받으면 안되는 곳에 사용하기
 
 <br/>
 
 ## 2. Media Query 사용하기
-- "@media" rule 안에 프로퍼티 넣어서 특정 viewport(유저에게 보이는 영역의 크기)에서만 해당 프로퍼티 반영되게 하는 방식. 
-- 사용 방법 : @media media-type and (media-feature-rule) { /* CSS rules */ }
+- 특정 조건에서만 특정 CSS 반영되게 하는 방식. if문이라고 생각하면 됨. 
+- 사용 방법 : @media media-type and (media-feature) { /* CSS rules */ }
+- px, em, rem 모두 사용 가능한데 각각 장단점 있음. 
+- cf) viewport: 유저에게 보이는 영역의 크기
+- cf) breakpoint : 레이아웃 등의 변경이 일어나야 하는 지점의 값
+- 논리 연산자(logical operator) 사용 가능
+- ex1) and  
+{% highlight css %}
+/* media가 screen이고 viewport가 768px~1024px 사이의 값일 때 배경색 노랑 */
+@media screen and (min-width: 768px) and (max-width: 1024px){
+   background-color: yellow;
+}
+{% endhighlight %}
+
+- ex2) or
+ {% highlight css %}
+/* media가 screen이고 viewport가 1024px 이상이거나 768px 이하일 때 배경색 노랑 */
+@media screen and (min-width: 1024px), (max-width: 768px){
+   background-color: yellow;
+}
+{% endhighlight %}
+
+- ex3) not 
+ {% highlight css %}
+/* viewport가 768px가 아닐때만 배경색 노랑 */
+/* not 사용할 때는 항상 media type 명시해야 함 */
+@media not all and (width: 768px){
+   background-color: yellow;
+}
+{% endhighlight %}
 
 <br/>
 
-### 1) media-type 
-- 브라우저에게 이것이 무슨 미디어를 위한 코드인지 말해줌 
-- 값 : all, print, screen, speech
+### 1) media-type
+- 브라우저에게 이것이 무슨 미디어를 위한 코드인지 말해줌
+- {}안에 들어있는 CSS rule을 적용하기 위한 조건. 
+- 생략하면 all(기본값)로 설정.
+- 값 : all(기본값), print, screen, speech(스크린 리더 사용 시)
+{% highlight css %}
+/* media type이 screen이고 viewport가 500px일 때만 배경 노란색 적용 */
+@media screen and (width: 500px) {
+   body {
+      background-color: yellow;
+   }
+}
+{% endhighlight %}
+{% highlight css %}
+/* media type이 all이고 viewport가 500px일 때만 배경 노란색 적용 */
+@media (width: 500px) {
+   body {
+      background-color: yellow;
+   }
+}
+{% endhighlight %}
 <br/>
 
-### 2) media-feature-rule : {}안에 들어있는 rule을 적용하기 전에 거쳐야 하는 테스트. 참일때만 적용.
+### 2) media-feature
+- {}안에 들어있는 CSS rule을 적용하기 위한 media의 상세한 조건. 
 
-<br/>
-
-### 3) CSS rules : media-type이 참이고 media-feature-rule이 참일때 적용되는 코드.
+#### a. width / height로 설정
+- width, height값으로 조건 설정. 
+- 구체적인 breakpoint 값 지정하는 방식. 가장 자주 사용.
+- 값 : min-width, max-width, width, height, max-height, max-width
 
 {% highlight css %}
+/* media type이 screen이고 viewport가 500px일 때만 배경 노란색 적용 */
+@media screen and (width: 500px) {
+   body {
+      background-color: yellow;
+   }
+}
+{% endhighlight %}
 
-{% endhighlight %} 
+{% highlight css %}
+/* media type이 screen이고 viewport가 768px 이하일 때만 배경 노란색 적용 */
+@media screen and (max-width: 768px) {
+   body {
+      background-color: yellow;
+   }
+}
+{% endhighlight %}
+
+{% highlight css %}
+/* media type이 screen이고 viewport가 768px 이상일 때만 배경 노란색 적용 */
+@media screen and (min-width: 768px) {
+   body {
+      background-color: yellow;
+   }
+}
+{% endhighlight %}
+
+<br/>
+
+#### b. orientation으로 설정
+- 화면이 가로인지, 세로인지에 따른 조건 설정. 
+- 값 : portrait(가로가 세로보다 짧을 때), landscape(가로가 세로보다 길 때)
+
+{% highlight css %}
+@media (orientation: landscape){
+   div {
+      flex-direction: row;
+   }
+}
+
+@media (orientation: portrait){
+   div {
+      flex-direction: column;
+   }
+}
+{% endhighlight %}
+
+<br/>
+
+#### c. pointing device 종류에 따라 설정
+- pointing device에 따른 조건 설정. 
+- 유저 인터랙션 고려한 디자인 구현 가능해짐. 
+- hover 값 : hover, none
+- pointer 값 : none(키보드나 voice commands 사용하는 디바이스), fine(마우스나 트랙패드 사용하는 디바이스), coarse(터치 사용하는 디바이스)
+{% highlight css %}
+/* hover 가능한 디바이스(마우스)에서만 배경색 노랑 */
+@media (hover: hover){
+   div {
+      background-color: yellow;
+   }
+}
+{% endhighlight %}
+
+{% highlight css %}
+/* 터치스크린 사용하는 디바이스에서만 배경색 노랑 */
+@media (pointer: coarse){
+   div {
+      background-color: yellow;
+   }
+}
+{% endhighlight %}
+
+<br/>
+
+### 3) CSS rules
+- @media의 조건이 참일때 적용되는 코드.
 
 <br/><br/>
 참조 :<br/>
@@ -147,4 +268,6 @@ a {
 [Codecademy - Learn Responsive Design](https://www.codecademy.com/learn/learn-responsive-design)<br/>
 [How to start thinking responsively](https://www.freecodecamp.org/news/how-to-start-thinking-responsively/)<br/>
 [Comprehensive Guide : When to Use Em vs. Rem](https://webdesign.tutsplus.com/tutorials/comprehensive-guide-when-to-use-em-vs-rem--cms-23984?ec_unit=translation-info-language)<br/>
-[MDN web docs - Beginner's guide to media queries](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Media_queries)
+[MDN web docs - Beginner's guide to media queries](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Media_queries)<br/>
+[Min-width, Max-width & Media Queries](https://medium.com/@banuriwickramarathna/min-width-max-width-media-queries-994e2ec5fca3)<br/>
+[The 100% correct way to do CSS breakpoints](https://medium.com/free-code-camp/the-100-correct-way-to-do-css-breakpoints-88d6a5ba1862)
