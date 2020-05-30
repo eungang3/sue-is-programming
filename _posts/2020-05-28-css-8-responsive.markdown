@@ -64,7 +64,8 @@ categories: CSS
 
 #### b. Font relative units
 - 폰트 크기를 기준으로 상대적인 값 설정하는 unit.
-- Multi column layout width에는 사용 금지(% 사용할 것)
+- Multi column layout의 width에는 사용 안하길 권장 (% 사용할 것)
+- Multi column layout의 column-width에는 사용 가능 (% 사용 안됨)
 
 * ex1) em
     - 해당 요소의 font-size값을 기준으로 삼음.
