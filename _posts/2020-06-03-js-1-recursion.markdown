@@ -17,7 +17,7 @@ categories: Javascript
 - __The Recursion :__ function 안에서 스스로를 호출하는 부분. 
 
 <br/>
-### ex 1) 계승값 구하기 
+### ex 1) factorial 값 구하기 
 (출처<sup>1</sup>에서 발췌한 코드)
 {% highlight javascript %} 
 function factorial(x) {
