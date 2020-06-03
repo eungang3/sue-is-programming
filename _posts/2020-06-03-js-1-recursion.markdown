@@ -56,7 +56,92 @@ factorial(0);
 
 ![recursion1](https://eungang3.github.io/sue-is-programming/assets/recursion1.jpg)
 
+<br/>
 
+### ex 2) string 속 글자 거꾸로 배열하기 
+(출처<sup>1</sup>에서 발췌한 코드)
+{% highlight javascript %} 
+function revStr(str) {
+  //Base, Termination
+  if (str === '') return '';
+
+  //Recursion
+  return revStr(str.substr(1)) + str[0];
+}
+
+{% endhighlight %}
+
+__revStr('dog');으로 호출한 경우:__
+
+revStr('dog');
+1. str === ''인가? -> 아님 -> 계속
+2. revStr('og') + 'd'
+
+revStr('og');
+1. str === ''인가? -> 아님 -> 계속
+2. revStr('g') + 'o'
+
+revStr('g');
+1. str === ''인가? -> 아님 -> 계속
+2. revStr('') + 'g'
+
+revStr('');
+1. str === ''인가? -> 참
+
+![recursion2](https://eungang3.github.io/sue-is-programming/assets/recursion2.jpg)
+
+<br/>
+
+### ex 3) Palindrome checker 만들기
+(출처<sup>2</sup>에서 발췌한 코드)
+{% highlight javascript %} 
+// Returns the first character of the string str
+var firstCharacter = function(str) {
+    return str.slice(0, 1);
+};
+
+// Returns the last character of a string str
+var lastCharacter = function(str) {
+    return str.slice(-1);
+};
+
+// Returns the string that results from removing the first
+//  and last characters from str
+var middleCharacters = function(str) {
+    return str.slice(1, -1);
+};
+
+var isPalindrome = function(str) {
+    // Base
+    if (str.length === 1 || str.length === 0){
+        return true;
+    }
+    
+    // Termination
+    if (firstCharacter(str) !== lastCharacter(str)){
+        return false;
+    }
+    
+    // Recursion
+    return isPalindrome(middleCharacters(str));
+};
+
+{% endhighlight %}
+
+__isPalindrome('rotor');로 호출한 경우:__
+
+isPalindrome('rotor');
+1. string의 길이가 0이나 1인가? -> 거짓 -> 계속
+2. 첫글자와 끝글자가 같은가? -> 참 -> 계속
+3. isPalindrome('oto');
+
+isPalindrome('oto');
+1. string의 길이가 0이나 1인가? -> 거짓 -> 계속
+2. 첫글자와 끝글자가 같은가? -> 참 -> 계속
+3. isPalindrome('t');
+
+isPalindrome('t');
+1. string의 길이가 0이나 1인가? -> 참 -> return true;
 
 <br/><br/>
 출처 : <br/>
