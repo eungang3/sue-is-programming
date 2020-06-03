@@ -120,6 +120,16 @@ a {
 
 <br/>
 
+#### c. Viewport relative units
+- ex1) vh
+    - viewport height의 줄임말.
+    - 1vh는 viewport height의 1%
+
+- ex2) vw
+    - viewport width의 줄임말.
+    - 1vh는 viewport width의 1%
+
+
 ## 2. Media Query 사용하기
 - 특정 조건에서만 특정 CSS 반영되게 하는 방식. if문이라고 생각하면 됨. 
 - 사용 방법 : @media media-type and (media-feature) { /* CSS rules */ }

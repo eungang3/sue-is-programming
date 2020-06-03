@@ -76,7 +76,7 @@ categories: CSS
 
 ## 3. absolute
 - position이 디폴트 static이 아닌 부모 중 가장 가까운 부모를 기준점으로 잡아 이동시킴. 
-- 모든 부모의 position이 static이라면 body를 기준점으로 잡음.
+- 모든 부모의 position이 static이라면 html을 기준점으로 잡음.
 - 부모로 잡고싶은 요소의 position은 주로 relative로 설정.
 - 웹페이지의 플로우에서 제거됨. (다른 요소들은 absolute 요소가 없는 것처럼 행동함.) 
 
@@ -111,7 +111,7 @@ categories: CSS
 ![position3](https://eungang3.github.io/sue-is-programming/assets/position3.jpg)
 
 ## 4. fixed
-- absolute와 동일하게 기준점 잡음. 
+- viewport를 기준점으로 잡음. 
 - position이 fixed인 요소는 absolute와 달리 스크롤을 올리든 내리든 그 자리에 계속 있음.
 
 <br/>
