@@ -54,7 +54,7 @@ factorial(0);
 1. x가 0보다 작은가? -> 거짓 -> 계속
 2. x가 0인가? -> 참 -> return 1; 
 
-![recursion1](https://eungang3.github.io/sue-is-programming/assets/recursion.jpg)
+![recursion1](https://eungang3.github.io/sue-is-programming/assets/recursion1.jpg)
 
 
 
