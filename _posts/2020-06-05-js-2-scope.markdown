@@ -1,0 +1,61 @@
+---
+layout: post
+title:  "Var, let, const 차이점 이해하기"
+date:   2020-06-05 00:20:27 +0900
+categories: Javascript
+---
+
+## 1. var 
+- function을 스코프로 가짐.
+- function 속 {} 내에서 var variable 정의했더라도, function 내라면 {} 안팎 상관없이 어디서나 접근 가능.
+- 정의 전 호출하면 undefined 값 가짐 (오류가 나진 않음)
+
+{% highlight javascript %}
+function run() {
+  var first = "first";
+  let second = "second";
+  console.log(first, second);
+
+  {
+    var third = "third";
+  }
+  console.log(third);
+}
+
+run();
+//first, second 프린트
+//third 프린트
+
+{% endhighlight %}
+
+<br/>
+
+## 2. let
+- block{}을 스코프로 가짐. 
+- 정의하기 전 호출하면 ReferenceError 뜸. 
+
+{% highlight javascript %}
+function run() {
+  var first = "first";
+  let second = "second";
+  console.log(first, second);
+
+  {
+    let third = "third";
+  }
+  console.log(third);
+}
+
+run();
+//first, second 프린트
+//referenceError 
+
+{% endhighlight %}
+
+## 3. const
+
+<br/>
+
+<br/><br/>
+출처 : <br/>
+<sup>1</sup> 
