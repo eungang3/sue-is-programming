@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "FCC 자바스크립트 기본편에서 기억할 내용"
+title:  "Free code camp 자바스크립트편에서 기억할 내용"
 date:   2020-05-14 22:35:27 +0900
 categories: Javascript
 ---
@@ -20,7 +20,41 @@ categories: Javascript
 
     + var : 함수 단위의 스코프를 가짐, 같은 변수 두 번 선언해도 오류 안남.
     + const : ES6부터, 블록 스코프 가짐, 상수 선언, 재정의 안됨
-    + let : ES6부터, 블록 스코프 가짐, 재정의 가능, 같은 변 수 두번 선언하면 오류
+    + let : ES6부터, 블록 스코프 가짐, 재정의 가능, 같은 변수 두번 선언하면 오류
 
 - 동등 연산자 equality operator (==) : 양 쪽의 값을 같은 타입으로 자동으로 바꿔서 비교, 반대는 부등 연산자(!=)
 - 일치 연산자 strict equality operator (===) : 양 쪽 타입이 다르면 false 리턴, 반대는 불일치 연산자(!==)
+
+<br/>
+
+## javascript ES6
+- rest parameter : 파라미터에 몇 개 인자가 들어올 지 모르는 경우 사용, 인자는 array로 저장, 일반 파라미터와 섞어서 쓰는 경우 항상 일반 파라미터 뒤에 붙여야 함.
+{% highlight javascript %}
+function test(arg1, ...args) {
+    console.log(args1);
+    console.log(args);
+}
+
+test("a", "b", "c"); 
+//a 출력
+//["b", "c"] 출력 
+{% endhighlight %}
+
+- spread operator '...' : iterable(array, string 등) 속 내용물을 꺼내놓을 때 사용. ('[]'를 벗김) 
+{% highlight javascript %}
+function add(x, y, z){
+  return x + y + z;
+}
+
+const array1 = [1, 2, 3];
+console.log(add(...array1)); // 6 출력
+{% endhighlight %}
+
+{% highlight javascript %}
+//array 복사할 때도 사용
+const arr1 = [1, 2, 3, 4];
+const arr2 = [...arr1];
+const arr3 = ...arr1; // error
+{% endhighlight %}
+
+- Destructing Assignment : 
