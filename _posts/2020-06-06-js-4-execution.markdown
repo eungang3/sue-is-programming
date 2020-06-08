@@ -5,7 +5,7 @@ date:   2020-06-06 01:40:27 +0900
 categories: Javascript
 ---
 
-Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 3. How JavaScript Works Behind the Scenes와 Kyle Simpson의 책 [You don't know JS yet]((https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md))의 chapter 1 - get started를 요약한 내용입니다. 
+Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 3. How JavaScript Works Behind the Scenes와 Kyle Simpson의 책 [You don't know JS yet: Scope & Closuers]((https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md))를 요약한 내용입니다. 
 
 <br/>
 
@@ -39,7 +39,7 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 
 - GEC의 경우 : variable object = global object = window
 
-- 가. argument Object 생성하고 function에 들어간 모든 argument를 프로퍼티로 담음. 
+- 가. Variable Object 안에 argument Object 생성하고 function에 들어간 모든 argument를 프로퍼티로 담음. 
 
 - 나. Variable Object에 모든 function declaration을 프로퍼티로 담음. __(=hoisting)__
 
@@ -93,6 +93,8 @@ console.log(num); // 1 출력
 
 
 #### b. Scope chain 프로퍼티 생성
+- Scope : 현재 EC의 VO + 모든 부모의 VO
+- Scope chain : 현재 EC의 VO와 모든 부모의 VO의 리스트 
 
 #### c. "this" variable 프로퍼티 생성
 

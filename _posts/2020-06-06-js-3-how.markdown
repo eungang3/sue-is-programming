@@ -5,14 +5,14 @@ date:   2020-06-06 01:35:27 +0900
 categories: Javascript
 ---
 
-Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 3. How JavaScript Works Behind the Scenes와 Kyle Simpson의 책 [You don't know JS yet]((https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md))의 chapter 1 - get started를 요약한 내용입니다. 
+Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 3. How JavaScript Works Behind the Scenes와 Kyle Simpson의 책 [You don't know JS yet:get started]((https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md))를 요약한 내용입니다. 
 
 <br/>
 
 
 ## 0. Interpreted languages VS Compiled languages
 - js는 흔히들 interpreted language(=scripting language)라고 하지만 근본적으론 compiled language.
-- js가 어떻게 error를 handling하는지 이해하려면 두 가지의 차이점을 알아야 함. 
+- js가 왜 compiled language에 가까운 지 알아야 스코프를 이해할 수 있음.
 
 ### 1) Interpreted languages의 실행 과정
 ![js-how1](https://eungang3.github.io/sue-is-programming/assets/js-how1.jpg)
