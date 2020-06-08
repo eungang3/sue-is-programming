@@ -5,7 +5,7 @@ date:   2020-06-06 01:40:27 +0900
 categories: Javascript
 ---
 
-Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 3. How JavaScript Works Behind the Scenes와 Kyle Simpson의 책 [You don't know JS yet: Scope & Closuers]((https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md))를 요약한 내용입니다. 
+Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 3. How JavaScript Works Behind the Scenes와 Kyle Simpson의 책 [You don't know JS yet: Scope & Closuers](https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md)를 요약한 내용입니다. 
 
 <br/>
 
@@ -91,10 +91,11 @@ function num(){
 console.log(num); // 1 출력
 {% endhighlight %}
 
+<br/>
 
 #### b. Scope chain 프로퍼티 생성
 - Scope : 현재 EC의 VO + 모든 부모의 VO
-- Scope chain : 현재 EC의 VO와 모든 부모의 VO의 리스트 
+- Scope chain : 현재 EC의 VO와 모든 부모의 VO의 목록 = 현재 EC가 접근할 수 있는 것들의 목록
 
 #### c. "this" variable 프로퍼티 생성
 
@@ -106,4 +107,8 @@ console.log(num); // 1 출력
 출처 : <br/>
 <sup>1</sup>Jonas Schmedtmann. The Complete JavaScript Course 2020: Build Real Projects!. Retrieved June 06, 2020, from [https://www.udemy.com/course/the-complete-javascript-course/](https://www.udemy.com/course/the-complete-javascript-course/)<br/>
 
-<sup>2</sup>Simpson, K. (2019). You don't know JS yet: Get Started. Sebastopol, CA: O'Reilly Media. from [https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md](https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md)
+<sup>2</sup>Simpson, K. (2019). You don't know JS yet: Get Started. Sebastopol, CA: O'Reilly Media. from [https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md](https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md) <br/>
+
+<sup>3</sup>http://davidshariff.com/blog/what-is-the-execution-context-in-javascript/ <br/>
+
+<sup>4</sup>https://poiemaweb.com/js-execution-context <br/>
