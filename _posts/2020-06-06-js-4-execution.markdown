@@ -48,7 +48,7 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 <br/>
 
 #### cf) hoisting
-- function, variable을 컴파일 단계에서 메모리에 저장해서, 코드 실행 전에 사용 가능한 상태로 만들어주는 행동. function은 define된 상태로 저장, variable은 undefined된 상태로 저장하고 실행 단계에서 define함. function은 declaration되었을 때만, variable은 let, const가 아닌 경우에만 hoisting됨.
+- function, variable을 컴파일 단계에서 메모리에 저장해서, 코드 실행 전에 사용 가능한 상태로 만들어주는 행동. function은 define된 상태로 저장, variable은 undefined된 상태로 저장하고 실행 단계에서 define함. function은 declaration되었을 때만 hoisting됨.
 
 {% highlight javascript %}
 //function declaration의 경우
@@ -94,8 +94,11 @@ console.log(num); // 1 출력
 <br/>
 
 #### b. Scope chain 프로퍼티 생성
-- Scope : 현재 EC의 VO + 모든 부모의 VO
+- Scope : 현재 EC의 VO + 모든 부모의 VO(js는 lexical scoping 사용 = 자식 function은 부모 function이 갖는 variable에 접근할 수 있게 한다는 뜻)
 - Scope chain : 현재 EC의 VO와 모든 부모의 VO의 목록 = 현재 EC가 접근할 수 있는 것들의 목록
+- Global execution context는 global scope, Function execution context는 function scope 가짐.
+
+![js-execution1](https://eungang3.github.io/sue-is-programming/assets/js-execution1.jpg)
 
 #### c. "this" variable 프로퍼티 생성
 
