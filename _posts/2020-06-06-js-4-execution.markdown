@@ -39,7 +39,7 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 - Variable Object 만들고 코드 실행에 필요한 정보를 저장하는 과정. 
 
 - GEC의 경우 : Variable object는 Global object를 가리킴. 
-![js-execution2](https://eungang3.github.io/sue-is-programming/assets/js-execution2.jpg)
+![js-execution2](https://eungang3.github.io/sue-is-programming/assets/Js-execution2.jpg)
     + 가. Global object에 모든 function declaration을 프로퍼티로 담음. __(=hoisting)__
 
     + 나. Global object에 모든 variable declaration(let, const로 정의된 variable 제외)을 프로퍼티로 담고 값을 undefined로 설정. __(=hoisting)__ 
@@ -47,7 +47,7 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
     + cf) 브라우저에서 실행 시 global object는 window. global EC에 들어가는 변수는 모두 window의 프로퍼티. (globalVariable === window.globalVariable)
 
 - FEC의 경우 : Variable object는 Activation Object를 기리킴.
-![js-execution3](https://eungang3.github.io/sue-is-programming/assets/js-execution3.jpg) 
+![js-execution3](https://eungang3.github.io/sue-is-programming/assets/Js-execution3.jpg) 
     + 가. Activation Object 안에 Argument Object 생성하고 function에 들어간 모든 parameter, argument를 프로퍼티로 담음. 
 
     + 나. Activation Object에 모든 function declaration을 프로퍼티로 담음. __(=hoisting)__
