@@ -105,13 +105,13 @@ console.log(num); // 1 출력
 <br/>
 
 #### b. Scope chain 프로퍼티 생성
-- Scope : 누가(ex. function) 어디(ex. variable)에 접근할 수 있는지 정해주는 것. 
+- Scope : 내가(ex. function) 접근할 수 있는 것(ex. variable)으로 이루어진 환경. 디폴트는 global scope.  
 
 - function 생성 시에만 새로운 scope 생성 (다른 언어에선 block만으로도 스코프 생성 가능)
 
 - lexical scoping 적용됨: 어떤 function의 안에 적혀있는 function은 바깥 function의 scope도 가짐. 
 
-- Scope chain : 현재 EC의 VO와 모든 부모의 VO의 목록 = 현재 EC가 접근할 수 있는 것들의 목록
+- Scope chain : 현재 EC의 VO + 모든 부모의 VO. 현재 EC에 없는 variable 등은 부모의 VO를 타고 올라가면서 찾아봄. 
 
 ![js-execution1](https://eungang3.github.io/sue-is-programming/assets/Js-execution1.jpg)
 
