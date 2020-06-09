@@ -23,6 +23,7 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 - 코드 실행 전에 생성됨. 항상 Execution Context stack의 최하단에 위치. 
 - function 밖에 있는 모든 변수, function을 저장하고 실행.
 
+
 ### 2) Function Execution Context(FEC)
 - function body를 실행할 때 사용하는 환경상자
 - function을 호출할 때마다 각 function당 하나씩 생성.
@@ -35,15 +36,25 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 ## 2. Execution Context Object의 Phase
 ### 1) Creation phase
 #### a. Variable Object 생성
-- Variable Object 만들고 코드 실행에 필요한 정보를 프로퍼티에 저장하는 과정. 
+- Variable Object 만들고 코드 실행에 필요한 정보를 저장하는 과정. 
 
-- GEC의 경우 : variable object = global object = window
+- GEC의 경우 : Variable object는 Global object를 가리킴. 
+![js-execution2](https://eungang3.github.io/sue-is-programming/assets/js-execution2.jpg)
+    + 가. Global object에 모든 function declaration을 프로퍼티로 담음. __(=hoisting)__
 
-- 가. Variable Object 안에 argument Object 생성하고 function에 들어간 모든 argument를 프로퍼티로 담음. 
+    + 나. Global object에 모든 variable declaration(let, const로 정의된 variable 제외)을 프로퍼티로 담고 값을 undefined로 설정. __(=hoisting)__ 
 
-- 나. Variable Object에 모든 function declaration을 프로퍼티로 담음. __(=hoisting)__
+    + cf) 브라우저에서 실행 시 global object는 window. global EC에 들어가는 변수는 모두 window의 프로퍼티. (globalVariable === window.globalVariable)
 
-- 다. Variable Object에 모든 variable declaration(let, const로 정의된 variable 제외)을 프로퍼티로 담고 값을 undefined로 설정. __(=hoisting)__ 
+- FEC의 경우 : Variable object는 Activation Object를 기리킴.
+![js-execution3](https://eungang3.github.io/sue-is-programming/assets/js-execution3.jpg) 
+    + 가. Activation Object 안에 Argument Object 생성하고 function에 들어간 모든 parameter, argument를 프로퍼티로 담음. 
+
+    + 나. Activation Object에 모든 function declaration을 프로퍼티로 담음. __(=hoisting)__
+
+    + 다. Activation Object에 모든 variable declaration(let, const로 정의된 variable 제외)을 프로퍼티로 담고 값을 undefined로 설정. __(=hoisting)__ 
+
+
 
 <br/>
 
@@ -94,9 +105,13 @@ console.log(num); // 1 출력
 <br/>
 
 #### b. Scope chain 프로퍼티 생성
-- Scope : 현재 EC의 VO + 모든 부모의 VO(js는 lexical scoping 사용 = 자식 function은 부모 function이 갖는 variable에 접근할 수 있게 한다는 뜻)
+- Scope : 누가(ex. function) 어디(ex. variable)에 접근할 수 있는지 정해주는 것. 
+
+- function 생성 시에만 새로운 scope 생성 (다른 언어에선 block만으로도 스코프 생성 가능)
+
+- lexical scoping 적용됨: 어떤 function의 안에 적혀있는 function은 바깥 function의 scope도 가짐. 
+
 - Scope chain : 현재 EC의 VO와 모든 부모의 VO의 목록 = 현재 EC가 접근할 수 있는 것들의 목록
-- Global execution context는 global scope, Function execution context는 function scope 가짐.
 
 ![js-execution1](https://eungang3.github.io/sue-is-programming/assets/js-execution1.jpg)
 
