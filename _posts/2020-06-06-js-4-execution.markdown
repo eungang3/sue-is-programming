@@ -113,7 +113,7 @@ console.log(num); // 1 출력
 
 - Scope chain : 현재 EC의 VO와 모든 부모의 VO의 목록 = 현재 EC가 접근할 수 있는 것들의 목록
 
-![js-execution1](https://eungang3.github.io/sue-is-programming/assets/js-execution1.jpg)
+![js-execution1](https://eungang3.github.io/sue-is-programming/assets/Js-execution1.jpg)
 
 #### c. "this" variable 프로퍼티 생성
 
