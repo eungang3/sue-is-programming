@@ -5,22 +5,22 @@ date:   2020-06-06 01:40:27 +0900
 categories: Javascript
 ---
 
-Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 3. How JavaScript Works Behind the Scenes와 Kyle Simpson의 책 [You don't know JS yet: Scope & Closuers](https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md)를 요약한 내용입니다. 
+Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 3. How JavaScript Works Behind the Scenes와 Kyle Simpson의 책 [You don't know JS yet: Scope & Closuers](https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md)를 요약한 내용입니다.
 
 <br/>
 
 ## 0. Execution Context(실행 컨텍스트)란?
 - 코드를 실행하기 위해 필요한 환경
-- JS engine이 만드는, 변수를 저장하고 코드를 실행하는 상자같은 것. 
-- object(객체)의 형태를 가짐, stack 형태로 쌓임 
-- Variable Object, Scope chain, "This" variable을 프로퍼티로 가짐. 
+- JS engine이 만드는, 변수를 저장하고 코드를 실행하는 상자같은 것.
+- object(객체)의 형태를 가짐, stack 형태로 쌓임
+- Variable Object, Scope chain, "This" variable을 프로퍼티로 가짐.
 
 <br/>
 
 ## 1. Execution Context의 종류
 ### 1) Global Execution Context(GEC)
-- 디폴트 환경상자, 단 하나만 존재함. 
-- 코드 실행 전에 생성됨. 항상 Execution Context stack의 최하단에 위치. 
+- 디폴트 환경상자, 단 하나만 존재함.
+- 코드 실행 전에 생성됨. 항상 Execution Context stack의 최하단에 위치.
 - function 밖에 있는 모든 변수, function을 저장하고 실행.
 
 
@@ -29,30 +29,30 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 - function을 호출할 때마다 각 function당 하나씩 생성.
 
 ### 3) Eval Execution Context(EEC)
-- eval function(js 개발에선 잘 안씀) 속 코드 실행할 때 사용하는 환경상자. 
+- eval function(js 개발에선 잘 안씀) 속 코드 실행할 때 사용하는 환경상자.
 
 <br/>
 
 ## 2. Execution Context Object의 Phase
 ### 1) Creation phase
-#### a. Variable Object 생성
-- Variable Object 만들고 코드 실행에 필요한 정보를 저장하는 과정. 
+#### a. Variable Object를 EC의 프로퍼티로 생성
+- Variable Object 만들고 코드 실행에 필요한 정보를 저장하는 과정.
 
-- GEC의 경우 : Variable object는 Global object를 가리킴. 
+- GEC의 경우 : Variable object는 Global object를 가리킴.
 ![js-execution2](https://eungang3.github.io/sue-is-programming/assets/Js-execution2.jpg)
     + 가. Global object에 모든 function declaration을 프로퍼티로 담음. __(=hoisting)__
 
-    + 나. Global object에 모든 variable declaration(let, const로 정의된 variable 제외)을 프로퍼티로 담고 값을 undefined로 설정. __(=hoisting)__ 
+    + 나. Global object에 모든 variable declaration(let, const로 정의된 variable 제외)을 프로퍼티로 담고 값을 undefined로 설정. __(=hoisting)__
 
-    + cf) 브라우저에서 실행 시 global object는 window. global EC에 들어가는 변수는 모두 window의 프로퍼티. (globalVariable === window.globalVariable)
+    + cf) 브라우저에서 실행 시 global object는 window object를 가리킴. GEC에 들어가는 변수는 모두 window의 프로퍼티. (globalVariable === window.globalVariable)
 
-- FEC의 경우 : Variable object는 Activation Object를 기리킴.
-![js-execution3](https://eungang3.github.io/sue-is-programming/assets/Js-execution3.jpg) 
-    + 가. Activation Object 안에 Argument Object 생성하고 function에 들어간 모든 parameter, argument를 프로퍼티로 담음. 
+- FEC의 경우 : Variable object는 Activation Object를 가리킴.
+![js-execution3](https://eungang3.github.io/sue-is-programming/assets/Js-execution3.jpg)
+    + 가. Activation Object 안에 Argument Object 생성하고 function에 들어간 모든 parameter, argument를 프로퍼티로 담음.
 
     + 나. Activation Object에 모든 function declaration을 프로퍼티로 담음. __(=hoisting)__
 
-    + 다. Activation Object에 모든 variable declaration(let, const로 정의된 variable 제외)을 프로퍼티로 담고 값을 undefined로 설정. __(=hoisting)__ 
+    + 다. Activation Object에 모든 variable declaration(let, const로 정의된 variable 제외)을 프로퍼티로 담고 값을 undefined로 설정. __(=hoisting)__
 
 
 
@@ -104,29 +104,61 @@ console.log(num); // 1 출력
 
 <br/>
 
-#### b. Scope chain 프로퍼티 생성
-- Scope : 내가(ex. function) 접근할 수 있는 것(ex. variable)으로 이루어진 환경. 디폴트는 global scope.  
+#### b. Scope chain을 EC의 프로퍼티로 생성
+- Scope(=유효범위) : 현재 EC의 VO + 모든 부모 function의 VO.
++ 내가(ex. function) 접근할 수 있는 것(ex. variable)으로 이루어진 환경.
++ 디폴트는 global scope.  
++ function 생성 시에만 새로운 scope 생성 (다른 언어에선 block만으로도 스코프 생성 가능)
++ lexical scoping 적용됨: 어떤 function의 안에 적혀있는 function은 부모 function의 scope도 가짐.
 
-- function 생성 시에만 새로운 scope 생성 (다른 언어에선 block만으로도 스코프 생성 가능)
-
-- lexical scoping 적용됨: 어떤 function의 안에 적혀있는 function은 바깥 function의 scope도 가짐. 
-
-- Scope chain : 현재 EC의 VO + 모든 부모의 VO. 현재 EC에 없는 variable 등은 부모의 VO를 타고 올라가면서 찾아봄. 
+- Scope chain : 현재 EC의 VO와 모든 부모 function의 VO를 실제로 사용할 수 있게 엮은 것.
++ 현재 EC의 VO에 없는 variable은 scope chain을 타고 올라가면서 부모 VO에서 찾아봄.
 
 ![js-execution1](https://eungang3.github.io/sue-is-programming/assets/Js-execution1.jpg)
 
-#### c. "this" variable 프로퍼티 생성
+#### c. "this" variable을 EC의 프로퍼티로 생성
+- this의 값으로 자기(ex. function)가 정의된 object를 할당
++ Regular function call인 경우 : this의 값은 global object(브라우저에서 window object). 디폴트.
++ Method call인 경우 : this의 값은 method가 정의된 object.
+- 즉, this의 값은 자기가 속한 function이 호출될 때만 assign됨. (function을 호출해야 새로운 EC를 만들고, EC를 만들었을 때만 this variable에 값을 할당하니까)
+
+<The Complete JavaScript Course 2020: Build Real Projects! - 3. How JavaScript Works Behind the Scenes><sup>1</sup>에서 발췌한 코드
+{% highlight javascript %}
+console.log(this); // window object 출력
+calculateAge(1985);
+function calculateAge(year) {
+    console.log(2016 - year);
+    console.log(this); // window object 출력
+}
+var john = {
+    name: 'John',
+    yearOfBirth: 1990,
+    calculateAge: function() { //method이므로
+        console.log(this); // john object 출력
+        console.log(2016 - this.yearOfBirth);
+       
+        function innerFunction() { //regular function이므로
+            console.log(this); // window object 출력
+        }
+        innerFunction();
+    }
+}
+john.calculateAge();
+
+var mike = {
+    name: 'Mike',
+    yearOfBirth: 1984
+};
+mike.calculateAge = john.calculateAge;
+mike.calculateAge();
+{% endhighlight %}
 
 <br/>
 ### 2) Execution phase
-- 해당 EC를 생성한 코드를 line by line으로 실행
+- 해당 EC의 코드를 line by line으로 실행
 
 <br/><br/>
 출처 : <br/>
 <sup>1</sup>Jonas Schmedtmann. The Complete JavaScript Course 2020: Build Real Projects!. Retrieved June 06, 2020, from [https://www.udemy.com/course/the-complete-javascript-course/](https://www.udemy.com/course/the-complete-javascript-course/)<br/>
 
 <sup>2</sup>Simpson, K. (2019). You don't know JS yet: Get Started. Sebastopol, CA: O'Reilly Media. from [https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md](https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md) <br/>
-
-<sup>3</sup>http://davidshariff.com/blog/what-is-the-execution-context-in-javascript/ <br/>
-
-<sup>4</sup>https://poiemaweb.com/js-execution-context <br/>

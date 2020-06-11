@@ -1,0 +1,88 @@
+---
+layout: post
+title:  "Javascript DOM manipulation & Events"
+date:   2020-06-10 01:40:27 +0900
+categories: Javascript
+---
+
+Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 4. JavaScript in the Browser: DOM Manipulation and Events를 요약한 내용입니다.
+
+## 0. DOM(=Document Object Model)이란?
+- 브라우저가 웹페이지(=document)를 로드하면서 만들어내는 프로그래밍 인터페이스.
+- HTML의 각 요소를 object로 만들고 트리 구조로 엮어서 나타냄. -> js같은 프로그래밍 언어가 웹페이지에 접근해서 웹페이지 변경할 수 있게 해줌. 
+- document는 DOM 가리키는 object(=document object로 DOM 접근 가능)  
+    + 예 : document.querySelector() 
+
+<br/>
+
+## 1. DOM manipulation
+- DOM에 접근해서 웹페이지를 조작하는 것. 
+- DOM의 method 예:
+    + querySelector : 요청한 CSS 설렉터와 매치하는 첫번째 요소 리턴
+    + getElementByID : 요청한 CSS ID설렉터와 매치하는 요소 리턴
+
+{% highlight javascript %}
+document.querySelector('#score').textContent = '0';
+{% endhighlight %}
+
+{% highlight javascript %}
+document.getElementsByID('score').textContent = '0';
+{% endhighlight %}
+
+- DOM의 property 예:
+    + innerHTML : HTML 코드를 설정한 스트링으로 변경할 때 사용
+    + textContent : 선택한 노드와 모든 자손의 텍스트를 설정한 스트링으로 변경할 때 사용
+    + style : css 코드 조작해서 스타일 변경할 때 사용
+
+{% highlight javascript %}
+// DOM 변경 시 (코드 변경) 
+document.querySelector('#first').innerHTML = '<em>' + '!' + '</em>'; //setter 
+{% endhighlight %}
+
+{% highlight javascript %}
+// DOM 변경 시 (텍스트 변경) 
+document.querySelector('#first').textContent = 'Yay'; //setter
+{% endhighlight %}
+
+{% highlight javascript %}
+// DOM 내용물 읽어들일 때 
+var a = document.querySelector('#first').textContent; // getter
+console.log(a); // #first의 텍스트 출력
+{% endhighlight %}
+
+{% highlight javascript %}
+// DOM 변경 시 (스타일 변경)
+document.querySelector('.dice').style.display = 'none';
+{% endhighlight %}
+
+<br/>
+
+## 2. Events 
+- events : 웹페이지에 무슨 일(예: 버튼 클릭됨, 키보드 키를 누름)이 일어났다고 코드에게 알려주는 것. 
+- event listener : 특정 event가 일어나길 기다렸다가 event가 일어나면 실행되는 function
+- Message Queue : js 엔진이 브라우저에서 일어나는 event를 저장해두는 곳. 
+- Message Queue에 저장된 event는 Function Execution Stack이 빈 이후에만 작동 (= 모든 function이 return했을 때만 작동)
+- 모든 FEC가 return하면 js 엔진이 Message Queue에 저장된 event를 하나씩 프로세싱함. -> event listener 호출됨 -> 새로운 FEC 생성
+- [MDN Event reference](https://developer.mozilla.org/en-US/docs/Web/Events)
+
+{% highlight javascript %}
+// addEventListener로 event listener 만들기
+// argument 두 개 받음(event type, function)
+
+function btn(){
+    console.log('yay');
+}
+
+// callback function 사용하는 방법
+// callback function = 다른 function의 인자로 들어가는 function
+document.querySelector('.btn-roll').addEventListener('click',btn)
+
+// anonymous function 사용하는 방법
+// anonymous function = 이름 없는 function, 이름 없으므로 재사용 불가
+document.querySelector('.btn-roll').addEventListener('click', function(){
+    console.log('yay');
+})
+
+{% endhighlight %}
+
+cf) state variable
