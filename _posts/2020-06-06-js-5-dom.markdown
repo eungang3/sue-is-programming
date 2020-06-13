@@ -84,5 +84,3 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 })
 
 {% endhighlight %}
-
-cf) state variable

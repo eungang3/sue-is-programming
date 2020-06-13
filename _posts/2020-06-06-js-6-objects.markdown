@@ -1,0 +1,120 @@
+---
+layout: post
+title:  "Javascript Objects & Functions"
+date:   2020-06-13 01:40:27 +0900
+categories: Javascript
+---
+
+Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 5. Advanced JavaScript: Objects and Functions를 요약한 내용입니다.
+
+## 0. Object and Primitives
+- js에선 primitive를 제외한 모든 것이 object. 
+
+- primitives : numbers, strings, booleans, undefined, null
+
+- object : arrays, functions, objects, dates, wrappers for numbers, strings booleans etc.
+
+<br/>
+
+## 1. Object Oriented Programming
+- OOP란? : Object가 중심이 되는 프로그래밍 모델. 
+
+- methods, property 통해 한 object가 다른 object와 상호작용.
+
+- 깔끔한 코드 작성 가능. 
+
+<br/>
+
+### 1) Constructor
+![js-object1](https://eungang3.github.io/sue-is-programming/assets/js-object1.jpg)
+
+- constructor : 템플릿 역할을 하는 object. 
+
+- instance : constructor로 만들어낸 object.
+
+- function constructor : 템플릿(=constructor object)을 만드는 function.
+
+(참조 <sup>1</sup>에서 발췌한 코드)
+{% highlight javascript %}
+/*
+function constructor 만들기
+1. function constructor명은 항상 대문자로 시작
+2. parameter에는 object에 들어갈 variable 입력
+*/
+
+var Person = function(name, yearOfBirth, job){ 
+    this.name = name;
+    this.yearOfBirth = yearOfBirth;
+    this.job = job;
+}
+
+/*
+function constructor로 instance 생성하기(=instantiation)
+1. new operator 사용해서 빈 object 생성
+2. new는 function constructor의 this가 빈 object를 가리키게 함. 
+*/
+
+var john = new Person('John', 1990, 'teacher');
+// john object는 Person object의 instance
+{% endhighlight %}
+
+<br/>
+
+### 2) Inheritance
+![js-object2](https://eungang3.github.io/sue-is-programming/assets/js-object2.jpg)
+
+- 한 object에게 다른 object의 property, method를 상속해주는 것. 
+
+- prototype과 inheritance : 
+    + js는 prototype-based language -> __모든 object에는 prototype property__ 존재
+
+    + 부모 object는 __상속할__ property, method를 prototype property에 넣어둠. (=부모의 prototype property에는 __자식의 prototype이 들어감__)
+    
+    + 자식 object는 모든 부모 object의 prototype property에 들어간 것을 상속받음.   
+    
+    + 모든 object의 조상은 Object라는 object임.
+
+- __prototype chain__ : 접근 가능한 모든 부모 object의 prototype property를 모은 것. 현재 object에서 요청한 property, method를 찾을 수 없으면 부모 object의 prototype property를 타고 올라가면서 찾아봄. Object object에서도 찾을 수 없다면 null 리턴.
+
+(참조 <sup>1</sup>에서 발췌한 코드)
+{% highlight javascript %}
+var Person = function(name, yearOfBirth, job){ 
+    this.name = name;
+    this.yearOfBirth = yearOfBirth;
+    this.job = job;
+}
+
+/* Prototpe property로 method 상속하기  */
+Person.prototype.calculatelateAge = function(){
+    console.log(2016 - this.yearOfBirth);
+};
+
+/* Prototpe property로 property 상속하기(잘 안씀) */
+Person.prototype.lastName = 'Smith';
+
+var john = new Person('John', 1990, 'teacher');
+
+john.calculateAge(); //26 출력
+console.log(john.lastName); //Smith 출력
+
+{% endhighlight %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br/><br/>
+출처 : <br/>
+<sup>1</sup>Jonas Schmedtmann. The Complete JavaScript Course 2020: Build Real Projects!. Retrieved June 06, 2020, from [https://www.udemy.com/course/the-complete-javascript-course/](https://www.udemy.com/course/the-complete-javascript-course/)<br/>
