@@ -10,9 +10,79 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 ## 0. Object and Primitives
 - js에선 primitive를 제외한 모든 것이 object. 
 
+### 1) Primitives
 - primitives : numbers, strings, booleans, undefined, null
 
-- object : arrays, functions, objects, dates, wrappers for numbers, strings booleans etc.
+- primitive를 담고있는 variable : data가 값. pass by value (variable을 복사할 때나 function argument로 쓸 때 data 값을 복사해서 넣음).
+{% highlight javascript %}
+//variable에서의 예
+var a = 1;
+var b = a;
+a = 2;
+console.log(a); // 2 
+console.log(b); // 1
+{% endhighlight %}
+
+{% highlight javascript %}
+//function에서의 예
+var a = 1;
+var b = 2;
+
+function change(num1, num2){
+    num1 = num2
+}
+
+change(a, b);
+console.log(a, b); // 1, 2
+{% endhighlight %}
+
+<br/>
+
+### 2) Object
+- object : arrays, functions, objects, dates, wrappers for numbers, 등등.
+
+- object를 담고있는 variable : data의 주소 object가 값. pass by reference처럼 보이지만 정확하게는 pass by value. (variable을 복사할 때나 function argument로 쓸 때 data 값(=주소 object)을 복사해서 넣음)
+
+- pass by value이므로 property reassignment는 가능하지만, object reassignment는 불가능.
+
+{% highlight javascript %}
+//참조 1에서 발췌한 코드
+//variable에서의 예
+var obj1 = {
+    name: 'John',
+    age: 26
+};
+
+var obj2 = obj1; 
+obj1.age = 30;
+
+console.log(obj1.age); //30
+console.log(obj2.age); //30
+{% endhighlight %}
+
+{% highlight javascript %}
+//function에서의 예 
+var dog = {
+    hungry: true
+};
+
+function reassignProperty(obj) {
+    obj.hungry = false
+}
+
+function reassignObject(obj){
+    obj = {
+        wag: true
+    }
+}
+
+reassignProperty(dog); 
+console.log(dog); //dog {hungry: false}
+
+reassignObject(dog);
+console.log(dog); //dog {hungry: false}
+
+{% endhighlight %}
 
 <br/>
 
@@ -34,8 +104,11 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 
 - function constructor : 템플릿(=constructor object)을 만드는 function.
 
-(참조 <sup>1</sup>에서 발췌한 코드)
+- function constructor pattern : function constructor로 obeject 만드는 방식.
+
 {% highlight javascript %}
+//참조 1에서 발췌한 코드
+
 /*
 function constructor 만들기
 1. function constructor명은 항상 대문자로 시작
@@ -76,8 +149,9 @@ var john = new Person('John', 1990, 'teacher');
 
 - __prototype chain__ : 접근 가능한 모든 부모 object의 prototype property를 모은 것. 현재 object에서 요청한 property, method를 찾을 수 없으면 부모 object의 prototype property를 타고 올라가면서 찾아봄. Object object에서도 찾을 수 없다면 null 리턴.
 
-(참조 <sup>1</sup>에서 발췌한 코드)
 {% highlight javascript %}
+//참조 1에서 발췌한 코드
+
 var Person = function(name, yearOfBirth, job){ 
     this.name = name;
     this.yearOfBirth = yearOfBirth;
@@ -97,22 +171,119 @@ var john = new Person('John', 1990, 'teacher');
 john.calculateAge(); //26 출력
 console.log(john.lastName); //Smith 출력
 
+john.__proto__ === Person.prototype //true 출력
+john.hasOwnProperty('lastName') //false 출력
+//hasOwnProperty는 자기가 갖고있는 것 중에서만 찾음
+john instanceOf Person //true 출력
+
 {% endhighlight %}
 
+<br/>
 
+### 3) Object.create
+- prototype 역할 하는 object를 정의한 다음 그것을 바탕으로 새 object 생성하는 방식.
 
+- 어느 object가 prototype인지 직접적으로 보여주기 때문에 복잡한 구조도 명료하게 작성 가능.
 
+{% highlight javascript %}
+//참조 1에서 발췌한 코드
 
+var personProto = {
+    calculateAge: function(){
+        console.log(2016 - this.yearOfBirth);
+}
 
+var john = Object.create(personProto);
+john.name = 'John';
+john.yearOfBirth = 1990;
+john.job = 'teacher';
 
+var jane = Object.create(personProto, {
+    name: { value: 'Jane' },
+    yearOfBirth: { vaule : 1969 },
+    job: { value: 'designer' }
+});
+{% endhighlight %}
 
+<br/>
 
+## 2. First class function
+- js는 first-class function 지원(=function을 다른 variable과 똑같이 취급함)
+    + function은 object type의 instance(=function도 object). 
+    + variable에 저장 가능
+    + 다른 function의 인자로 넣을 수 있음.
+    + function이 function을 return할 수도 있음.
 
+<br/>
 
+### 1) function을 다른 function의 인자로 넣기
+- callback function : 다른 function의 인자로 들어간 function.
+{% highlight javascript %}
+//참조 1에서 발췌한 코드
 
+var years = [1990, 1965, 1937, 2005, 1998];
 
+function arrayCalc(arr, fn){
+    var arrRes = [];
+    for (var i = 0; i < arr.length; i++>){
+        arrRes.push(fn(arr[i]));
+    }
+    return arrRes;
+}
 
+function calculateAge(el) {
+    return 2016 - el;
+}
 
+{% endhighlight %}
+
+<br/>
+
+### 2) function에서 function을 return하기
+{% highlight javascript %}
+function speak(animal){
+    if (animal === 'dog'){
+        return function(name){
+            console.log(name + ' is barking');
+        }
+    } else {
+        return function(name){
+            console.log(name + ' is meowing');
+        }
+    }
+}
+
+var dogSpeak= speak('dog');
+dogSpeak('Snoopy'); //snoopy is barking
+
+speak('cat')('Garfield'); //Garfield is meowing
+{% endhighlight %}
+
+<br/>
+
+### 3) Immediately Invoked Function Expressions(IIFE)
+- 즉시실행함수. 정의하자마자 호출되는 function. 
+
+- Self-Executing Anonymous Function이라고도 함. 
+
+- function 바깥에서 function 내부에 접근할 수 없게 해서 data privacy 지키려고 사용.
+
+- 한 번만 쓸 목적으로 만드는 Anonymous function 
+
+- function declaration의 단점 보완
+
+- function declaration의 단점  
+    + global scope 오염 -> name collision 발생 가능
+    + 단 한 번만 실행할 목적으로 쓰기 곤란(실수로 한 번 이상 사용 가능하기 쉬움) 
+
+{% highlight javascript %}
+//참조 1에서 발췌한 코드
+(function (){
+    var score = Math.random() * 10;
+    console.log(score >= 5)
+})
+
+{% endhighlight %}
 
 
 <br/><br/>
