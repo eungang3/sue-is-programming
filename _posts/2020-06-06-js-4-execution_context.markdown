@@ -27,6 +27,7 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 ### 2) Function Execution Context(FEC)
 - function body를 실행할 때 사용하는 환경상자
 - function을 호출할 때마다 각 function당 하나씩 생성.
+- function return 후 차례대로 제거됨.
 
 ### 3) Eval Execution Context(EEC)
 - eval function(js 개발에선 잘 안씀) 속 코드 실행할 때 사용하는 환경상자.
@@ -54,7 +55,7 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 
     + 다. Activation Object에 모든 variable declaration(let, const로 정의된 variable 제외)을 프로퍼티로 담고 값을 undefined로 설정. __(=hoisting)__
 
-
+    + cf) Closure : function이 return해서 FEC를 제거해도 VO는 메모리에 남겨둠 -> scope chain도 그대로 메모리에 남음 -> 바깥 function이 return해도 안쪽 function이 바깥 function의 variable, parameter에 접근할 수 있음. 
 
 <br/>
 
@@ -106,20 +107,20 @@ console.log(num); // 1 출력
 
 #### b. Scope chain을 EC의 프로퍼티로 생성
 - Scope(=유효범위) : 현재 EC의 VO + 모든 부모 function의 VO.
-+ 내가(ex. function) 접근할 수 있는 것(ex. variable)으로 이루어진 환경.
-+ 디폴트는 global scope.  
-+ function 생성 시에만 새로운 scope 생성 (다른 언어에선 block만으로도 스코프 생성 가능)
-+ lexical scoping 적용됨: 어떤 function의 안에 적혀있는 function은 부모 function의 scope도 가짐.
+    + 내가(ex. function) 접근할 수 있는 것(ex. variable)으로 이루어진 환경.
+    + 디폴트는 global scope.  
+    + function 생성 시에만 새로운 scope 생성 (다른 언어에선 block만으로도 스코프 생성 가능)
+    + lexical scoping 적용됨: 어떤 function의 안에 적혀있는 function은 부모 function의 scope도 가짐.
 
 - Scope chain : 현재 EC의 VO와 모든 부모 function의 VO를 실제로 사용할 수 있게 엮은 것.
-+ 현재 EC의 VO에 없는 variable은 scope chain을 타고 올라가면서 부모 VO에서 찾아봄.
+    + 현재 EC의 VO에 없는 variable은 scope chain을 타고 올라가면서 부모 VO에서 찾아봄.
 
 ![js-execution1](https://eungang3.github.io/sue-is-programming/assets/Js-execution1.jpg)
 
 #### c. "this" variable을 EC의 프로퍼티로 생성
 - this의 값으로 자기(ex. function)가 정의된 object를 할당
-+ Regular function call인 경우 : this의 값은 global object(브라우저에서 window object). 디폴트.
-+ Method call인 경우 : this의 값은 method가 정의된 object.
+    + Regular function call인 경우 : this의 값은 global object(브라우저에서 window object). 디폴트.
+    + Method call인 경우 : this의 값은 method가 정의된 object.
 - 즉, this의 값은 자기가 속한 function이 호출될 때만 assign됨. (function을 호출해야 새로운 EC를 만들고, EC를 만들었을 때만 this variable에 값을 할당하니까)
 
 <The Complete JavaScript Course 2020: Build Real Projects! - 3. How JavaScript Works Behind the Scenes><sup>1</sup>에서 발췌한 코드

@@ -9,7 +9,7 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 
 ## 0. First class function
 - js는 first-class function 지원(=function을 다른 variable과 똑같이 취급함)
-    + function은 object type의 instance(=function도 object). 
+    + function은 object type의 instance(=function도 object).
     + variable에 저장 가능
     + 다른 function의 인자로 넣을 수 있음.
     + function이 function을 return할 수도 있음.
@@ -64,35 +64,41 @@ speak('cat')('Garfield'); //Garfield is meowing
 <br/>
 
 ### 3) Immediately Invoked Function Expressions(IIFE)
-- 즉시실행함수. 정의하자마자 호출되는 function. 
+- 즉시실행함수. 정의하자마자 호출되는 function.
 
-- Self-Executing Anonymous Function이라고도 함. 
+- Self-Executing Anonymous Function이라고도 함.
 
 - function 바깥에서 function 내부에 접근할 수 없게 해서 data privacy 지키려고 사용.
 
-- 한 번만 쓸 목적으로 만드는 Anonymous function 
+- 한 번만 쓸 목적으로 만드는 Anonymous function
 
 - function declaration의 단점 보완
 
 - function declaration의 단점  
     + global scope 오염 -> name collision 발생 가능
-    + 단 한 번만 실행할 목적으로 쓰기 곤란(실수로 한 번 이상 사용하기 쉬움) 
+    + 단 한 번만 실행할 목적으로 쓰기 곤란(실수로 한 번 이상 사용하기 쉬움)
 
-- ()로 감싸야 함 : 
+- ()로 감싸야 함 :
     + declaration 형태인데 함수명을 안 쓰면 오류로 처리됨.
-    + ()로 감싸면 parser가 declaration이 아니고 expression으로 처리. 
-    + js에서 괄호 안에 든 것은 statement가 아니라는 규칙 있기 때문. 
+    + js 엔진은 () 안에 든 것을 expression으로 처리하기 때문. 
+
+- ()를 덧붙여야 함 :
+    + ()를 붙여야 호출할 수 있기 때문. 
 
 {% highlight javascript %}
-//참조 1에서 발췌한 코드
 (function (){
-    var score = Math.random() * 10;
-    console.log(score >= 5)
-})
-
+    var score = 3;
+    console.log(score);
+})();
+//3 출력
 {% endhighlight %}
 
-#### cf) statement(선언식) VS expression(표현식)
+<br/>
+
+### 4) Closure
+- 안쪽 function은 바깥 function이 return한 이후에도 바깥 function의 variable, parameter에 접근 가능함.
+
+- 가능한 이유 : function이 return해서 FEC를 제거해도 VO는 메모리에 남겨둠 -> scope chain도 그대로 메모리에 남음 
 
 
 <br/><br/>
