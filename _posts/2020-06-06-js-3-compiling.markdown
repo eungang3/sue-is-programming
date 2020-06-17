@@ -38,7 +38,7 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 - ex : var example = 1;은 다섯가지 토큰으로 나뉨(var, example, =, 1, ;)
 
 2. Parsing : token을 모아 AST로 만드는 과정. 
-![js-how4](https://eungang3.github.io/sue-is-programming/assets/js-how-4.jpg)
+![js-how4](https://eungang3.github.io/sue-is-programming/assets/js-how4.jpg)
 
 3. Code generation : AST를 컴퓨터가 읽고 실행 가능한 코드로 바꾸는 과정. 언어마다 자세한 사항은 다름. 
 

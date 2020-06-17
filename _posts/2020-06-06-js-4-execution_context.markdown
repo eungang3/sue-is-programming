@@ -55,8 +55,6 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 
     + 다. Activation Object에 모든 variable declaration(let, const로 정의된 variable 제외)을 프로퍼티로 담고 값을 undefined로 설정. __(=hoisting)__
 
-    + cf) Closure : function이 return해서 FEC를 제거해도 VO는 메모리에 남겨둠 -> scope chain도 그대로 메모리에 남음 -> 바깥 function이 return해도 안쪽 function이 바깥 function의 variable, parameter에 접근할 수 있음. 
-
 <br/>
 
 #### cf) hoisting
@@ -110,12 +108,31 @@ console.log(num); // 1 출력
     + 내가(ex. function) 접근할 수 있는 것(ex. variable)으로 이루어진 환경.
     + 디폴트는 global scope.  
     + function 생성 시에만 새로운 scope 생성 (다른 언어에선 block만으로도 스코프 생성 가능)
-    + lexical scoping 적용됨: 어떤 function의 안에 적혀있는 function은 부모 function의 scope도 가짐.
+    + lexical scoping 적용됨: 안쪽 function은 바깥 function의 scope도 가짐.
+    + closure : 안쪽 function은 바깥 function이 return한 후에도 바깥 function의 scope에 접근 가능.
 
 - Scope chain : 현재 EC의 VO와 모든 부모 function의 VO를 실제로 사용할 수 있게 엮은 것.
     + 현재 EC의 VO에 없는 variable은 scope chain을 타고 올라가면서 부모 VO에서 찾아봄.
 
 ![js-execution1](https://eungang3.github.io/sue-is-programming/assets/Js-execution1.jpg)
+
+#### cf) closure
+- function이 return해서 FEC를 제거해도 VO는 메모리에 남겨둠 -> scope chain도 그대로 메모리에 남음 -> 바깥 function이 return해도 안쪽 function이 바깥 function의 variable, parameter에 접근할 수 있음.
+
+{% highlight javascript %}
+function greet(time) {
+  var greeting = 'Good ' + time + ', ';
+  return function(name) {
+    console.log(greeting + name);
+  }
+}
+
+var morningGreet = greet('morning'); //outer function은 return했음
+morningGreet('Sue'); // Good morning, Sue
+// inner function은 greeting variable에 접근 가능
+{% endhighlight %}
+
+<br/>
 
 #### c. "this" variable을 EC의 프로퍼티로 생성
 - this의 값으로 자기(ex. function)가 정의된 object를 할당

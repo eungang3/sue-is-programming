@@ -100,6 +100,19 @@ speak('cat')('Garfield'); //Garfield is meowing
 
 - 가능한 이유 : function이 return해서 FEC를 제거해도 VO는 메모리에 남겨둠 -> scope chain도 그대로 메모리에 남음 
 
+{% highlight javascript %}
+function greet(time) {
+  var greeting = 'Good ' + time + ', ';
+  return function(name) {
+    console.log(greeting + name);
+  }
+}
+
+var morningGreet = greet('morning'); //outer function은 return했음
+morningGreet('Sue'); // Good morning, Sue
+// inner function은 greeting variable에 접근 가능
+{% endhighlight %}
+
 
 <br/><br/>
 출처 : <br/>
