@@ -205,6 +205,93 @@ var jane = Object.create(personProto, {
 });
 {% endhighlight %}
 
+<br/>
+
+### 4) Call, Apply, Bind method
+- this variable을 직접 설정할 수 있게 해줌.
+- method borrowing(다른 object의 method 빌려오는 것) 위해 사용.
+
+<br/>
+
+#### a) Call
+- method 빌려서 바로 실행하는 경우 사용.
+- 빌릴 method의 object.빌릴 method.call(빌린object, method의 인자)
+- 첫번째 인자로 this가 가리킬 object를 넣음. 
+{% highlight javascript %}
+var snoopy = {
+    name: 'Snoopy', 
+    age: 5,
+    job: 'dog',
+    greet: function(style, time) {
+        if (style === 'friendly') {
+            console.log('Good ' + time + ', My name is ' + this.name);
+        } else {
+            console.log(time + ", I'm a " + this.job);
+        }
+    }
+}
+
+var garfield = {
+    name: 'Garfield',
+    age: 8,
+    job: 'cat'
+}
+
+snoopy.greet('friendly', 'morning'); //Good morning, My name is Snoopy
+snoopy.greet.call(garfield, 'aggressive', 'afternoon'); // afternoon, I'm a cat
+{% endhighlight %}
+
+<br/>
+
+#### b) Apply
+- 인자를 array로 넣는 경우 사용.
+- method 빌려서 바로 실행하는 경우 사용.
+- 빌릴 method의 object.빌릴 method.apply(빌린object, [method의 인자])
+- 첫번째 인자로 this가 가리킬 object를 넣음. 
+
+{% highlight javascript %}
+snoopy.greet.apply(garfield, ['aggressive', 'afternoon']);
+//afternoon, I'm a cat
+{% endhighlight %}
+
+<br/>
+
+#### c) Bind
+- 빌려올 method를 복사해뒀다가 나중에 사용할 수 있음.
+- 흔히 빌려올 method를 변수에 저장할 때 인자를 미리 지정해놓고 사용하려고 씀. 
+- 첫번째 인자로 this가 가리킬 object를 넣음. 
+- 일반 function 복사할 때도 사용(this가 가리킬 특별한 object가 없으면 첫번째 인자로 'this' 넣음)
+
+{% highlight javascript %}
+var friendlyGreeting = snoopy.greet.bind(garfield, 'friendly');
+friendlyGreeting('evening'); //Good evening, My name is Garfield
+{% endhighlight %}
+
+{% highlight javascript %}
+var height = [160, 180];
+
+function calculateHeight(arr, fn){
+    var result = [];
+    for (var i = 0; i < arr.length; i++){
+        result.push(fn(arr[i]));
+    }
+    return result;
+}
+
+function isTallEnough(limit, greeting, height) {
+    return (height > limit) + ' ' + greeting;
+}
+
+var fullHeight = calculateHeight(height, isTallEnough.bind(this, 170, 'hello'));
+console.log(fullHeight); //["false hello", "true hello"]
+{% endhighlight %}
+<br/>
+
+#### cf) currying 
+- 여러 개 인자가 들어가는 function을 하나의 인자만 받는 function으로 쪼개서 nesting 하는 것.
+
+<br/>
+
 <br/><br/>
 출처 : <br/>
 <sup>1</sup>Jonas Schmedtmann. The Complete JavaScript Course 2020: Build Real Projects!. Retrieved June 06, 2020, from [https://www.udemy.com/course/the-complete-javascript-course/](https://www.udemy.com/course/the-complete-javascript-course/)<br/>
