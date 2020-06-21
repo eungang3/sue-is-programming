@@ -1,0 +1,32 @@
+---
+layout: post
+title:  "Javascript 클로저"
+date:   2020-06-19 01:40:27 +0900
+categories: Javascript
+---
+
+## 0. closure란?
+
+- 바깥 function의 스코프에 있는 variable, parameter 등을 사용하는 안쪽 function
+
+- 바깥 function이 return한 이후에도 바깥 function의 variable, parameter에 접근 가능함.
+
+- 가능한 이유 :
++ function이 return해서 FEC를 제거할 때, 외부 function의 VO를 참조하는 내부 function이 있다면 VO는 메모리에 남겨둠 -> scope chain도 그대로 메모리에 남음
++ 외부 function의 VO를 참조하는 function이 모두 return해야 외부 function의 VO를 메모리에서 삭제.
+
+- 장점 :
++ 전역에 변수 선언하면 생기는 문제(name collision, 의도치 않은 변수 재할당 등) 막을 수 있음
+ 
+{% highlight javascript %}
+function greet(time) {
+  var greeting = 'Good ' + time + ', ';
+  return function(name) {
+    console.log(greeting + name);
+  }
+}
+
+var morningGreet = greet('morning'); //outer function은 return했음
+morningGreet('Sue'); // Good morning, Sue
+// inner function은 greeting variable에 접근 가능
+{% endhighlight %}

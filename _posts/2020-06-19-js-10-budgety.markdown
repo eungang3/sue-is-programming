@@ -1,0 +1,89 @@
+---
+layout: post
+title:  "Javascript budgety 따라하기"
+date:   2020-06-19 10:40:27 +0900
+categories: Javascript
+---
+
+Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 6. Putting It All Together: The Budget App Project를 요약한 내용입니다.
+
+- module pattern : 코드를 모듈로 나누어 짜는 방법. 각 모듈은 독립적으로 존재하며 다른 모듈과 연결될 수도 있음.   
+
+- data encapsulation : data를 private하게 만드는 것.
+  + private data : 모듈 밖에서 접근 불가능한 data(ex. function, variable). 다른 코드가 data 덮어쓰는 것 방지. 
+  + public data : 다른 모듈이 접근 가능한 data. method를 담고있는 object 형태로 내보냄. 
+
+- separation of concerns(관심사의 분리): 프로그램을 짤 때 여러 영역으로 나누어 한 영역당 하나의 이슈만 해결하게 하는 것. 코드 유지보수 쉬워짐.
+
+- event listeners for keypress events:
+  {% highlight javascript %}
+  //웹페이지의 특정 부분을 눌러야 일어나는 이벤트가 아니므로 document에 바로 붙임.
+  //function의 파라미터를 지정하면 자동으로 event를 인자로 넣음.
+
+  document.addEventListener('keypress', function(event){
+        //keypress는 모든 key를 말하기 때문에 key code를 특정해줘야 특정 키일때만 작동
+        if (event.keyCode === 13 || event.which === 13){
+          console.log('yay');
+        }
+    })
+  {% endhighlight %}
+
+- how to create an initialization function
+
+- how to choose function constructors
+- setting up a proper data structure for budget controller
+
+- how to avoid conflicts in our data structure
+- how pass data from one module to another
+
+- technique for adding big chunks of HTML into the DOM
+- how to replace parts of strings : 
+  + 'replace()' method 사용
+{% highlight javascript %}
+string.replace('%greet%', 'hi')
+{% endhighlight %}
+
+- how to insert HTML :
+  + 'insertAdjacentHTML' method 사용
+{% highlight javascript %}
+document.querySelector(element).insertAdjacentHTML('beforeend', newHtml)
+{% endhighlight %}
+
+- how to clear HTML fields
+
+- how to use querySelectorAll 
+  + 선택할 selector 입력하면 NodeList 반환
+  + list를 array로 변환해서 사용
+{% highlight javascript %}
+document.querySelectorAll(".note, div");
+{% endhighlight %}
+
+- how to convert a list to an array
+  + array method인 slice() : array에만 사용가능, 항상 기존 array의 복사본 반환(인덱스 입력해서 어디서 어디까지 복사할 지 지정)
+  + call method로 slice빌려옴 -> 리스트를 첫번째 인자로 넣음(this가 리스트를 가리키게 함) -> array 반환
+  {% highlight javascript %}
+  var test = document.querySelectorAll(".note, div");
+  var testArr = Array.prototype.slice.call(test);
+  {% endhighlight %}
+
+- forEach() method
+  + array에 적용하는 method
+  + 인자로 call-back function 넣으면 array 내 모든 항목에 적용됨.
+  + call-back function에 파라미터 입력하면 자동으로 현재 프로세싱되는 값, 인덱스, 전체 array로 설정됨. 
+  {% highlight javascript %}
+  testArr.forEach(function(currentValue, indexNumber, array){
+    current.value = "";
+  })
+  {% endhighlight %}
+
+- how to convert field inputs to numbers
+  + parseFloat() 사용하기 : 스트링을 float로 바꾸는 method
+
+- how to prevent false inputs
+
+- how to create simple reusable functions with only one purpose
+
+- how to sum all elements of an array
+  + forEach method 사용
+
+- event bubbling, event delegation
