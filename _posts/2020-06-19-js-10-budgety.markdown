@@ -96,7 +96,7 @@ document.querySelectorAll(".note, div");
 - map() method
   + array에 적용하는 method
   + 인자로 call-back function 넣으면 array 내 모든 항목에 적용됨.
-  + forEach()는 기존 array 변형, map()은 새로운 array 반환
+  + forEach()는 undefined 반환, map()은 새로운 array 반환
   {% highlight javascript %}
   testArr.map(function(currentValue, indexNumber, array){
     current.value = "";

@@ -1,0 +1,10 @@
+---
+layout: post
+title:  "Javascript budgety 따라하기"
+date:   2020-06-25 10:40:27 +0900
+categories: Javascript
+---
+
+Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 7. Next Generation Javascript: Intro to ES6 / ES2015를 요약한 내용입니다.
+
+- 
