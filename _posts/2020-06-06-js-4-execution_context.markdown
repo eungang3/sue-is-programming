@@ -58,7 +58,7 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 <br/>
 
 #### cf) hoisting
-- function, variable을 컴파일 단계에서 메모리에 저장해서, 코드 실행 전에 사용 가능한 상태로 만들어주는 행동. function은 define된 상태로 저장, variable은 undefined된 상태로 저장하고 실행 단계에서 define함. function은 declaration되었을 때만 hoisting됨.
+- function, variable을 컴파일 단계에서 메모리에 저장하는 것. function은 define된 상태로 저장. var variable은 저장한 뒤 값을 undefined로 지정하고 실행 단계에서 define함. let, const는 저장은 하지만 값은 지정하지 않음. (= hoist 되었지만 정의 전 사용 불가) function은 declaration되었을 때만 hoisting됨.
 
 {% highlight javascript %}
 //function declaration의 경우
@@ -135,9 +135,8 @@ morningGreet('Sue'); // Good morning, Sue
 <br/>
 
 #### c. "this" variable을 EC의 프로퍼티로 생성
-- this의 값으로 자기(ex. function)가 정의된 object를 할당
-    + Regular function call인 경우 : this의 값은 global object(브라우저에서 window object). 디폴트.
-    + Method call인 경우 : this의 값은 method가 정의된 object.
+- Regular function call인 경우 : this의 값은 global object(브라우저에서 window object). 디폴트.
+- Method call인 경우 : this의 값은 method가 정의된 object.
 - 즉, this의 값은 자기가 속한 function이 호출될 때만 assign됨. (function을 호출해야 새로운 EC를 만들고, EC를 만들었을 때만 this variable에 값을 할당하니까)
 
 <The Complete JavaScript Course 2020: Build Real Projects! - 3. How JavaScript Works Behind the Scenes><sup>1</sup>에서 발췌한 코드

@@ -1,10 +1,308 @@
 ---
 layout: post
-title:  "Javascript budgety 따라하기"
+title:  "Javascript ES6의 새로운 기능 이해하기"
 date:   2020-06-25 10:40:27 +0900
 categories: Javascript
 ---
 
 Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 7. Next Generation Javascript: Intro to ES6 / ES2015를 요약한 내용입니다.
 
-- 
+## 0. let / const
+
+### 1) var
+- ES5 버전에서 사용됨.
+- function을 스코프로 가짐 (function 속 {} 내에서 var variable 정의했더라도, function 내라면 {} 안팎 상관없이 어디서나 접근 가능)
+- 정의 전 호출 가능: hoist될 때 값이 undefined로 지정되기 때문에 호출하면 undefined 반환.
+- redeclaration : 가능 (보통 의도치 않은 상황인데 오류가 안나서 문제)
+- reassignment : 가능
+
+### cf) strict mode
+- 의도치 않은 상황인데 오류가 안나서 문제인 경우가 있음.
+- 이런 경우 오류 나게 해주는 모드.
+- 예 : variation 정의하지 않은 경우(var first = 1이라야 하는데 first = 1로 쓴 경우 디폴트 모드에서는 global 스코프를 가지는 variable이 됨) strict mode에선 오류나게 해줌.
+- ES5부터 도입 : 원하는 곳에 'strict mode'라고 써서 사용.
+- ES6는 strict mode가 디폴트라 따로 설정할 필요 없음.
+
+{% highlight javascript %}
+//function을 스코프로 가짐
+function run() {
+  var first = "first";
+  let second = "second";
+  console.log(first, second);
+
+  {
+    var third = "third";
+  }
+  console.log(third);
+}
+
+run();
+//first, second 프린트
+//third 프린트
+{% endhighlight %}
+
+{% highlight javascript %}
+//function안에서 정의하지 않았다면
+//global 스코프 가짐
+
+for (var i = 0; i < 5; i++) {
+   console.log("Yay");
+}
+
+console.log(i); // 5 출력 (i가 global variable이라 접근 가능함)
+{% endhighlight %}
+
+{% highlight javascript %}
+//hoisting 가능
+console.log(a); //undefined 출력
+
+var a = 1;
+{% endhighlight %}
+
+{% highlight javascript %}
+//redeclaration 가능
+var first = "first";
+var first = "second";
+console.log(first); //second 출력
+{% endhighlight %}
+
+<br/>
+
+### 2) let
+- ES6부터 등장.
+- block{}을 스코프로 가짐.
+- 정의 전 호출 불가: hoist는 되지만 값 지정은 안 됨 -> 정의 전 호출하면 값 접근 불가 -> temporal dead zone(정의 전 사용할 수 없다는 뜻) 발생 -> ReferenceError 뜸
+- redeclaration : 불가능
+- reassignment : 가능
+
+{% highlight javascript %}
+//block을 스코프로 가짐
+function run() {
+  var first = "first";
+  let second = "second";
+  console.log(first, second);
+
+  {
+    let third = "third";
+  }
+  console.log(third);
+}
+
+run();
+//first, second 프린트
+//referenceError
+{% endhighlight %}
+
+{% highlight javascript %}
+for (let i = 0; i < 5; i++) {
+   console.log("Yay");
+}
+
+console.log(i); // ReferenceError: i is not defined
+// i가 block 스코프 갖는 variable이라 {} 밖에선 접근 못함
+{% endhighlight %}
+
+{% highlight javascript %}
+// 정의 전 접근 불가
+console.log(a); //referenceError
+
+let a = 1;
+{% endhighlight %}
+
+{% highlight javascript %}
+//redeclaration 불가능
+let first = "first";
+let first = "second";
+console.log(first); //SyntaxError
+{% endhighlight %}
+
+<br/>
+
+### 3) const
+- ES6부터 등장.
+- block{}을 스코프로 가짐.
+- 정의 전 호출 불가: hoist는 되지만 값 지정은 안 됨 -> 정의 전 호출하면 값 접근 불가 -> temporal dead zone(정의 전 사용할 수 없다는 뜻) 발생 -> ReferenceError 뜸
+- redeclaration : 불가능
+- reassignment : 불가능
+- const 사용하는 상수 variable은 주로 대문자로 작성
+
+{% highlight javascript %}
+//reassignment 불가능
+const FIRST = "first";
+FIRST = "second"; //Typerror
+console.log(FIRST);
+{% endhighlight %}
+
+{% highlight javascript %}
+//array mutation은 가능
+const A = [1, 2, 3, 4];
+A[0] = 5; //가능
+A = [2, 3, 4]; //Error
+{% endhighlight %}
+
+<br/>
+
+### cf) Object.freeze
+- Object mutation 방지하는 function
+- 사용 후에는 해당 object에 add, update, delete 아무것도 안먹힘(에러 뜨진 않음)  
+
+{% highlight javascript %}
+let student = {
+   name: "Owl",
+   age: 300
+};
+Object.freeze(student);
+obj.name = "Hummingbird"
+console.log(student); // {name: "Owl", age: 300} 출력
+{% endhighlight %}
+
+<br/>
+
+### cf) {}로 IIFE 대신하기
+- let, const는 블록 스코프 갖기 때문에 {} 안에만 넣으면 data privacy 지킬 수 있음
+- data privacy만 위해서라면 {}와 let, const 만으로 IIFE 대체 가능 
+{% highlight javascript %}
+{
+    const test = 1;
+    let test1 = 2;
+}
+
+console.log(test, test1); // ReferenceError 
+{% endhighlight %}
+
+<br/>
+
+## 1. String 다루기
+### 1) template literals
+- string 연결할 때 + 사용하는 방법 대체 가능
+- 읽기 쉽고 사용하기 쉬움
+{% highlight javascript %}
+a = 'cat';
+console.log(`This is a ${cat}.`);
+{% endhighlight %}
+
+<br/>
+
+### 2) string methods
+- startsWith() : string이 () 안에 있는 글자로 시작하는지 체크해서 true/false 반환
+- endsWith() : string이 () 안에 있는 글자로 끝나는지 체크해서 true/false 반환
+- includes() : string에 () 안에 있는 글자가 있는지 체크해서 true/false 반환
+- repeat() : ()안에 입력한 횟수만큼 string 반복
+
+{% highlight javascript %}
+const a = 'apple';
+console.log(a.startsWith('a')) // true
+console.log(a.repeat(2)) // appleapple
+{% endhighlight %}
+
+<br/>
+
+## 2. Arrow function
+- 새로운 function syntax 
+{% highlight javascript %}
+const numbers = [1, 2, 3];
+
+// parameter가 하나일 때 () 생략가능
+// body 내용이 한 줄일 때 {}, return 키워드 생략가능
+let added = numbers.map(el => el + 1);
+console.log(added); // [2, 3, 4]
+
+// parameter가 하나 이상일 때 () 명시
+// body 내용이 한 줄 이상일 때 {}, return 키워드 명시
+let showIndex = numbers.map((el, index) => {
+    let multiplied = el * 2;
+    return `Element ${index} is ${multiplied}`;
+})
+
+console.log(showIndex);
+// ["Element 0 is 2", "Element 1 is 4", "Element 2 is 6"]
+{% endhighlight %}
+
+- lexical this keyword: 고유한 this 값 갖지 않음, arrow function이 정의된 EC의 this 값을 가짐.
+{% highlight javascript %}
+// ES5
+var dog5 = {
+    name: 'Snoopy',
+    introduce: function(){
+        document.querySelector('.box').addEventListener('click', function(){
+            console.log('My name is ' + this.name);
+        })
+    }
+}
+dog5.introduce();
+// My name is undefined 출력
+// introduce는 regular function이라서 this = window object
+
+var dog55 = {
+    name: 'Snoopy',
+    introduce: function(){
+        var self = this;
+        document.querySelector('.box').addEventListener('click', function(){
+            console.log('My name is ' + self.name);
+        })
+    }
+}
+dog55.introduce();
+// My name is Snoopy 출력
+
+const dog555 = {
+    name: 'Snoopy',
+    introduce: function(word){
+        function sayName(){
+            console.log(this.name);
+        }
+        var newFunc = sayName.bind(this);
+        newFunc("!")
+    }
+}
+
+dog555.introduce();
+//Snoopy 출력
+// bind method로 sayName 복사하고 this값 수동으로 지정
+{% endhighlight %}
+
+{% highlight javascript %}
+// ES6
+const dog6 = {
+    name: 'Snoopy',
+    introduce: function(){
+        var sayName = () => {
+            console.log(this);
+        }
+        sayName();
+    }
+}
+dog6.introduce();
+// dog6 object 출력
+// sayName의 this 값은 introduce function의 this 값, 즉 dog6 object.
+
+const dog66 = {
+    name: 'Snoopy',
+    introduce: () => {
+        console.log(this);
+        }
+    }
+
+dog66.introduce();
+// window object 출력
+// introduce function의 this 값은 dog66의 this 값, 즉 window object. 
+{% endhighlight %}
+
+{% highlight javascript %}
+// ES6, anonymous callback function으로 사용하는 경우
+function Dog(name) {
+    this.name = name;
+}
+
+Dog.prototype.woof = function(words){
+    let arr = words.map(el => `${el}! ${this.name}`);
+    console.log(arr);
+}
+
+var greetings = ['Hi', 'Hello'];
+new Dog('snoopy').woof(greetings);
+
+// ["Hi! snoopy", "Hello! snoopy"]
+// arrow function의 this는 arrow function이 정의된 
+// woof method의 this값을 가짐 
+{% endhighlight %}
