@@ -66,12 +66,39 @@ document.querySelectorAll(".note, div");
   var testArr = Array.prototype.slice.call(test);
   {% endhighlight %}
 
+  {% highlight javascript %}
+  var animals = ["dog", "tiger", "hippo"];
+  var test = animals.slice(1,2);
+  console.log(test) // [ "tiger" ]
+  {% endhighlight %}
+
+- splice() method :
+  + array에 적용하는 method.
+  + array에 요소 더하거나 빼고, 뺀 요소 반환
+  + array.splice(index, howmany, item1, ...)
+  {% highlight javascript %}
+  var animals = ["dog", "tiger", "hippo"];
+  animals.splice(2, 1, "cat");
+  console.log(animals) // ["dog", "tiger", "cat"]
+  {% endhighlight %}
+
+
 - forEach() method
   + array에 적용하는 method
   + 인자로 call-back function 넣으면 array 내 모든 항목에 적용됨.
   + call-back function에 파라미터 입력하면 자동으로 현재 프로세싱되는 값, 인덱스, 전체 array로 설정됨. 
   {% highlight javascript %}
   testArr.forEach(function(currentValue, indexNumber, array){
+    current.value = "";
+  })
+  {% endhighlight %}
+
+- map() method
+  + array에 적용하는 method
+  + 인자로 call-back function 넣으면 array 내 모든 항목에 적용됨.
+  + forEach()는 기존 array 변형, map()은 새로운 array 반환
+  {% highlight javascript %}
+  testArr.map(function(currentValue, indexNumber, array){
     current.value = "";
   })
   {% endhighlight %}
@@ -87,3 +114,55 @@ document.querySelectorAll(".note, div");
   + forEach method 사용
 
 - event bubbling, event delegation
+
+- DOM traversing하기 : parentNode 프로퍼티 사용
+
+{% highlight javascript %}
+// 이벤트가 일어난 target element의 부모 요소 선택하기
+function trv(event){
+  console.log(event.target.parentNode);
+}
+{% endhighlight %}
+
+- string 쪼개기 : split() method 사용
+  + string은 object가 아닌 primitive 
+  + string에 method 사용하면 자바스크립트가 알아서 string을 object로 변환(숫자도 마찬가지)
+  + array 생성 후 괄호안에 입력한 글자 앞 뒤로 잘라서 array에 넣어줌.
+  {% highlight javascript %}
+  var str = 'abc';
+  var newStr = str.split('b');
+  console.log(newStr) // [a, c] 
+  {% endhighlight %}
+
+  - DOM element 제거하기 : 부모 요소 선택한 다음 .removeChild() 사용
+  {% highlight javascript %}
+  var el = document.getElementById(selectorID);
+  el.parentNode.removeChild(el);
+  {% endhighlight %}
+
+  - string formatting
+  {% highlight javascript %}
+  // 절대적인 숫자값 반환
+  num = Math.abs(num); 
+
+  // toFixed는 number prototype의 method
+  // number는 primitive type이지만 method 사용하면 object로 변환됨
+  // ()안에 넣은 자리수의 소수까지만 반올림해서 스트링으로 반환
+  // 예 : 5.56489 -> 5.56, 1 -> 1.00
+  num = num.toFixed(2); 
+  
+  {% endhighlight %}
+
+  - 현재 날짜 가져오기 : Date object constructor 사용
+  {% highlight javascript %}
+  // 현재 날짜 가져옴
+  var now = new Date();
+
+  // getFullYear는 date prototype의 method
+  var year = now.getFullYear;
+
+  var month = now.getMonth();
+  {% endhighlight %}
+
+  - change event : 뭔가 바꿀 때 발생 (예: select 박스 옵션 선택)
+
