@@ -49,7 +49,7 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 
 - FEC의 경우 : Variable object는 Activation Object를 가리킴.
 ![js-execution3](https://eungang3.github.io/sue-is-programming/assets/Js-execution3.jpg)
-    + 가. Activation Object 안에 Argument Object 생성하고 function에 들어간 모든 parameter, argument를 프로퍼티로 담음.
+    + 가. Activation Object 안에 Arguments Object 생성하고 function에 들어간 모든 parameter, argument를 프로퍼티로 담음.
 
     + 나. Activation Object에 모든 function declaration을 프로퍼티로 담음. __(=hoisting)__
 

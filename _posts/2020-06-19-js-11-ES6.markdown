@@ -306,3 +306,404 @@ new Dog('snoopy').woof(greetings);
 // arrow function의 this는 arrow function이 정의된 
 // woof method의 this값을 가짐 
 {% endhighlight %}
+
+<br/>
+
+## 3. Destructing (구조 분해 할당)
+- array나 object같은 구조 속에 있는 값을 꺼내서 각각 변수로 만드는 것
+- function에서 값 여러 개 반환할 때 특히 유용함.
+
+{% highlight javascript %}
+// array인 경우
+
+const [name, color] = ['Garfield', 'orange'];
+console.log(name); // Garfield
+console.log(color); // orange
+{% endhighlight %}
+
+{% highlight javascript %}
+// object인 경우
+
+const garfield = {
+    name: 'garfield',
+    color: 'orange'
+}
+
+const {name, color} = garfield;
+console.log(name) // garfield
+console.log(color) // orange
+
+const {name: a, color: b} = garfield;
+console.log(a) // garfield
+console.log(b) // orange
+{% endhighlight %}
+
+{% highlight javascript %}
+// 값 여러 개 반환하는 function에 사용하기
+
+function calc(num) {
+    return [num + 2, num * 2]
+}
+
+const [added, multiplied] = calc(1);
+console.log(added) // 3
+console.log(multiplied) // 2
+{% endhighlight %}
+
+<br/>
+
+## 4. Array 
+### 1) from() method
+- 리스트를 array로 바꿔줌
+
+{% highlight javascript %}
+//ES5 
+
+var container = document.querySelectorAll('.container');
+var containerArr = Array.prototype.slice.call(container);
+containerArr.forEach(function(cur){
+    cur.style.color = 'blue';
+})
+{% endhighlight %}
+
+{% highlight javascript %}
+//ES6 
+
+var container = document.querySelectorAll('.container');
+var containerArr = Array.from(container);
+containerArr.forEach(function(cur){
+    cur.style.color = 'blue';
+})
+
+/* 더 줄일수도 있음
+Array.from(container).forEach(function(cur){
+    cur.style.color = 'blue';
+})
+*/
+{% endhighlight %}
+
+<br/>
+
+### 2) for of loop
+- array에 사용하는 loop
+- forEach(), map()과 달리 break, continue 사용 가능
+{% highlight javascript %}
+const testArr = [1, 2, 3, 4, 5];
+for (const cur of testArr) {
+    if (cur === 3) {
+        break;
+    }
+    console.log(cur) 
+}
+
+// 1, 2
+{% endhighlight %}
+
+{% highlight javascript %}
+//DOM의 className property로 html 요소의 클래스명 가져옴
+for (const cur of containers) {
+    if (cur.className.includes('orange')){
+        continue;
+    }
+    cur.textContent = 'orange!!!';
+}
+{% endhighlight %}
+
+<br/>
+
+### 3) findIndex() / find()
+- 조건에 맞는 array index / element 찾아주는 method
+- ()안에 callback function 넣음. 파라미터 지정하면 순서대로 currentValue, index, array를 인자로 넣음 
+{% highlight javascript %}
+// ES5
+
+var numbers = [1, 2, 3, 4];
+var overThree = numbers.map(function(cur){
+    return cur > 3;
+})
+console.log(overThree); // [false, false, false, true]
+console.log(overThree.indexOf(true)); // 3
+console.log(numbers[overThree.indexOf(true)]) // 4
+{% endhighlight %}
+
+{% highlight javascript %}
+// ES6
+
+var numbers = [1, 2, 3, 4];
+console.log(numbers.findIndex(cur => cur > 3));
+console.log(numbers.find(cur => cur > 3));
+{% endhighlight %}
+
+<br/>
+
+## 5. Spread operator(스프레드 연산자)
+- array나 node list 안에 든 것을 꺼내줌
+- 꺼낼 것 앞에 ... 붙임
+{% highlight javascript %}
+// ES5
+var numbers = [1, 2, 3, 4];
+var sum = function(a, b, c, d){
+    return a + b + c + d;
+}
+
+// apply method가 특정 this 가리킬 필요 없으면 null 사용
+var sum2 = sum.apply(null, numbers);
+console.log(sum2) // 10
+{% endhighlight %}
+
+{% highlight javascript %}
+// 함수에 array를 인자로 넣기
+
+const numbers = [1, 2, 3, 4];
+const sum = function(a, b, c, d){
+    return a + b + c + d;
+}
+
+console.log(sum(...numbers)) // 10
+{% endhighlight %}
+
+{% highlight javascript %}
+// 두 array 합치기
+const numbers1 = [1, 2];
+const numbers2 = [3, 4];
+const numbers3 = [...numbers1, 100, ...numbers2];
+console.log(numbers3) // [1, 2, 100, 3, 4]
+{% endhighlight %}
+
+{% highlight javascript %}
+// node list에 사용하기
+const a = document.querySelector('a');
+const container = querySelectorAll('.container');
+
+// 한 리스트로 합침
+const together = [a, ...container]; 
+
+// array로 변경하고 array method인 forEach사용
+Array.from(together).forEach(cur => cur.style.color = 'red');
+{% endhighlight %}
+
+<br/>
+
+## 6. Rest parameter
+- 함수 인자의 갯수를 미리 정해두지 않는 파라미터
+- spread operator와 반대로 각각의 값을 array로 만들어줌.
+- cf) arguments object: FEC 생성할 때 만들어지는 object. 함수에 들어온 모든 인자를 담아둠. array처럼 생겼지만 aray는 아님
+{% highlight javascript %}
+// ES5
+
+function greet(name) {
+    // arguments object를 array로 변환 (name 파라미터 제외)
+    var argsArr = Array.prototype.slice.call(arguments, 1);
+    argsArr.forEach(function(cur){
+        console.log(cur + ' ' + name)
+    })
+}
+
+greet('hi', 'hello');
+{% endhighlight %}
+
+{% highlight javascript %}
+function greet(name, ...greeting) {
+    greeting.forEach(cur => console.log(cur + ' ' + name));
+}
+
+greet('hi', 'hello');
+{% endhighlight %}
+
+<br/>
+
+## 7. Default parameter
+- 디폴트로 들어가는 인자를 설정해주는 파라미터
+{% highlight javascript %}
+// ES5
+function Dog(name, personality) {
+    // 파라미터에는 있는데 인자로 들어오지 않으면 값 undefined로 지정됨
+    personality === undefined ? personality = 'friendly' : personality = personality
+
+    this.name = name;
+    this.personality = personality;
+}
+
+var snoopy = new Dog('snoopy');
+console.log(snoopy.personality) // friendly
+
+{% endhighlight %}
+
+{% highlight javascript %}
+// ES6
+
+function Dog(name, personality = 'friendly') {
+    this.name = name;
+    this.personality = personality;
+}
+
+var snoopy = new Dog('snoopy');
+console.log(snoopy.personality) // friendly
+
+var cheddar = new Dog('cheddar', 'smart')
+console.log(cheddar.personality) // smart
+{% endhighlight %}
+
+<br/>
+
+## 8. Maps
+- ES6부터 등장한 key-value data structure
+- object(=hash map)에서는 string만 key로 사용 가능, iterator method 사용 불가
+- maps에서는 primitive type, function, object도 key로 사용 가능, iteratior method 사용 가능, 데이터 추가/삭제가 object보다 쉬움
+
+{% highlight javascript %}
+const quizz = new Map();
+quizz.set('question', 'what is the best?');
+quizz.set(1, 'sleep');
+quizz.set(2, 'cake');
+quizz.set(3, 'rock')
+quizz.set('correct', 1);
+quizz.set(true, 'Right!');
+quizz.set(false, 'Wrong');
+
+// value 출력 
+console.log(quizz.get(1)); // sleep
+
+// key-value 갯수 출력 (object에선 안됨)
+console.log(quizz.size) // 6
+
+// 특정 key-value 삭제하기 
+quizz.delete(3)
+
+// 모든 key-value 삭제하기 
+// quizz.clear()
+
+// key-value 있는지 확인
+console.log(quizz.has(3)) // false
+
+// map method - forEach
+quizz.forEach((value, key) => console.log(key + ': ' + value))
+
+// for of loop
+for (let keyValue of quizz) {
+    console.log(keyValue); // 1, sleep
+} 
+
+// for of loop에 destructing 사용해서 key, value 각각 사용하기
+//entries()는 key-value pair로 이루어진 iterator object 반환
+for (let [key, value] of quizz.entries()) {
+    console.log(key); // 1
+} 
+
+// typeof 사용해서 key가 숫자인 value만 프린트
+for (let [key, value] of quizz.entries()){
+    if (typeof(key) === 'number'){
+        console.log(value);
+    }
+}
+
+// boolean 값으로 된 key 활용하기
+const answer = 1;
+console.log(quizz.get(answer === quizz.get('answer'))); // wrong 출력
+{% endhighlight %}
+
+<br/>
+
+## 9. Class
+- syntactic sugar. 문법상 간결해진 것이나 기능 상 달라진 건 없음
+- function constructor는 hoisted, class는 not hoisted
+- class에선 method만 inherit시킬 수 있음. (property는 안 됨)
+- cf) static method : class instance가 inherit 하지 않는 class에 정의된 method 
+
+{% highlight javascript %}
+// ES5
+
+function Dog(name, age){
+    this.name = name;
+    this.age = age;
+}
+
+Dog.prototype.sayName = function(){
+    console.log(this.name);
+}
+
+var snoopy = new Dog('snoopy', 3);
+{% endhighlight %}
+
+{% highlight javascript %}
+// ES6
+
+class Dog {
+    constructor (name, age) {
+        this.name = name,
+        this.age = age
+    }
+
+    // Dog prototype
+    sayName() {
+        console.log(this.name);
+    }
+
+    // static method 
+    static woof() {
+        console.log('woof');
+    }
+}
+
+const snoopy = new Dog('snoopy', 3)
+Dog.woof(); // woof
+{% endhighlight %}
+
+- super class : inherit 하는 class
+- subclass : inherit 되는 class
+
+{% highlight javascript %}
+// ES5
+
+function Animal(name, age){
+    this.name = name;
+    this.age = age;
+}
+
+Animal.prototype.sayName = function(){
+    console.log(this.name);
+}
+
+function Dog(name, age, personality) {
+    Animal.call(this, name, age);
+    this.personality = personality;
+}
+
+Dog.prototype = Object.create(Animal.prototype);
+
+Dog.prototype.woof = function() {
+    console.log('woof');
+}
+
+var snoopy = new Dog('snoopy', 3, 'friendly');
+{% endhighlight %}
+
+{% highlight javascript %}
+// ES6
+
+class Animal {
+    constructor (name, age) {
+        this.name = name,
+        this.age = age
+    }
+
+    // Animal prototype
+    sayName() {
+        console.log(this.name);
+    }
+
+}
+
+class Dog extends Animal {
+    constructor(name, age, personality) {
+        super(name, age);
+        this.personality = personality;
+    }
+
+    woof() {
+        console.log('woof');
+    }
+}
+
+const snoopy = new Dog('snoopy', 3, 'friendly');
+{% endhighlight %}
