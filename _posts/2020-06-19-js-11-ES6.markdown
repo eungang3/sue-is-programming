@@ -683,8 +683,8 @@ var snoopy = new Dog('snoopy', 3, 'friendly');
 
 class Animal {
     constructor (name, age) {
-        this.name = name,
-        this.age = age
+        this.name = name;
+        this.age = age;
     }
 
     // Animal prototype
