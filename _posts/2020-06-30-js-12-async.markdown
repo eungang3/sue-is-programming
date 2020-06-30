@@ -1,0 +1,52 @@
+---
+layout: post
+title:  "Asynchronous Javascript"
+date:   2020-06-25 10:40:27 +0900
+categories: Javascript
+---
+
+Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.udemy.com/course/the-complete-javascript-course/) 강좌의 섹션 8. Asynchronous JavaScript: Promises, Async/Await and AJAX를 요약한 내용입니다.
+
+## 0. Asynchronous operation이란?
+- synchronous operation : 코드에 적힌 순서대로 task 처리
+- asynchronous opeartion : 비동기 처리. 여러 task를 동시에 처리하는 방식. Non-blocking (다른 코드가 syncrhonous operation으로 계속 실행되는 것을 막지 않음), asynchronous function 안에 callback function 넣고 때가 되면 callback function 호출하는 방식으로 활용
+- cf) JS runtime environment : 브라우저가 JS engine으로 자바스크립트 읽고 실행할 때 쓰는 자바스크립트 실행환경. 
+
+{% highlight javascript %}
+// synchronous operation
+
+const second = () => {
+    console.log('Two');
+}
+
+const first = () => {
+    console.log('One');
+    second();
+    console.log('Three');
+}
+
+first();
+// One Two Three
+{% endhighlight %}
+
+{% highlight javascript %}
+// asynchronous operation
+// setTimeout은 인자로 callback function과 딜레이 할 milliseconds 받음
+
+const second = () => {
+            setTimeout(() => {
+                console.log('two');
+            }, 2000);
+        };
+
+const first = () => {
+    console.log('One');
+    second();
+    console.log('Two');
+}
+
+first();
+// One Three Two
+{% endhighlight %}
+
+![js-async-1](https://eungang3.github.io/sue-is-programming/assets/js-async-1.jpg)
