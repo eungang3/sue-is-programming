@@ -49,4 +49,4 @@ first();
 // One Three Two
 {% endhighlight %}
 
-![js-async-1](https://eungang3.github.io/sue-is-programming/assets/js-async-1.jpg)
+![js-async-1](https://eungang3.github.io/sue-is-programming/assets/Js-async-1.jpg)
