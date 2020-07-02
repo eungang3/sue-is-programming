@@ -9,7 +9,9 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
 
 ## 0. Asynchronous operation이란?
 - synchronous operation : 코드에 적힌 순서대로 task 처리
+
 - asynchronous opeartion : 비동기 처리. 여러 task를 동시에 처리하는 방식. Non-blocking (다른 코드가 syncrhonous operation으로 계속 실행되는 것을 막지 않음), asynchronous function 안에 callback function 넣고 때가 되면 callback function 호출하는 방식으로 활용
+
 - cf) JS runtime environment : 브라우저가 JS engine으로 자바스크립트 읽고 실행할 때 쓰는 자바스크립트 실행환경. 
 
 {% highlight javascript %}
@@ -42,7 +44,7 @@ const second = () => {
 const first = () => {
     console.log('One');
     second();
-    console.log('Two');
+    console.log('Three');
 }
 
 first();
@@ -50,3 +52,108 @@ first();
 {% endhighlight %}
 
 ![js-async-1](https://eungang3.github.io/sue-is-programming/assets/Js-async-1.jpg)
+
+<br/>
+
+## 1. 옛날 방식 Asynchronous operation
+- callback function을 nesting 하다가 callback hell에 빠지기 쉬움 
+{% highlight javascript %}
+function addNumber(userInput) {
+    setTimeout((originalNum) => {
+        console.log(originalNum);
+        var firstNum = originalNum + 1;
+
+        setTimeout((changedNum) => {
+            console.log(changedNum);
+            var secondNum = changedNum + 1;
+
+            setTimeout((changedNumLast) => {
+                console.log(changedNumLast);
+            }, 1500, secondNum);
+        }, 1500, firstNum);
+    }, 1500, userInput)
+} 
+
+addNumber(1); // 1 2 3
+{% endhighlight %}
+
+<br/>
+
+## 2. ES6에 도입된 Promise object
+- promise : 특정 event(예: 서버에서 데이터 가져오기)가 일어났는지 아닌지 체크하고 event 발생 후 무엇을 할 지 정하는 object. 
+
+- promise의 state(상태) :
+    + Pending(대기) : 처리 전 상태
+    + Settled(=resolved) : fulfilled(이행), rejected(실패)
+
+- produce : new 키워드로 새로운 promise 만든 후 그 promise를 통해 결과를 내놓는 것.
+
+- consume : 콜백함수로 fulfilled 되었거나 rejected 된 promise를 처리하는 것.
+
+- executor function : promise를 생성하자마자 호출되는 빌트인 함수. Event handling이 성공적이었는지 아닌지 promise에게 알려주는 역할. resolve함수, reject 함수 순으로 promise의 인자에 들어감. 
+
+- then() method : promise object의 method. promise가 fulfilled된 경우에 사용. ()안에 콜백함수 넣음. 콜백함수에 파라미터 넣으면 fulfilled된 promise 값을 인자로 넣음. chaining 사용해서 callback hell 벗어날 수 있음
+
+- catch() method : promise object의 method. promise가 rejected된 경우에 사용. ()안에 콜백함수 넣음. 콜백함수의 인자로 에러 메시지 넣을 수 있음.
+
+{% highlight javascript %}
+function getNum(userInput) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(userInput);
+        }, 1500)
+    })
+}
+
+function addOne(original) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(original + 1);
+        }, 1500)
+    })
+}
+
+getNum(1)
+.then(originalNumber => {
+    console.log(originalNumber);
+    return addOne(originalNumber);
+})
+.then(originalPlusOne => {
+    console.log(originalPlusOne);
+    return addOne(originalPlusOne);
+})
+.then(originalPlusTwo => {
+    console.log(originalPlusTwo)
+})
+{% endhighlight %}
+
+<br/>
+
+## 3. Async / Await
+- ES8에 도입된 syntactic sugar. 
+
+- async : 함수 앞에 붙여서 비동기 함수로 만드는 키워드, 비동기 함수는 항상 promise 반환. 
+    + 함수가 반환한 것이 없을 떄 : resolved된 값이 undefined인 promise 반환
+    + 함수가 promise가 아닌 것을 반환할 때 : 해당 값으로 resolved된 promise 반환
+    + 함수가 promise를 반환할 때 : 해당 promise 반환
+
+- await : 비동기 함수의 body에서만 사용 가능한 operator. promise를 반환하는 코드 앞에 붙임. 해당 promise가 resolved될 때까지 비동기 함수의 실행을 멈춤. promise가 resolved된 값 반환. 
+
+{% highlight javascript %}
+const num = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        console.log(1);
+        return 1;
+    }, 1500)
+})
+
+async function getNum() {
+    console.log(num);
+    const one = await num;
+    console.log(one);
+}
+
+getNum(); 
+// Promise {<pending>}
+// 1
+{% endhighlight %}
