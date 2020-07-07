@@ -148,12 +148,73 @@ const num = new Promise((resolve, reject) => {
 })
 
 async function getNum() {
-    console.log(num);
     const one = await num;
-    console.log(one);
+    return one;
 }
 
-getNum(); 
-// Promise {<pending>}
+getNum().then((result) => {
+    console.log(result);
+}); 
+
 // 1
+{% endhighlight %}
+
+<br/>
+
+## 4. AJAX / API
+- AJAX 
+    + Asynchronous Javascript And XML의 약자
+    + 백그라운드에서 비동기 작업으로 클라이언트와 서버를 통신하는 방법. 웹페이지 리로드 할 필요 없이 필요한 정보 주고받을 수 있음. 
+![js-async-2](https://eungang3.github.io/sue-is-programming/assets/Js-async-2.jpg)
+
+- API
+    + Application Programming Interface의 약자
+    + 일반적으로 애플리케이션끼리 소통할 수 있도록 도와주는 소프트웨어를 뜻함
+    + 웹 개발 맥락에선 요청을 받고 응답을 보내는 서버의 애플리케이션을 뜻함. 
+    + 내 서버에서 오는 데이터를 처리하는 내 API, 3rd party API로 나눔. 
+
+- JSON : Javascript Object Notation. 정보 저장하는 포맷. object처럼 생겼지만 string이기 때문에 ㄴㄴobject로 변환해야 함.
+
+- json() method : json을 object로 변환해줌. 항상 promise 반환
+
+- fetch : web API. 자바스크립트에서 사용할 수 있게 브라우저가 지원하는 기능. 자바스크립트의 기능은 아님. 자동으로 promise 반환
+
+- same origin policy : 내 도메인이 아닌 도메인으로 AJAX 요청할 수 없게 하는 자바스크립트의 정책
+
+- CORS : Cross Origin Resource Sharing. 내 도메인이 아닌 다른 도메인으로 AJAX 요청할 수 있게 하는 방식
+
+- CORS로도 안되면 내 서버로 요청을 대신 보낸 후 브라우저로 데이터 보내는 방식 사용. 
+
+{% highlight javascript %}
+function getWeather(id){
+fetch(`http://api.allorigins.win/get?url=https://www.metaweather.com/api/location/${id}/`)
+.then(result => {
+    return result.json();
+})
+.then(data => {
+    const convertedData = JSON.parse(data.contents)
+    console.log(convertedData.consolidated_weather[0])
+})
+.catch(error => {console.log(error);})
+}
+
+getWeather(44418);
+{% endhighlight %}
+
+{% highlight javascript %}
+ async function getWeather(id){
+    try {
+    const result = await fetch(`http://api.allorigins.win/get?url=https://www.metaweather.com/api/location/${id}/`);
+    const data = await result.json();
+    const convertedData = JSON.parse(data.contents);
+    console.log(convertedData.consolidated_weather[0])
+    }
+
+    catch(error) {
+        console.log(error);
+    }
+    
+}
+
+getWeather(44418);
 {% endhighlight %}
