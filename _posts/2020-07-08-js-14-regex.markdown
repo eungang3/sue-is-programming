@@ -1,0 +1,348 @@
+---
+layout: post
+title:  "Javascript의 Regular Expression 이해하기"
+date:   2020-07-07 10:40:27 +0900
+categories: Javascript
+---
+
+## 0. Regular Expression(정규 표현식)이란?
+- 스트링에서 특정 글자의 조합을 검색/대체/추출하기 위해 사용하는 패턴
+
+- Regular Expression은 object
+
+<br/>
+
+### 1) Regular Expression object의 property
+- flags : 플래그 반환
+
+- source: 패턴 반환
+
+- global : 플래그 g가 있는지 true/false로 반환
+
+- ignoreCase : 플래그 i가 있는지 true/false로 반환
+
+- multiline: 플래그 m이 있는지 true/false로 반환
+
+- sticky : 플래그 y가 있는지 true/false로 반환
+
+- unicode : 플래그 u가 있는지 true/false로 반환
+
+{% highlight javascript %}
+const sentence = "Is this an apple?"
+console.log(new RegExp("apple", "g").flags); //g
+console.log(/apple/i.flags); //i
+{% endhighlight %}
+
+<br/>
+
+### 2) Regular Expression object의 method
+#### a. RegExp object의 method
+- 정규표현식.method(검색할string)
+
+- exec() : 일치하는 정보 포함하는 array 반환
+
+- test() : 일치 여부 true/false로 반환
+
+{% highlight javascript %}
+const sentence = "Is this an apple?"
+const word = new RegExp("a", "g");
+const word2 = /i/g;
+
+console.log(word.test(sentence))
+//true
+
+console.log(word.exec(sentence))
+// ["a", index: 8, input: "Is this an apple?", groups: undefined]
+
+console.log(word2.test(sentence));
+// true
+
+{% endhighlight %}
+
+<br/>
+
+#### b. String object의 method
+- 검색할string.method(정규표현식)
+
+- match() : 일치하는 string을 array로 반환
+
+- search() : 일치하는 string의 index 반환
+
+- replace() : 일치하는 string을 대체하고 전체 string 반환
+
+- split() : 일치하는 string을 기준으로 string을 자름 -> 일치하는 string은 제외한 array 반환
+
+- toString() : 정규식이 constructor function일 때만 사용, 정규식을 literal 방식의 string으로 반환
+
+{% highlight javascript %}
+const sentence = "Is this an apple?"
+const word = /a/g;
+const word2 = new String('ap', 'i');
+
+console.log(sentence.match(word));
+//["a", "a"]
+
+console.log(sentence.search(word));
+// 8
+
+console.log(sentence.replace(word, 'b'));
+// Is this bn bpple?
+
+console.log(sentence.split(word));
+// ["Is this ", "n ", "pple?"]
+
+console.log(word2.toString());
+//ap
+{% endhighlight %}
+
+<br/>
+
+## 1. Regular Expression 만들기
+### 1) regular expression literal 사용
+- 일반적으로 사용하는 방식
+
+- regular expression을 사용할 string이 고정된 경우 사용.
+
+- /patternToSearch/flag 형태로 작성
+
+{% highlight javascript %}
+let word = /apple/;
+let word2 = /orange/i;
+{% endhighlight %}
+
+<br/>
+
+### 2) RegExp object의 constructor function 사용
+- regular expression을 사용할 string이 유동적인 경우 사용. (예: 유저 인풋에 사용하는 경우)
+
+{% highlight javascript %}
+let word = new RegExp('apple');
+let word2 = new RegExp('orange', 'i');
+{% endhighlight %}
+
+<br/>
+
+### 3) 플래그 추가하기
+- i : ignore case. 대소문자 상관없이 검색
+
+- g : global. string 속 모든 패턴 검색(사용 안하면 제일 처음 나온 매치만 검색.)
+
+- m : multi line. string 행 바뀌더라도 검색 멈추지 않음.
+
+- u : unicode. 유니코드 문자 검색할 때 사용.
+
+- y : sticky. lastIndex property(read-only, 한번 검색하면 값 초기화됨)에 숫자 지정한 뒤 y로 검색 -> 지정된 숫자 index의 문자만 검색. y와 g 같이 사용하면 g는 무시됨.
+
+{% highlight javascript %}
+const sentence = "Is this an apple?"
+const word = /t/y;
+const word2 = /a/y;
+word.lastIndex = 3;
+
+console.log(sentence.match(word));
+// ["t", index: 3, input: "Is this an apple?", groups: undefined]
+
+console.log(sentence.match(word2));
+// null
+{% endhighlight %}  
+
+<br/>
+
+### 4) regular expression 패턴
+- ^ : 줄의 시작에서 일치하는 것 검색
+
+- $ : 줄의 끝에서 일치하는 것 검색
+
+- . : wildcard character, 임의의 문자 하나 선택
+
+- a\|b : a 또는 b와 일치하는 것 검색(먼저 등장하는 것 반환)
+
+{% highlight javascript %}
+const sentence = "a abc abbc abbbc ac ."
+
+console.log(sentence.match(/./))
+//["a", index: 0, input: "a abc abbc abbbc ac .", groups: undefined]
+
+console.log(sentence.match(/ab./g));
+// ab가 들어가있기만 하면 다음에 뭐가 오든 검색됨
+// ["abc", "abb", "abb"]
+
+console.log(sentence.match(/\./))
+// string에서 마침표를 찾고싶을 때는 \.로 검색
+// [".", index: 20, input: "a abc abbc abbbc ac .", groups: undefined]
+{% endhighlight %}  
+
+<br/>
+
+- \* : 지정한 문자가 패턴 바로 다음 0회 이상 연속으로 반복되는 것 중, 가능한 많이 일치하게 검색(greedy match). {0, }과 동일.
+
+- *? : 지정한 문자가 패턴 바로 다음 0회이상 연속으로 반복되는 것 중, 가장 적게 일치하게 검색(lazy match). {0}과 동일
+
+- \+ : 지정한 문자가 패턴 바로 다음 1회 이상 연속으로 반복되는 것 중, 가장 많이 일치하게 검색. {1, }과 동일
+
+- +? : 지정한 문자가 패턴 바로 다음 1회 이상 연속으로 반복되는 것 중, 가장 적게 일치하게 검색. {1}과 동일
+
+- ? : 지정한 문자가 패턴 바로 다음 0회 또는 1회 나오는 것 중, 가장 많이 일치하게 검색
+
+- ?? : 지정한 문자가 패턴 바로 다음 0회 또는 1회 나오는 것 중, 가장 적게 일치하게 검색
+
+{% highlight javascript %}
+const sentence = "a abc abbc abbbc ac ."
+
+console.log(sentence.match(/ab*/g));
+// ["a", "ab", "abb", "abbb", "a"]
+
+console.log(sentence.match(/ab*?/g));
+// ["a", "a", "a", "a", "a"]
+
+console.log(sentence.match(/ab+/g));
+// ["ab", "abb", "abbb"]
+
+console.log(sentence.match(/ab+?/g));
+// ["ab", "ab", "ab"]
+
+console.log(sentence.match(/ab?/g));
+// ["a", "ab", "ab", "ab", "a"]
+
+console.log(sentence.match(/ab??/g));
+// ["a", "a", "a", "a", "a"]
+{% endhighlight %}
+
+<br/>
+
+- {2} : 2개 연속 일치하는 것 검색
+
+- {2,} : 2개 이상 연속 일치하는 것 검색
+
+- {2,4} : 2개 이상 4개 이하 연속 일치하는 것 검색
+
+- {2,4}? : 2개 이상 4개 이하 연속 일치하는 것 중 2개 연속 일치하는 것 검색. {2}와 동일
+
+{% highlight javascript %}
+const sentence = "a abc abbc abbbbbc ac ."
+
+console.log(sentence.match(/ab{2}/g));
+// ["abb", "abb"]
+
+console.log(sentence.match(/ab{2,}/g));
+// ["abb", "abbbbb"]
+
+console.log(sentence.match(/ab{2,4}/g));
+// ["abb", "abbbb"]
+
+console.log(sentence.match(/ab{2,4}?/g));
+// ["abb", "abb"]
+{% endhighlight %}
+
+<br/>
+
+- [ab] : a 또는 b 검색, a\|b와 같음
+
+- [A-Z] : [] 속에 - 사용하면 범위 지정됨. 대문자만 검색.
+
+- [A-Za-z]+ : 대소문자 구분없이 알파벳 검색. /[A-Z]+/i와 동일
+
+- [0-9] : 숫자만 검색
+
+- [0-9,]+ : 컴마 포함 숫자 검색. [\d,]+와 동일
+
+- [^a-z] : 소문자 아닌 것만 검색. []안에 ^ 쓰면 negated character set 생성함
+
+{% highlight javascript %}
+console.log("aa bb ab".match(/[a+b+]/g));
+// ["a", "a", "b", "b", "a", "b"]
+
+console.log("aa bb ab".match(/[ab]+/g));
+// ["aa", "bb", "ab"]
+
+console.log("AbcDe".match(/[A-Z]+/g));
+// ["A", "D"]
+
+console.log("AbcDe".match(/[A-Za-z]+/g));
+// ["AbcDe"]
+
+console.log("Ab3cDe12".match(/[0-9]+/g));
+// ["3", "12"]
+
+console.log("Ab3 3,000".match(/[0-9,]+/g));
+// ["3", "3,000"]
+
+console.log("ham him home".match(/h[aio]m/g));
+// ["ham", "him", "hom"]
+
+console.log("ham him home".match(/h[^ao]m/g));
+// ["him"]
+{% endhighlight %}
+
+<br/>
+
+- shorthand character classes
+
+- \d : 숫자만 검색
+
+- \D : 숫자만 제외하고 검색
+
+- \w : 알파벳과 숫자만 검색
+
+- \W : 알파벳과 숫자만 제외하고 검색
+
+- \s : 공백 검색(whitespace, tab, form feed, new line characters). [\r\t\f\n\v]와 동일
+
+- \S : 공백 아닌 것 검색. [^\r\t\f\n\v]와 동일
+
+{% highlight javascript %}
+console.log("ab c1 23".match(/\d+/g));
+// ["1", "23"]
+
+console.log("ab c1 23".match(/\D+/g));
+// ["ab c", " "]
+
+console.log("ab=c123+".match(/\w+/g));
+// ["ab", "c123"]
+
+console.log("ab=c123+".match(/\W+/g));
+// ["=", "+"]
+{% endhighlight %}
+
+<br/>
+
+- lookahead
+
+- a(?=b) : positive lookahead, a 바로 다음 글자가 b일때만 a 매치
+
+- a(?!b) : negative lookahead, a 바로 다음 글자가 b가 아닐 때만 a 매치
+
+{% highlight javascript %}
+console.log("ab".match(/a(?=b)/))
+// [ 'a', index: 0, input: 'ab', groups: undefined ]
+
+console.log("ab".match(/a(?!b)/))
+// null
+{% endhighlight %}
+
+- ()로 그룹화하기
+
+- (ab)+ : ab가 1회 이상 반복될 때 매치
+
+{% highlight javascript %}
+console.log('abababccab'.match(/(ab)+/))
+// [ 'ababab', 'ab', index: 0, input: 'abababccab', groups: undefined ]
+{% endhighlight %}
+
+- ()로 캡처하기
+
+- (a)(\s)\1\2\1 : 반복되는 패턴 한 번만 작성해도 됨. a, 공백, a로 반복되는 패턴 매치
+
+{% highlight javascript %}
+console.log('abababccab'.match(/(ab)+/))
+// [ 'ababab', 'ab', index: 0, input: 'abababccab', groups: undefined ]
+
+console.log('a a a'.match(/(a)(\s)\1\2\1/))
+// [ 'a a a', 'a', ' ', index: 0, input: 'a a a', groups: undefined ]
+{% endhighlight %}
+
+참조 : <br/>
+[freeCodeCamp - Regular Expressions](https://www.freecodecamp.org/learn/)<br/>
+[MDN web docs - Regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)<br/>
+[Poiemaweb - 5.26 정규표현식](https://poiemaweb.com/js-regexp)<br/>
+[Heropy Tech - 정규표현식, 이렇게 시작하자!](https://heropy.blog/2018/10/28/regexp/)
