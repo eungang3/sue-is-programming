@@ -322,12 +322,16 @@ console.log("ab".match(/a(?!b)/))
 
 - ()로 그룹화하기
 
+</br>
+
 - (ab)+ : ab가 1회 이상 반복될 때 매치
 
 {% highlight javascript %}
 console.log('abababccab'.match(/(ab)+/))
 // [ 'ababab', 'ab', index: 0, input: 'abababccab', groups: undefined ]
 {% endhighlight %}
+
+</br>
 
 - ()로 캡처하기
 
