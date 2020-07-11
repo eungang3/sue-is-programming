@@ -88,6 +88,9 @@ console.log(sentence.search(word));
 console.log(sentence.replace(word, 'b'));
 // Is this bn bpple?
 
+console.log('apple banana'.replace(/(\w+)\s(\w+)/, '$2 $1'));
+// banana apple
+
 console.log(sentence.split(word));
 // ["Is this ", "n ", "pple?"]
 
@@ -302,6 +305,9 @@ console.log("ab=c123+".match(/\w+/g));
 
 console.log("ab=c123+".match(/\W+/g));
 // ["=", "+"]
+
+console.log("   Apple, banana   ".replace(/^\s+|\s$/g, ""));
+// Apple, banana
 {% endhighlight %}
 
 <br/>
@@ -320,9 +326,9 @@ console.log("ab".match(/a(?!b)/))
 // null
 {% endhighlight %}
 
-- ()로 그룹화하기
+<br/>
 
-</br>
+- ()로 그룹화하기
 
 - (ab)+ : ab가 1회 이상 반복될 때 매치
 
@@ -331,7 +337,7 @@ console.log('abababccab'.match(/(ab)+/))
 // [ 'ababab', 'ab', index: 0, input: 'abababccab', groups: undefined ]
 {% endhighlight %}
 
-</br>
+<br/>
 
 - ()로 캡처하기
 
@@ -345,6 +351,8 @@ console.log('a a a'.match(/(a)(\s)\1\2\1/))
 // [ 'a a a', 'a', ' ', index: 0, input: 'a a a', groups: undefined ]
 {% endhighlight %}
 
+
+<br/>
 참조 : <br/>
 [freeCodeCamp - Regular Expressions](https://www.freecodecamp.org/learn/)<br/>
 [MDN web docs - Regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)<br/>

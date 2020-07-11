@@ -165,7 +165,7 @@ getNum().then((result) => {
 - AJAX 
     + Asynchronous Javascript And XML의 약자
     + 백그라운드에서 비동기 작업으로 클라이언트와 서버를 통신하는 방법. 웹페이지 리로드 할 필요 없이 필요한 정보 주고받을 수 있음. 
-![js-async-2](https://eungang3.github.io/sue-is-programming/assets/Js-async-2.jpg)
+![js-async-2](https://eungang3.github.io/sue-is-programming/assets/js-async-2.jpg)
 
 - API
     + Application Programming Interface의 약자
@@ -177,7 +177,7 @@ getNum().then((result) => {
 
 - json() method : json을 object로 변환해줌. 항상 promise 반환
 
-- fetch : web API. 자바스크립트에서 사용할 수 있게 브라우저가 지원하는 기능. 자바스크립트의 기능은 아님. 자동으로 promise 반환
+- fetch : web API. 자바스크립트에서 사용할 수 있게 브라우저가 지원하는 기능. 자바스크립트의 기능은 아님. 자동으로 promise 반환. 구버전 브라우저에서 안되는 경우 있으니 확인.
 
 - same origin policy : 내 도메인이 아닌 도메인으로 AJAX 요청할 수 없게 하는 자바스크립트의 정책
 
