@@ -18,6 +18,8 @@ Udemy - [The Complete JavaScript Course 2020: Build Real Projects!](https://www.
     + 같은 컴퓨터의 다른 프로젝트에서도 사용하고 싶다면 sudo npm install dependencyName --global 커맨드로 설치. 
     + scripts에 "dev" : "webpack" 쓰고 저장하면, 터미널에서 npm run dev 입력했을 때 webpack config.js파일 찾아서 적힌대로 webpack 실행.
 
+<br/>
+
 ### 2) Webpack 
 - 아직 브라우저에서 ES6 모듈 지원 안됨 -> webpack이 모듈 모아서 module bundler라는 하나의 파일로 만들어줌. 모듈뿐만 아니라 이미지 파일, css 등도 bundle로 만들 수 있음.
 
@@ -101,6 +103,14 @@ module.exports = {
 
 <br/>
 
+### 4) Axios
+- HTTP request 라이브러리. fetch()와 비슷한 기능
+- 브라우저에서 지원하는 기능인 fetch() api는 구버전 브라우저에서 안되는 경우 있기 때문에 axios 사용
+- 모든 브라우저에서 작동, fetch()와 다르게 자동으로 json 파일 반환
+- 'npm install axios'로 설치
+
+<br/>
+
 ### cf. Command Line
 - ls, cd, pwd
 - cd .. : 한 칸 위로
@@ -161,3 +171,31 @@ console.log(calc.sum(calc.num, 2)); // 3
 
 ## 3. API 사용하기
 - api key : 각 유저에게 부여되는 id 같은 것. 유저가 하루에 몇 개 request 했는지 체크(가입한 플랜에서 제공하는 개수 넘어가면 요청 못하게 막는 역할.) 
+
+{% highlight javascript %}
+// axios를 사용할 js 파일에 import 해야함.
+// 외부 소스로 설치한 npm 모듈 import할 때는 전체 경로 쓸 필요 없이 패키지 이름만 작성
+import axios from 'axios'
+
+async function getRes(query){
+    const result = await axios(`https://forkify-api.herokuapp.com/api/search?q=${query}`);
+    try {
+        const recipes = result.data.recipes;
+        console.log(recipes);
+    } catch (error) {
+        alert(error);
+    }
+    
+}
+
+getRes('green pepper');
+{% endhighlight %}  
+
+<br/>
+
+## 4. 기타
+
+- reduce() : array에 사용가능한 method
+{% highlight javascript %}
+
+{% endhighlight %}

@@ -173,7 +173,7 @@ getNum().then((result) => {
     + 웹 개발 맥락에선 요청을 받고 응답을 보내는 서버의 애플리케이션을 뜻함. 
     + 내 서버에서 오는 데이터를 처리하는 내 API, 3rd party API로 나눔. 
 
-- JSON : Javascript Object Notation. 정보 저장하는 포맷. object처럼 생겼지만 string이기 때문에 ㄴㄴobject로 변환해야 함.
+- JSON : Javascript Object Notation. 정보 저장하는 포맷. object처럼 생겼지만 string이기 때문에 object로 변환해야 함.
 
 - json() method : json을 object로 변환해줌. 항상 promise 반환
 
