@@ -277,6 +277,7 @@ a {
 ## 3. HTML 파일에 meta 요소 넣어서 viewport 설정하기
 - head에 meta name="viewport" content="width=device-width, initial-scale=1.0"삽입.
 - 현재 유저가 사용중인 스크린의 width를 viewport로 설정함. 
+- 디폴트 설정에선 어떤 스크린에서 접근하든 width를 데스크탑 width로 자동 변환 -> 데스크탑 웹사이트를 모바일에서 보면 이미지, 글씨 작아짐. 
 
 <br/><br/>
 참조 :<br/>
