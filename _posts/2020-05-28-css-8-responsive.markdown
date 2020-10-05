@@ -273,7 +273,7 @@ a {
 - @media의 조건이 참일때 적용되는 코드.
 
 ## 3. HTML 파일에 meta 요소 넣어서 viewport 설정하기
-- head에 <meta name="viewport" content="width=device-width, initial-scale=1.0"> 삽입.
+- head에 meta name="viewport" content="width=device-width, initial-scale=1.0"삽입.
 - 현재 유저가 사용중인 스크린의 width를 viewport로 설정함. 
 
 <br/><br/>
