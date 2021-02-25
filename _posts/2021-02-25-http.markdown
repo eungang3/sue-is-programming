@@ -16,7 +16,6 @@ categories: HTTP
 ```
 GET / HTTP/1.1
 Host: www.test.com
-
 GET은 request의 종류를 나타냄
 /는 웹사이트의 홈페이지를 뜻함
 HTTP/1.1은 HTTP 프로토콜의 버전 정보
@@ -32,6 +31,5 @@ HTTP/1.1은 HTTP 프로토콜의 버전 정보
 HTTP/1.1 200 OK
 Content-Type: text/html
 ...
-
 200은 문제 없다는 상태 코드
 ```
