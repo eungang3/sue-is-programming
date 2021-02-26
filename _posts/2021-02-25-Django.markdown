@@ -11,15 +11,80 @@ categories: Django
 ## 1. Django 설치
 - python 설치되어있는지 확인
 - pip 설치되어있는지 확인
-- 설치하기("pip3 install Django")
+- django 설치하기("pip3 install Django")
 
 ## 2. Django에서 프로젝트 시작하기
 - 스타터 파일 생성하기 ("django-admin startproject PROJECT_NAME") -> 프로젝트명에 - 사용 불가
 - 스타터 파일로 이동 ("cd PROJECT_NAME")
 - 개발용 로컬 서버 열어보기 ("python3 manage.py runserver")
-![django1](https://eungang3.github.io/sue-is-programming/assets/django1.jpg)
 
-
-## 3. 프로젝트 내 앱 만들기
+## 3. 프로젝트에 앱 생성하기
 - 한 웹사이트는 다양한 역할을 하는 앱으로 구성됨 (예: 구글 - 구글 캘린더, 이미지...)
 - 앱 폴더 생성하기 ("python3 manage.py startapp hello")
+
+## 4. 프로젝트에 앱 추가하기
+### 1) "settings.py"파일의 INSTALLED_APPS 리스트에 앱 추가하기
+![django1](https://eungang3.github.io/sue-is-programming/assets/django1.jpg)
+{% highlight python3 %}
+INSTALLED_APPS = [
+    'hello',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+{% endhighlight %}
+
+### 2) 앱 폴더 속 view.py 파일에 view 추가하기
+- view.py는 여러 개의 view로 이루어짐
+- 하나의 view는 유저가 보는 하나의 페이지
+
+<br/>
+
+{% highlight python3 %}
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# 첫번째 view
+def index(request):
+    return HttpResponse(request, "Index of hello app")
+{% endhighlight %}
+
+<br/>
+
+### 3) view에 접근할 수 있는 경로 만들기
+- 앱 폴더 속 "views.py"와 같은 위치에 "urls.py" 파일 만들기
+- "urls.py"에 "urlpatterns" 리스트 만들고 views.py에 있는 각 view의 경로 작성하기
+
+<br/>
+
+{% highlight python3 %}
+# urls.py 파일
+from django.urls import path
+from . import views
+
+# 프로젝트 url/hello/에 유저가 접속하면 "views.py"의 index 함수를 실행하라는 뜻
+urlpatterns = [
+    # 경로, view에서 내보낸 함수, alias 순
+    path("", views.index, name="index")
+]
+{% endhighlight %}
+
+### 4) local "urls.py" 파일을 global "urls.py" 파일과 연결하기
+- include 모듈 import하기
+- hello 앱의 "urls.py"에 있는 모든 url을 global "urls.py"의 urlpatterns 리스트에 추가하기 (include 사용)
+- 이제 URL 끝에 /hello 붙이면 hello 앱 내 view를 볼 수 있음
+
+<br/>
+
+{% highlight python3 %}
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('hello/', include("hello.urls"))
+]
+{% endhighlight %}
