@@ -57,7 +57,7 @@ from django.http import HttpResponse
 
 # 첫번째 view
 def index(request):
-    return HttpResponse(request, "Index of hello app")
+    return HttpResponse("Index of hello app")
 {% endhighlight %}
 
 <br/>
