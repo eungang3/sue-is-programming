@@ -1,0 +1,25 @@
+---
+layout: post
+title:  "Django 인트로"
+date:   2021-02-25 08:50:27 +0900
+categories: Django
+---
+
+## 0. Django란?
+- 동적인 웹페이지를 만들 수 있게 해주는 python의 프레임워크
+
+## 1. Django 설치
+- python 설치되어있는지 확인
+- pip 설치되어있는지 확인
+- 설치하기("pip3 install Django")
+
+## 2. Django에서 프로젝트 시작하기
+- 스타터 파일 생성하기 ("django-admin startproject PROJECT_NAME") -> 프로젝트명에 - 사용 불가
+- 스타터 파일로 이동 ("cd PROJECT_NAME")
+- 개발용 로컬 서버 열어보기 ("python3 manage.py runserver")
+![django1](https://eungang3.github.io/sue-is-programming/assets/django1.jpg)
+
+
+## 3. 프로젝트 내 앱 만들기
+- 한 웹사이트는 다양한 역할을 하는 앱으로 구성됨 (예: 구글 - 구글 캘린더, 이미지...)
+- 앱 폴더 생성하기 ("python3 manage.py startapp hello")
