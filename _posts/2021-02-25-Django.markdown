@@ -51,7 +51,7 @@ INSTALLED_APPS = [
 - view.py는 여러 개의 view로 이루어짐
 - 하나의 view는 유저가 보는 하나의 페이지
 
-{% highlight python3 %}
+{% highlight python %}
 from django.shortcuts import render
 from django.http import HttpResponse
 
@@ -66,7 +66,7 @@ def index(request):
 - 앱 폴더 속 "views.py"와 같은 위치에 "urls.py" 파일 만들기
 - "urls.py"에 "urlpatterns" 리스트 만들고 views.py에 있는 각 view의 경로 작성하기
 
-{% highlight python3 %}
+{% highlight python %}
 # urls.py 파일
 from django.urls import path
 from . import views
@@ -85,7 +85,7 @@ urlpatterns = [
 - hello 앱의 "urls.py"에 있는 모든 url을 global "urls.py"의 urlpatterns 리스트에 추가하기 (include 사용)
 - 이제 URL 끝에 /hello 붙이면 hello 앱 내 view를 볼 수 있음
 
-{% highlight python3 %}
+{% highlight python %}
 from django.contrib import admin
 from django.urls import path, include
 
