@@ -218,4 +218,42 @@ urlpatterns = [
 ## 8. CSRF token
 - CSRF : Cross-site Request Forgery의 약자
 - CSRF attack : 악성 유저가 엉뚱한 사이트에서 내 서버로 request를 보내는 것 
-- CSRF token : 
+- CSRF token : django가 response로 템플릿을 렌더링할 때 각 세션마다 생성하는 고유한 암호. 
+- 작동 방식 : 클라이언트가 form이 있는 템플릿 렌더링 request -> django 서버가 템플릿 렌더링해서 response, 고유한 암호 발행 -> 클라이언트가 form을 제출하는 request 보냄 -> django 서버가 아까 생성한 암호와 일치하는 암호를 가진 클라이언트에서 온 건지 체크 -> 일치 시 통과/불일치 시 접근 거부 
+- 사용 : html파일의 form 태그 안에 "csrf_token" 작성 
+
+{% highlight html %}
+<form action="" method="post">
+    ({와 %로 표시) csrf_token 
+    <input type="text" name="task">
+</form>
+{% endhighlight %}
+
+<br/>
+
+## 9. Django Forms
+- html 작성할 필요 없이 django로 form 만들 수 있음
+- 자동으로 django가 client-side validation 실행 : 유저가 알맞은 답을 적지 않으면 서버로 제출할 수 없게 클라이언트에서 막아주는 장치가 있다는 뜻 
+- 그렇더라도 server-side validation 필요 : client-side validation는 무력화하기 쉽고, 유저가 구버전 웹페이지로 보고 있는 경우 validation 안될 수도 있음 
+- django forms 사용하면 client-side validation, server-side validation 둘 다 하기 쉬움
+
+{% highlight python %}
+# views.py 
+# forms 모듈 import해야 함
+from django import forms
+
+# forms 모듈에서 Form 클래스 상속시킴
+class NewTaskForm(forms.Form):
+    task = forms.CharField(label="New Task")
+    
+def add(request):
+    return render(request, "tasks/add.html", {
+        "form": NewTaskForm()
+    })
+{% endhighlight %}
+
+{% highlight html %}
+<form action="({와 %로 표시) url 'tasks:Add'%와 }로 표시)" method="post">
+    {{ form }}
+</form>
+{% endhighlight %}
