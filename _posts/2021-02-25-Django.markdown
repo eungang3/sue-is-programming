@@ -195,7 +195,6 @@ def greet(request, name):
 
 ## 7. html파일에 a태그로 링크 만들어서 앱 끼리 연결하기
 
-
 {% highlight python %}
 # urls.py 파일
 from django.urls import path
@@ -214,3 +213,9 @@ urlpatterns = [
 <!-- urls.py파일에서 app_name으로 지정한 것도 써주면 더 정확 -->
 <a href="({와 %로 표시)url 'tasks:index'(%와 }로 표시)">back to index</a>
 {% endhighlight %}
+
+
+## 8. CSRF token
+- CSRF : Cross-site Request Forgery의 약자
+- CSRF attack : 악성 유저가 엉뚱한 사이트에서 내 서버로 request를 보내는 것 
+- CSRF token : 
