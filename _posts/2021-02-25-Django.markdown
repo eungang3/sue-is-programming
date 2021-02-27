@@ -149,24 +149,24 @@ def greet(request, name):
         <title>Tasks</title>
     </head>
     <body>
-        {% block body %}
-        {% endblock %}
+        ({와 %로 표시) block body
+        ({와 %로 표시) endblock
     </body>
 </html>
 {% endhighlight %}
 
 - "templates" 폴더 안에 원하는 파일(ex: index.html)생성 후 layout.html 파일 연결, 필요한 부분만 작성하면 끝
 {% highlight html %}
-{% extends "tasks/layout.html" %}
+({와 %로 표시) extends "tasks/layout.html" 
 
-{% block body %}
+({와 %로 표시) block body 
   <h1>Tasks:</h1>
   <ul>
-      {% for task in tasks %}
+      ({와 %로 표시) for task in tasks 
           <li>{{ task }}</li>
-      {% endfor %}
+      ({와 %로 표시) endfor 
   </ul>
-{% endblock %}
+({와 %로 표시) endblock 
 {% endhighlight %}
 
 
@@ -178,11 +178,11 @@ def greet(request, name):
 - 폴더 내 css파일 만들기
 - html 파일에 동적 주소 링크하기
 {% highlight html %}
-{% load static %}
+({와 %로 표시) load static 
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link rel="stylesheet" href="{% static 'newyear/styles.css' %}">
+        <link rel="stylesheet" href="({와 %로 표시) static 'newyear/styles.css'">
         <title>Hello</title>
     </head>
     <body>
