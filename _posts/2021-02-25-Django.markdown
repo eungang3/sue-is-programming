@@ -190,3 +190,27 @@ def greet(request, name):
     </body>
 </html>
 {% endhighlight %}
+
+<br/>
+
+## 7. html파일에 a태그로 링크 만들어서 앱 끼리 연결하기
+
+
+{% highlight python %}
+# urls.py 파일
+from django.urls import path
+from . import views
+
+# django가 url의 name을 보고 렌더링 할 때, 다른 앱의 이름이 같은 url과 구분할 수  변수 만들어줌
+app_name = "tasks"
+
+urlpatterns = [
+    path("", views.index, name="index")
+]
+{% endhighlight %}
+
+{% highlight html %}
+<!-- urls.py파일에서 링크할 url에 부여한 name 사용 -->
+<!-- urls.py파일에서 app_name으로 지정한 것도 써주면 더 정확 -->
+<a href="({와 %로 표시)url 'tasks:index'(%와 }로 표시)">back to index</a>
+{% endhighlight %}
