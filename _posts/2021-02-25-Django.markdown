@@ -106,7 +106,7 @@ urlpatterns = [
 
  <br/>
 
-## 6. Django Templates로 쉽게 static webpage 만들기
+## 6. Django Templates로 쉽게 webpage 만들기
 - 앱 내 "templates" 폴더 만들기
 - "templates" 폴더 안에 앱 이름과 같은 폴더 만들기
 - 앱 이름과 같은 폴더 안에 "index.html" 파일 생성하기
@@ -114,23 +114,13 @@ urlpatterns = [
 - views.py에 index.html파일 렌더링해서 리턴하는 함수 만들기
 
 {% highlight python %}
-from django.shortcuts import render
-from django.http import HttpResponse
-
-# index view
-def index(request):
-    # Django가 render 함수를 보면, 함수에 들어간 html 파일을 templates폴더의 hello 폴더에서 찾아서 렌더링해줌
-    return render("hello/index.html")
-{% endhighlight %}
-
- <br/>
-
- ## 7. Django의 Templating Language로 쉽게 dynamic webpage 만들기
- - views.py에서 함수 작성, templates/hello/greet에서 html 파일 생성
-{% highlight python %}
 # views.py
 # render의 세번째 argument는 context라고 부름
 # context는 python dictionary 형태로 작성
+# html에서 context의 key로 value에 접근가능
+
+from django.shortcuts import render
+from django.http import HttpResponse
 
 def greet(request, name):
   return render(request, "hello/greet.html", {
@@ -150,4 +140,53 @@ def greet(request, name):
 </html>
 {% endhighlight %}
 
- <br/>
+### cf) template inheritance : 공통적으로 사용하는 코드 한 번만 작성한 후 원하는 html 파일마다 상속 
+- "templates" 폴더 안에 "layout.html"파일 생성
+{% highlight html %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Tasks</title>
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>
+{% endhighlight %}
+
+- "templates" 폴더 안에 원하는 파일(ex: index.html)생성 후 layout.html 파일 연결, 필요한 부분만 작성하면 끝
+{% highlight html %}
+{% extends "tasks/layout.html" %}
+
+{% block body %}
+  <h1>Tasks:</h1>
+  <ul>
+      {% for task in tasks %}
+          <li>{{ task }}</li>
+      {% endfor %}
+  </ul>
+{% endblock %}
+{% endhighlight %}
+
+
+<br/>
+
+## 6. CSS파일로 스타일링하기
+- 앱 내 static 폴더 만들기
+- static 폴더 내 앱 이름으로 폴더 만들기
+- 폴더 내 css파일 만들기
+- html 파일에 동적 주소 링크하기
+{% highlight html %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{% static 'newyear/styles.css' %}">
+        <title>Hello</title>
+    </head>
+    <body>
+        <h1>Hello, {{ name }}!</h1>
+    </body>
+</html>
+{% endhighlight %}
