@@ -236,11 +236,11 @@ urlpatterns = [
 - 자동으로 django가 client-side validation 실행 : 유저가 알맞은 답을 적지 않으면 서버로 제출할 수 없게 클라이언트에서 막아주는 장치가 있다는 뜻 
 - 그렇더라도 server-side validation 필요 : client-side validation는 무력화하기 쉽고, 유저가 업데이트 안 된 웹페이지로 보고 있으면 validation 안될 수도 있음 
 - django forms 사용하면 client-side validation, server-side validation 둘 다 하기 쉬움
-- 
+
 ### cf) Django Form으로 제출 시 일어나는 일
 - 서버가 request를 받음 : request는 <WSGIRequest: POST '/tasks/add'> 형태로 받음
-- form으로 제출된 내용은 request.POST에 딕셔너리 형태로 저장됨 : request.POST의 내용 <QueryDict: {'csrfmiddlewaretoken': ['9G5W7A2xwAtAY8BGuPNF06GcLEYaP1R9zny0R3alQRC8EOr93FzBjmJIGik1V3au'], 'task': ['do the dishes'], 'priority': ['1']}>
-- 제출된 내용(request.POST)를 form의 형태로 저장할 수 있음 : NewTaskForm(request.POST)입력하면 <tr><th><label for="id_task">New Task:</label></th><td><input type="text" name="task" value="do the dishes" required id="id_task"></td></tr> 형태로 저장 
+- form으로 제출된 내용은 request.POST에 딕셔너리 형태로 저장됨 : request.POST의 내용 <QueryDict: {'csrfmiddlewaretoken': ['9G5...'], 'task': ['do the dishes'], 'priority': ['1']}>
+- 제출된 내용(request.POST)를 form의 형태로 저장할 수 있음 : NewTaskForm(request.POST)입력하면 ```<tr><th><label for="id_task">New Task:</label></th><td><input type="text" name="task" value="do the dishes" required id="id_task"></td></tr>``` 형태로 저장 
 - 내장된 form 모듈의 method인 "is_valid"로 form validation할 수 있음
 - "is_valid"로 validation하면, "cleaned_data"라는 딕셔너리 생성됨
 - cleaned_date['field_name']로 접근 가능. self.field_name로도 접근 가능하지만 안전하지 않음(왜?)
