@@ -277,3 +277,20 @@ def add(request):
     {{ form }}
 </form>
 {% endhighlight %}
+
+## 10. Django Sessions
+- session : 웹사이트 방문자 각각의 고유한 데이터를 서버에 저장하는 방식
+- django는 디폴트로 데이터를 table에 저장 -> session에 관한 데이터도 table에 저장
+- table을 미리 만들지 않고 서버 가동하면 table이 없다는 오류 뜸
+- terminal에서 python manage.py migrate 실행하면 django 데이터베이스 내 디폴트 테이블 생성할 수 있음
+- session의 데이터는 dictionary 형태로 저장됨
+
+{% highlight python %}
+def index(request):
+    # session에 tasks라는 key가 없으면 만들고 빈 리스트를 value로 할당하라는 뜻
+    if "tasks" not in request.session:
+        request.session["tasks"] = []
+    return render(request, "todo/index.html", {
+        "tasks": request.session["tasks"]
+        })
+{% endhighlight %}
