@@ -42,7 +42,6 @@ CREATE TABLE employees(
 <br/>
 
 ### 2) Table 만들기
-- table에 row 생성하는 방법:
 ```
 INSERT INTO employees(name, salary) VALUES ("Sue", 100);
 ```
@@ -50,6 +49,16 @@ INSERT INTO employees(name, salary) VALUES ("Sue", 100);
 <br/>
 
 ### 3) row 선택하기
+- 모든 row 선택
 ```
 SELECT * FROM employees
+```
+- 특정 column 선택
+```
+SELECT salary FROM employees
+```
+- 특정 row 선택
+```
+SELECT * FROM employees WHERE id = 2;
+SELECT * FROM employees WHERE name = "Sue";
 ```
