@@ -1,0 +1,55 @@
+---
+layout: post
+title:  " SQL, model, migration"
+date:   2021-03-05 07:16:27 +0900
+categories: HTTP
+---
+
+## 0. SQL, Model, Migration
+- SQL : 데이터베이스를 조작하는 언어.
+- Model : Django 등에서 추상하여 SQL을 다루는 방식  
+- Migration : Model에서 일어나는 변화를 데이터베이스에 업데이트해주는 기술
+
+<br/>
+
+## 1. SQLite
+- Django의 디폴트 database management system. 용량 가벼운 편.
+
+<br/>
+
+### 1) Table 만들기
+```
+CREATE TABLE employees(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    salary INTEGER NOT NULL
+);
+```
+#### cf) Column Types
+- TEXT : string 저장
+- NUMERIC : 숫자 일반
+- INTEGER : 정수
+- REAL : 실수
+- BLOB (Binary Large Object)
+
+#### cf) Constraints : column 만들 때 둘 수 있는 제약조건
+- CHECK : 새로운 행 생성 시 특정 제약에 맞는 형식인지 확인함
+- DEFAULT : 값이 없으면 디폴트 값 생성
+- NOT NULL : 값이 있어야 함
+- PRIMARY KEY : 데이터베이스에서 검색할 때 주요 key로 사용함
+- UNIQUE : 이 column의 모든 row는 고유한 값만 가질 수 있음
+
+<br/>
+
+### 2) Table 만들기
+- table에 row 생성하는 방법:
+```
+INSERT INTO employees(name, salary) VALUES ("Sue", 100);
+```
+
+<br/>
+
+### 3) row 선택하기
+```
+SELECT * FROM employees
+```
