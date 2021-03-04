@@ -7,14 +7,15 @@ categories: HTTP
 
 ## 0. SQL, Model, Migration
 - SQL : 데이터베이스를 조작하는 언어.
-- Model : Django 등에서 추상하여 SQL을 다루는 방식  
+- Model : Django 등에서 추상화를 통해 SQL을 다루는 방식  
 - Migration : Model에서 일어나는 변화를 데이터베이스에 업데이트해주는 기술
 
 <br/>
 
 ## 1. SQLite
 - Django의 디폴트 database management system. 용량 가벼운 편.
-
+- SQLite 설치 -> 터미널에서 "touch employees.sql"로 파일 만들기 -> sqlite3 employees.sql로 파일 열기
+- 파일 열고 ".table" 입력하면 존재하는 테이블 모두 볼 수 있음
 <br/>
 
 ### 1) Table 만들기
@@ -61,4 +62,43 @@ SELECT salary FROM employees
 ```
 SELECT * FROM employees WHERE id = 2;
 SELECT * FROM employees WHERE name = "Sue";
+SELECT * FROM employees WHERE salary > 50;
+SELECT * FROM employees WHERE salary > 50 AND name = "Sue";
+SELECT * FROM employees WHERE salary IN ("100", "80");
 ```
+
+#### cf) wildcard character %
+- %는 0개 또는 1개 이상의 문자를 뜻함
+- 하단 예시 : u가 들어간 모든 row를 선택
+```
+SELECT * FROM employees WHERE name LIKE "%u%";
+```
+
+#### cf) 터미널에서 보기 쉽게 나타내기
+- ".mode columns"와 ".headers yes" 커맨드 사용하면 보기 쉽게 나옴
+
+<br/>
+
+### 4) function 사용하기
+- function 예 : AVERAGE, COUNT, MAX, MIN, SUM
+```
+SELECT AVG(salary) FROM employees;
+SELECT SUM(salary) FROM employees WHERE salary > 50;
+```
+
+<br/>
+
+### 5) 이미 입력한 row 값 변경하기(update)
+```
+UPDATE employees
+    SET salary =  2000
+    WHERE name = "Sue";
+```
+
+### 6) 이미 입력한 값 삭제하기
+```
+DELETE FROM employees WHERE name = "Sue";
+```
+
+### 7) 기타 clause
+- LIMIT, ORDER BY, GROUP BY, HAVING
