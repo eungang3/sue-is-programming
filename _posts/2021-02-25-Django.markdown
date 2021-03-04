@@ -149,24 +149,24 @@ def greet(request, name):
         <title>Tasks</title>
     </head>
     <body>
-        {% block body %}
-        {% endblock %}
+        ({와 %로 표시) block body
+        ({와 %로 표시) endblock
     </body>
 </html>
 {% endhighlight %}
 
 - "templates" 폴더 안에 원하는 파일(ex: index.html)생성 후 layout.html 파일 연결, 필요한 부분만 작성하면 끝
 {% highlight html %}
-{% extends "tasks/layout.html" %}
+({와 %로 표시) extends "tasks/layout.html" 
 
-{% block body %}
+({와 %로 표시) block body 
   <h1>Tasks:</h1>
   <ul>
-      {% for task in tasks %}
+      ({와 %로 표시) for task in tasks 
           <li>{{ task }}</li>
-      {% endfor %}
+      ({와 %로 표시) endfor 
   </ul>
-{% endblock %}
+({와 %로 표시) endblock 
 {% endhighlight %}
 
 
@@ -178,15 +178,119 @@ def greet(request, name):
 - 폴더 내 css파일 만들기
 - html 파일에 동적 주소 링크하기
 {% highlight html %}
-{% load static %}
+({와 %로 표시) load static 
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link rel="stylesheet" href="{% static 'newyear/styles.css' %}">
+        <link rel="stylesheet" href="({와 %로 표시) static 'newyear/styles.css'">
         <title>Hello</title>
     </head>
     <body>
         <h1>Hello, {{ name }}!</h1>
     </body>
 </html>
+{% endhighlight %}
+
+<br/>
+
+## 7. html파일에 a태그로 링크 만들어서 앱 끼리 연결하기
+
+{% highlight python %}
+# urls.py 파일
+from django.urls import path
+from . import views
+
+# django가 url의 name을 보고 렌더링 할 때, 다른 앱의 이름이 같은 url과 구분할 수  변수 만들어줌
+app_name = "tasks"
+
+urlpatterns = [
+    path("", views.index, name="index")
+]
+{% endhighlight %}
+
+{% highlight html %}
+<!-- urls.py파일에서 링크할 url에 부여한 name 사용 -->
+<!-- urls.py파일에서 app_name으로 지정한 것도 써주면 더 정확 -->
+<a href="({와 %로 표시)url 'tasks:index'(%와 }로 표시)">back to index</a>
+{% endhighlight %}
+
+
+## 8. CSRF token
+- CSRF : Cross-site Request Forgery의 약자
+- CSRF attack : 악성 유저가 엉뚱한 사이트에서 내 서버로 request를 보내는 것 
+- CSRF token : django가 response로 템플릿을 렌더링할 때 각 세션마다 생성하는 고유한 암호. 
+- 작동 방식 : 클라이언트가 form이 있는 템플릿 렌더링 request -> django 서버가 템플릿 렌더링해서 response, 고유한 암호 발행 -> 클라이언트가 form을 제출하는 request 보냄 -> django 서버가 아까 생성한 암호와 일치하는 암호를 가진 클라이언트에서 온 건지 체크 -> 일치 시 통과/불일치 시 접근 거부 
+- 사용 : html파일의 form 태그 안에 "csrf_token" 작성 
+
+{% highlight html %}
+<form action="" method="post">
+    ({와 %로 표시) csrf_token 
+    <input type="text" name="task">
+</form>
+{% endhighlight %}
+
+<br/>
+
+## 9. Django Forms
+- html 작성할 필요 없이 django로 form 만들 수 있음
+- 자동으로 django가 client-side validation 실행 : 유저가 알맞은 답을 적지 않으면 서버로 제출할 수 없게 클라이언트에서 막아주는 장치가 있다는 뜻 
+- 그렇더라도 server-side validation 필요 : client-side validation는 무력화하기 쉽고, 유저가 업데이트 안 된 웹페이지로 보고 있으면 validation 안될 수도 있음 
+- django forms 사용하면 client-side validation, server-side validation 둘 다 하기 쉬움
+
+### cf) Django Form으로 제출 시 일어나는 일
+- 서버가 request를 받음 : request는 <WSGIRequest: POST '/tasks/add'> 형태로 받음
+- form으로 제출된 내용은 request.POST에 딕셔너리 형태로 저장됨 : request.POST의 내용 <QueryDict: {'csrfmiddlewaretoken': ['9G5...'], 'task': ['do the dishes'], 'priority': ['1']}>
+- 제출된 내용(request.POST)를 form의 형태로 저장할 수 있음 : NewTaskForm(request.POST)입력하면 ```<tr><th><label for="id_task">New Task:</label></th><td><input type="text" name="task" value="do the dishes" required id="id_task"></td></tr>``` 형태로 저장 
+- 내장된 form 모듈의 method인 "is_valid"로 form validation할 수 있음
+- "is_valid"로 validation하면, "cleaned_data"라는 딕셔너리 생성됨
+- cleaned_date['field_name']로 접근 가능. self.field_name로도 접근 가능하지만 안전하지 않음(왜?)
+
+{% highlight python %}
+# views.py 
+# 필요한모듈 import해야 함
+from django.shortcuts import render
+from django import forms
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+
+tasks = ["one", "two", "three"]
+
+# forms 모듈에서 Form 클래스 상속시킴
+class NewTaskForm(forms.Form):
+    task = forms.CharField(label="New Task")
+    
+def add(request):
+    if request.method == "POST":
+        form = NewTaskForm(request.POST)
+    if form.is_valid():
+        task = form.cleaned_data["task"]
+        tasks.append(task)
+        return HttpResponseRedirect(reverse("tasks:index"))
+     
+    return render(request, "tasks/add.html", {
+        "form": NewTaskForm()
+    })
+{% endhighlight %}
+
+{% highlight html %}
+<form action="({와 %로 표시) url 'tasks:add'%와 }로 표시)" method="post">
+    {{ form }}
+</form>
+{% endhighlight %}
+
+## 10. Django Sessions
+- session : 웹사이트 방문자 각각의 고유한 데이터를 서버에 저장하는 방식
+- django는 디폴트로 데이터를 table에 저장 -> session에 관한 데이터도 table에 저장
+- table을 미리 만들지 않고 서버 가동하면 table이 없다는 오류 뜸
+- terminal에서 python manage.py migrate 실행하면 django 데이터베이스 내 디폴트 테이블 생성할 수 있음
+- session의 데이터는 dictionary 형태로 저장됨
+
+{% highlight python %}
+def index(request):
+    # session에 tasks라는 key가 없으면 만들고 빈 리스트를 value로 할당하라는 뜻
+    if "tasks" not in request.session:
+        request.session["tasks"] = []
+    return render(request, "todo/index.html", {
+        "tasks": request.session["tasks"]
+        })
 {% endhighlight %}
