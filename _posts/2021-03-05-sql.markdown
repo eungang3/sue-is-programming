@@ -43,7 +43,7 @@ CREATE TABLE employees(
 
 <br/>
 
-### 2) Table 만들기
+### 2) Table에 데이터 넣기
 ```
 INSERT INTO employees(name, salary) VALUES ("Sue", 100);
 ```
@@ -106,4 +106,16 @@ DELETE FROM employees WHERE name = "Sue";
 
 <br/>
 
-### 2) Table 연결하기
+### 8) Table 연결하기
+- Employees
+| id | name | salary |
+|----|:----:|:------:|
+| 1  | Sue  | 1000   | 
+| 2  | Harry| 900    |
+| 3  | Joe  | 100    |
+
+- Projects
+| id | title | duration |
+|----|:-----:|:--------:|
+| 1  | app   | 60       |
+| 2  | web   | 20       |
