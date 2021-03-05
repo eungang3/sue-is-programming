@@ -16,6 +16,7 @@ categories: HTTP
 - Django의 디폴트 database management system. 용량 가벼운 편.
 - SQLite 설치 -> 터미널에서 "touch employees.sql"로 파일 만들기 -> sqlite3 employees.sql로 파일 열기
 - 파일 열고 ".table" 입력하면 존재하는 테이블 모두 볼 수 있음
+
 <br/>
 
 ### 1) Table 만들기
@@ -102,3 +103,7 @@ DELETE FROM employees WHERE name = "Sue";
 
 ### 7) 기타 clause
 - LIMIT, ORDER BY, GROUP BY, HAVING
+
+<br/>
+
+### 2) Table 연결하기
