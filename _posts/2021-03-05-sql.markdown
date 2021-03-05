@@ -174,3 +174,4 @@ CREATE INDEX name_index ON employees (name);
 
 - 모델 바탕으로 데이터베이스 만들기 ```python manage.py makemigrations``` -> 앱 내 migration 디렉토리 생성, 디렉토리 내 init 파일 생성됨
 - migration을 데이터베이스에 적용하기 ```python manage.py migrate```->디폴트 migration 적용됨, db.sqlite3 파일 생성됨
+- Django shell 들어가기```python manage.py shell```->프로젝트 안에서 python 커맨드 실행할 수 있음
