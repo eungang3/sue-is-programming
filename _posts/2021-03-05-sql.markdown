@@ -159,7 +159,7 @@ CREATE INDEX name_index ON employees (name);
  
  <br/>
  
- ## 2. Django Models
+## 2. Django Models
  - 직접적인 SQL query 없이도 Python class, object로 SQL을 다룰 수 있게 해주는 추상화 방식
  - 프로젝트 생성 -> 앱 생성 -> 앱 내 models.py에 사용할 모델 입력 (python class 사용)
  - model 하나당 데이터베이스의 main table 하나라고 생각하면 됨
