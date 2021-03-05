@@ -7,8 +7,8 @@ categories: HTTP
 
 ## 0. SQL, Model, Migration
 - SQL : 데이터베이스를 조작하는 언어.
-- Model : Django 등에서 추상화를 통해 SQL을 다루는 방식  
-- Migration : Model에서 일어나는 변화를 데이터베이스에 업데이트해주는 기술
+- Model : 데이터베이스의 스키마를 정의하는 Django 클래스.  
+- Migration : Model을 바탕으로 SQL query를 생성하여 데이터베이스를 업데이트하는 것
 
 <br/>
 
@@ -160,7 +160,7 @@ CREATE INDEX name_index ON employees (name);
  <br/>
  
 ## 2. Django Models
- - 직접적인 SQL query 없이도 Python class, object로 SQL을 다룰 수 있게 해주는 추상화 방식
+ - model : 데이터베이스의 스키마를 정의하는 Django 클래스.  
  - 프로젝트 생성 -> 앱 생성 -> 앱 내 models.py에 사용할 모델 입력 (python class 사용)
  - model 하나당 데이터베이스의 main table 하나라고 생각하면 됨
  
@@ -176,7 +176,7 @@ CREATE INDEX name_index ON employees (name);
  <br/>
  
  ## 3. Migration
-
+- migration : Model을 바탕으로 SQL query를 생성하여 데이터베이스를 업데이트하는 것. DB 스키마를 git처럼 버전 관리할 수 있음
 - 모델 바탕으로 migration 만들기 ```python manage.py makemigrations``` -> 앱 내 migration 디렉토리 생성, 디렉토리 내 init 파일과 0001_initial.py 파일 생성됨. model에 변경이 일어나면 0001_initial.py 파일에 반영됨
 - migration을 데이터베이스에 적용하기 ```python manage.py migrate```->디폴트 migration 적용됨, db.sqlite3 파일 생성됨
 - Django shell 들어가기```python manage.py shell```->프로젝트 안에서 python 커맨드 실행할 수 있음
