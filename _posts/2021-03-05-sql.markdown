@@ -161,10 +161,11 @@ CREATE INDEX name_index ON employees (name);
  
 ## 2. Django Models
  - model : 데이터베이스의 스키마를 정의하는 Django 클래스.  
- - 프로젝트 생성 -> 앱 생성 -> 앱 내 models.py에 사용할 모델 입력 (python class 사용)
  - model 하나 = 데이터베이스의 table 하나 
+ - 프로젝트 앱 내 models.py에 클래스 정의해서 생성 
  
  {% highlight python %}
+ # models.py
  # Django의 model class extends해서 사용
  from django.db import models
  
@@ -176,22 +177,36 @@ CREATE INDEX name_index ON employees (name);
  <br/>
  
  ## 3. Migration
-- migration : Model을 바탕으로 SQL query를 생성하여 데이터베이스의 스키마를 업데이트하는 것. 데이터베이스 스키마를 git처럼 버전 관리할 수 있음
-- 모델 바탕으로 migration 만들기 ```python manage.py makemigrations``` -> 앱 내 migration 디렉토리 생성, 디렉토리 내 init 파일과 0001_initial.py 파일 생성됨. model에 변경이 일어나면 0001_initial.py 파일에 반영됨
-- migration을 데이터베이스에 적용하기 ```python manage.py migrate```->디폴트 migration 적용됨, db.sqlite3 파일 생성됨
-- Django shell 들어가기```python manage.py shell```->프로젝트 안에서 python 커맨드 실행할 수 있음
+- migration : Model을 바탕으로 SQL query를 생성하여 데이터베이스의 스키마를 업데이트하는 것. 
+- 데이터베이스 스키마를 git처럼 버전 관리할 수 있음
+
+### 1) 모델 바탕으로 migration 만들기 (=SQL query 생성하기)
+- 커맨드 ```python manage.py makemigrations``` 
+- 앱 내 migration 디렉토리 생성
+- migration 디렉토리 내 init 파일과 0001_initial.py 파일 생성. 
+- 이후 model에 변경이 일어나면 0001_initial.py 파일에 자동 반영됨.
+
+### 2) migration 실행해서 데이터베이스에 적용하기 (=데이터베이스에서 SQL query 실행하기) 
+- 커맨드 ```python manage.py migrate```
+- 데이터베이스 생성 (=db.sqlite3 파일 생성)
+- 데이터베이스(db.sqlite3)에 model 바탕으로 스키마 생성
+
+### 3) 데이터베이스에 데이터 입력하기
+- Django Shell 들어가기 : 터미널에서 커맨드```python manage.py shell```
 
 {% highlight python %}
-# python shell에서 실행
+# django shell에서 실행
 # models.py에서 정의한 모델 불러오기
 fom projects.models import Project
 
-# 새 project object 생성
+# 모델 바탕으로 object 생성
 f = Project(title="web", duration=30)
 
 # 데이터베이스에 정보 입력
 f.save()
+{% endhighlight %}
 
+{% highlight python %}
 # 데이터베이스에 있는 모든 project 불러오기
 Flight.objects.all()
 
