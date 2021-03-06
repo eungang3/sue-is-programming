@@ -172,6 +172,16 @@ CREATE INDEX name_index ON employees (name);
  class Project(models.Model):
     title = models.CharField(max_length=64)
     duration = models.IntegerField()
+    
+    # 출력되는 object를 읽기 쉬운 string으로 바꿔줌
+    def __str__:
+        return f"title: {self.title}, duration {self.duration}"
+    
+  class Assignment(models.Model):
+    # on_delete=models.CASCADE는 primary key가 삭제되었을 때 foreign key를 가진 행도 같이 삭제하라는 뜻 
+    # related name은 
+    title = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="titles")
+    participants = models.CharField(max_length=64)
  {% endhighlight %}
   
  <br/>
@@ -183,7 +193,7 @@ CREATE INDEX name_index ON employees (name);
 ### 1) 모델 바탕으로 migration 만들기 (=SQL query 생성하기)
 - 커맨드 ```python manage.py makemigrations``` 
 - 앱 내 migration 디렉토리에 0001_initial.py 파일 생성. 
-- 이후 model에 변경이 일어나면 0001_initial.py 파일에 자동 반영됨.
+- 이후 model.py를 수정하고 저장하면 0001_initial.py 파일에 자동 반영됨.
 
 ### 2) migration 실행해서 데이터베이스에 적용하기 (=데이터베이스에서 SQL query 실행하기) 
 - 커맨드 ```python manage.py migrate```
@@ -209,18 +219,6 @@ f.save()
 # 데이터베이스에 있는 모든 project 불러오기
 Flight.objects.all()
 
-# <QuerySet [<Flight: flight object(1)>]> 뜸
-{% endhighlight %}
-
-- 출력되는 object를 읽기 쉬운 string으로 바꿔주는 ```__str___``` method 만들기
-
-{% python highlight %}
-# models.py
-from django.db import models
- 
-class Project(models.Model):
-   title = models.CharField(max_length=64)
-   duration = models.IntegerField()
-   def __str__(self):
-    return f"{self.id}: title is {self.title}. Duration is {self.duration}"
+# __str__ method 없으면 <QuerySet [<Flight: flight object(1)>]> 출력
+# __str__ method 있으면 return에 정의한 대로 스트링 
 {% endhighlight %}
