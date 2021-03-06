@@ -254,4 +254,29 @@ Assignments.objects.all()
 
 # 데이터베이스에 있는 특정 정보만 불러오기
 Assignments.objects.get(duty="cleaning")
+
+# 데이터베이스 child table에 새 정보 추가하기
+alice = Employees.objects.get(name="Alice")
+assigned4 = Assignments(duty="selling", member=alice) 
+assigned4.save()
+{% endhighlight %}
+
+- views.py에 데이터베이스 반영해서 html 렌더링하기
+{% highlight python %}
+# views.py
+from django.shortcuts import render
+# models.py에서 불러오기
+from .models import *
+
+def index(request):
+    return render(request, "projects/index.html", {
+        "assignments" = Assignments.objects.all()
+        })
+{% endhighlight %}
+
+{% highlight html %}
+<!-- index.html -->
+<ul>
+{\% for assignment in assignments %\}
+    <li> {{ assignment.duty }} : {{ assignment.member }}</li>
 {% endhighlight %}
