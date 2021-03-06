@@ -239,7 +239,7 @@ assigned2.save()
 assigned3.save()
 
 # 정보 출력하기
-# __str__ method 없으면 <QuerySet [<Assignments : flight object(1)>]> 출력
+# __str__ method 없으면 <QuerySet [<Assignments : Assignments object(1)>]> 출력
 # __str__ method 있으므로 <Assignments: Sue is doing cleaning> 출력 
 assigned1
 
@@ -278,6 +278,20 @@ def index(request):
 <!-- index.html -->
 <ul>
     {\% for assignment in assignments %\}
-    <li> {{ assignment.duty }} : {{ assignment.member }}</li>
+    <li> {\{ assignment.duty }\} : {\{ assignment.member }\}</li>
     {\% endfor %\}
+{% endhighlight %}
+
+<br/>
+
+#### cf) Django Admin
+- 데이터 입력/수정을 할 수 있는 django에 내장된 인터페이스
+- 어드민 유저 등록하기 : shell에서 ```python manage.py createsuperuser```
+- admin.py에 정보 입력
+{% highlight python %}
+from django.contrib import admin
+from .models import Flight.Airport
+
+admin.site.register(Employees)
+admin.site.register(Airport)
 {% endhighlight %}
