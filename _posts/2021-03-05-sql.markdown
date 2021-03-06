@@ -186,19 +186,25 @@ CREATE INDEX name_index ON employees (name);
   
  <br/>
  
- ## 3. Migration
+## 3. Migration
 - migration : Model을 바탕으로 SQL query를 생성하여 데이터베이스의 스키마를 업데이트하는 것. 
 - 데이터베이스 스키마를 git처럼 버전 관리할 수 있음
+
+<br/>
 
 ### 1) 모델 바탕으로 migration 만들기 (=SQL query 생성하기)
 - 커맨드 ```python manage.py makemigrations``` 
 - 앱 내 migration 디렉토리에 0001_initial.py 파일 생성. 
 - 이후 model.py를 수정하고 저장하면 0001_initial.py 파일에 자동 반영됨.
 
+<br/>
+
 ### 2) migration 실행해서 데이터베이스에 적용하기 (=데이터베이스에서 SQL query 실행하기) 
 - 커맨드 ```python manage.py migrate```
 - 데이터베이스 생성 (=db.sqlite3 파일 생성)
 - 데이터베이스(db.sqlite3)에 model 바탕으로 스키마 생성
+
+<br/>
 
 ### 3) 데이터베이스에 데이터 입력하기
 - Django Shell 들어가기 : 터미널에서 커맨드```python manage.py shell```
