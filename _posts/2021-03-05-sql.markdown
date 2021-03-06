@@ -277,6 +277,7 @@ def index(request):
 {% highlight html %}
 <!-- index.html -->
 <ul>
-{\% for assignment in assignments %\}
+    {\% for assignment in assignments %\}
     <li> {{ assignment.duty }} : {{ assignment.member }}</li>
+    {\% endfor %\}
 {% endhighlight %}
