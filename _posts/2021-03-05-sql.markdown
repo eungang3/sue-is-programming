@@ -295,3 +295,4 @@ from .models import Flight.Airport
 admin.site.register(Employees)
 admin.site.register(Airport)
 {% endhighlight %}
+- 브라우저에서 사이트 url/admin 입력하면 접속 가능
