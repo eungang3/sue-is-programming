@@ -109,6 +109,7 @@ DELETE FROM employees WHERE name = "Sue";
 ### 8) Table 연결하기
 ![sql1](https://eungang3.github.io/sue-is-programming/assets/sql1.jpg)
 - 아이디만 있는 테이블을 association table이라고 함
+- Employees 테이블과 Projects 테이블은 many to many relationship(한 employee id가 여러 project id와 연결될  있고 한 project id가 여러 employee id와 연결될 수도 있음)
 - foreign key : 두 테이블을 연결하는 key. 다른 테이블의 primary key를 담고 있는 필드.
 - JOIN : 두 테이블 연결해서 query 넣을 수 있게 해줌. Inner Join, Left Join, Right Join 등 
 - Inner Join 예 : 테이블 간 매치 없는 row는 무시함
