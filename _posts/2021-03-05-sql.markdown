@@ -163,33 +163,20 @@ CREATE INDEX name_index ON employees (name);
  - model : 데이터베이스의 스키마를 정의하는 Django 클래스.  
  - model 하나 = 데이터베이스의 table 하나 
  - 프로젝트 앱 내 models.py에 클래스 정의해서 생성 
- - Many to Many relationship: A 테이블의 id가 B 테이블의 여러 id와 연결될 수 있고, B 테이블의 id도 A 테이블의 여러 id와 연결될 수 있는 경우. ManyToManyField 사용
- - Many to One relationship: A 테이블의 id가 B 테이블의 여러 id와 연결될 수 있지만, B 테이블은 A 테이블의 한 id만 가질 수 있는 경우. ForeignKey 필드 사용
- 
- {% highlight python %}
- # models.py
- # Django의 model class extends해서 사용
- from django.db import models
- 
- class Employees(models.Model):
-    first = models.CharField(max_length=64)
-    age = models.IntegerField()
-    
-    # 출력되는 object를 읽기 쉬운 string으로 바꿔줌
-    def __str__(self):
-        return f"Employee name : {self.first}, age : {self.age}"
 
-  class Assignments(models.Model):
-    # on_delete=models.CASCADE는 primary key가 삭제되었을 때 foreign key를 가진 행도 같이 삭제하라는 뜻 
-    # related name은 해당 foreign key가 있는 행을 테이블 내에서 검색할 때 쓸 수 있는 이름
-    duty = models.CharField(max_length=64)
-    member = models.ForeignKey(Employees, on_delete=models.CASCADE, related_name="participating")
+<br/>
 
-    def __str__(self):
-        return f"{self.member} is doing {self.duty}"
- {% endhighlight %}
+### 1) Many to Many relationship:
+ - A 테이블의 id가 B 테이블의 여러 id와 연결될 수 있고, B 테이블의 id도 A 테이블의 여러 id와 연결될 수 있는 경우
+ - ManyToManyField 사용
+
+<br/>
+
+### 2) Many to One relationship
+ - A 테이블의 id가 B 테이블의 여러 id와 연결될 수 있지만, B 테이블은 A 테이블의 한 id만 가질 수 있는 경우
+ - ForeignKey 필드 사용
   
- <br/>
+<br/>
  
 ## 3. Migration
 - migration : Model을 바탕으로 SQL query를 생성하여 데이터베이스의 스키마를 업데이트하는 것. 
@@ -214,75 +201,6 @@ CREATE INDEX name_index ON employees (name);
 
 ### 3) 데이터베이스에 데이터 입력하기
 - Django Shell 들어가기 : 터미널에서 커맨드```python manage.py shell```
-
-{% highlight python %}
-# django shell에서 실행
-# models.py에서 정의한 모델 불러오기
-fom projects.models import Project
-
-# 모델 바탕으로 parent table 생성
-e1 = Employee(first="Sue", age=30)
-e2 = Employee(first="Harry", age=32)
-e3 = Employee(first="Bob", age=28)
-
-# 데이터베이스에 정보 입력
-e1.save()
-e2.save()
-e3.save()
-
-# 모델 바탕으로 child table 생성
-assigned1 = Assignments(duty="cleaning", member=e1)
-assigned2 = Assignments(duty="shopping", member=e2)
-assigned3 = Assignments(duty="dancing", member=e1)
-
-# 데이터베이스에 정보 입력
-assigned1.save()
-assigned2.save()
-assigned3.save()
-
-# 정보 출력하기
-# __str__ method 없으면 <QuerySet [<Assignments : Assignments object(1)>]> 출력
-# __str__ method 있으므로 <Assignments: Sue is doing cleaning> 출력 
-assigned1
-
-# related_name인 'participating' 이용해서 검색 후 결과 모두 출력
-e1.participating.all()
-# <QuerySet [<Assignments: Sue is doing cleaning>, <Assignments: Sue is doing designing>]>
-{% endhighlight %}
-
-{% highlight python %}
-# 데이터베이스에 있는 모든 project 불러오기
-Assignments.objects.all()
-
-# 데이터베이스에 있는 특정 정보만 불러오기
-Assignments.objects.get(duty="cleaning")
-
-# 데이터베이스 child table에 새 정보 추가하기
-alice = Employees.objects.get(name="Alice")
-assigned4 = Assignments(duty="selling", member=alice) 
-assigned4.save()
-{% endhighlight %}
-
-- views.py에 데이터베이스 반영해서 html 렌더링하기
-{% highlight python %}
-# views.py
-from django.shortcuts import render
-# models.py에서 불러오기
-from .models import *
-
-def index(request):
-    return render(request, "projects/index.html", {
-        "assignments" = Assignments.objects.all()
-        })
-{% endhighlight %}
-
-{% highlight html %}
-<!-- index.html -->
-<ul>
-    {\% for assignment in assignments %\}
-    <li> {\{ assignment.duty }\} : {\{ assignment.member }\}</li>
-    {\% endfor %\}
-{% endhighlight %}
 
 <br/>
 
