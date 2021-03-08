@@ -166,16 +166,56 @@ CREATE INDEX name_index ON employees (name);
 
 <br/>
 
-### 1) Many to Many relationship:
- - A 테이블의 id가 B 테이블의 여러 id와 연결될 수 있고, B 테이블의 id도 A 테이블의 여러 id와 연결될 수 있는 경우
- - ManyToManyField 사용
-
-<br/>
-
-### 2) Many to One relationship
+### 1) Many to One relationship
  - A 테이블의 id가 B 테이블의 여러 id와 연결될 수 있지만, B 테이블은 A 테이블의 한 id만 가질 수 있는 경우
  - ForeignKey 필드 사용
   
+ {% highlight python %}
+ # 한 기사는 한 저자만 갖지만, 한 저자가 여러 기사를 쓸 수는 있음
+ # models.py
+ from django.db import models
+ 
+ class Writer(models.Model):
+    name = models.CharField(max_length = 64)
+    
+    def __str__(self):
+        return f"{self.name}"
+    
+  class Article(models.Model):
+    title = models.CharField(max_length=64)
+    author = models.ForeignKey(Writer, on_delete=models.CASCADE, related_name="authors")
+    
+    def __str__(self):
+        return f"{self.title}, {self.author}"
+ 
+ {% endhighlight %}
+<br/>
+
+### 2) Many to Many relationship:
+ - A 테이블의 id가 B 테이블의 여러 id와 연결될 수 있고, B 테이블의 id도 A 테이블의 여러 id와 연결될 수 있는 경우
+ - ManyToManyField 사용
+ 
+{% highlight python %}
+# 한 책을 여러 저자가 쓸 수도 있고, 한 저자가 여러 책을 쓸 수도 있음
+# models.py
+
+from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=64)
+    
+    def __str__(self):
+        return f"{self.title}"
+    
+class Writer(models.Model):
+    name = models.CharField(max_length=64)
+    books = models.ManyToManyField(Book, blank=True, related_name="writers")
+    
+    def __str__(self):
+        return f"{self.name}, {self.title}"
+
+{% endhighlight %}
+
 <br/>
  
 ## 3. Migration
