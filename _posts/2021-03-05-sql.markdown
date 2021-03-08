@@ -164,7 +164,7 @@ CREATE INDEX name_index ON employees (name);
  - model 하나 = 데이터베이스의 table 하나 
  - 프로젝트 앱 내 models.py에 클래스 정의해서 생성 
  - Many to Many relationship: A 테이블의 id가 B 테이블의 여러 id와 연결될 수 있고, B 테이블의 id도 A 테이블의 여러 id와 연결될 수 있는 경우. ManyToManyField 사용
- - One to many relationship: A 테이블의 id가 B 테이블의 여러 id와 연결될 수 있지만, B 테이블은 A 테이블의 한 id만 가질 수 있는 경우. ForeignKey 필드 사용
+ - Many to One relationship: A 테이블의 id가 B 테이블의 여러 id와 연결될 수 있지만, B 테이블은 A 테이블의 한 id만 가질 수 있는 경우. ForeignKey 필드 사용
  
  {% highlight python %}
  # models.py
