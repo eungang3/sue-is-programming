@@ -390,6 +390,7 @@ def index(request):
     # 로그인한 유저가 없다면 로그인화면으로 이동
     if not request.user.is_authenticated:
         return HttpResponseRedirect((reverse("login")))
+        
     # 로그인한 유저가 있다면 유저 페이지로 이동
     return render(request, "users/users.html")
 
