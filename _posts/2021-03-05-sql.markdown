@@ -372,3 +372,56 @@ class Writer(models.Model):
 {% endhighlight %}
 
 <br/>
+
+## 6. Authentication
+- 유저가 로그인/로그아웃 할 수 있게 하는 것
+- views.py에 django에서 제공하는 모듈 추가해서 사용 
+- ```from django.contrib.auth import authenticate, login, logout```
+- 
+{% highlight python %}
+# CS50's Web Programming with Python and JavaScript의 Lecture 4 참조
+# views.py
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
+
+def index(request):
+    # 로그인한 유저가 없다면 로그인화면으로 이동
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect((reverse("login")))
+    # 로그인한 유저가 있다면 유저 페이지로 이동
+    return render(request, "users/users.html")
+
+def login_view(request):
+    # 유저가 로그인 버튼을 누른 경우
+    if request.method == "POST":
+        # 유저가 form에 입력한 정보에 접근하기 
+        username = request.POST["username"]
+        password = request.POST["password"]
+    
+        # username과 password가 맞는지 확인, 맞다면 User 오브젝트 리턴
+        # user.email처럼 사용해서 유저 정보 접근 가능
+        user = authenticate(request, username=username, password=password)
+    
+        # db에 존재하는 유저라서 User 오브젝트가 생성되었다면
+        if user:
+            # 로그인하고 인덱스 페이지로 이동
+            login(request, user)
+            return HttpResponseRedirect(reverse("index"))
+            
+        # 존재하지 않는 유저라면
+        else:
+            # 로그인 페이지로 이동
+            return render(request, "users/login.html", {
+                "message": "Invalid Credentials"
+            })
+    return render(request, "users/login.html")
+
+def logout_view(request):
+    logout(request)
+    return render(request, "users/login.html", {
+        "message": "Logged Out"
+    })
+
+{% endhighlight %}
