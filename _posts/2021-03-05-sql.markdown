@@ -168,39 +168,15 @@ CREATE INDEX name_index ON employees (name);
  - model 하나 = 데이터베이스의 table 하나 
  - 프로젝트 앱 내 models.py에 클래스 정의해서 생성 
 
-<br/>
-
-### 1) Many to One relationship
+#### cf1) Many to One relationship
  - A 테이블의 id는 B 테이블의 여러 id와 연결될 수 있지만, B 테이블의 id는 A 테이블의 한 id하고만 연결될 수 있는 경우
  - ForeignKey 필드 사용
   
 <br/>
 
-### 2) Many to Many relationship:
+#### cf2) Many to Many relationship:
  - A 테이블의 id가 B 테이블의 여러 id와 연결될 수 있고, B 테이블의 id도 A 테이블의 여러 id와 연결될 수 있는 경우
  - ManyToManyField 사용
- 
-{% highlight python %}
-# 한 책을 여러 저자가 쓸 수도 있고, 한 저자가 여러 책을 쓸 수도 있음
-# models.py
-
-from django.db import models
-
-class Book(models.Model):
-    title = models.CharField(max_length=64)
-    price = models.IntegerField()
-    
-    def __str__(self):
-        return f"{self.title}"
-    
-class Writer(models.Model):
-    name = models.CharField(max_length=64)
-    books = models.ManyToManyField(Book, blank=True, related_name="wrote")
-    
-    def __str__(self):
-        return f"{self.name}, {self.title}"
-
-{% endhighlight %}
 
 <br/>
  
@@ -243,7 +219,9 @@ admin.site.register(Airport)
 {% endhighlight %}
 - 브라우저에서 사이트 url/admin 입력하면 접속 가능
 
-## 4. 예시(Many to One relationship)
+<br/>
+
+## 4. 예시 1 (Many to One relationship)
 ### 1) model 만들기
 {% highlight python %}
  # 주문은 한 주문자만 갖지만, 한 주문자가 여러 주문을 시킬 수는 있음
@@ -311,4 +289,61 @@ c1.ordered.all()
 # related_name에 입력한 'ordered'로 child table(Order)검색
 # 출력 : <QuerySet [<Order: Noodles, Sue, True>, <Order: Pizza, Sue, True>]>
 
+{% endhighlight %}
+
+<br/>
+
+## 5. 예시 2 (Many to Many relationship)
+### 1) model 만들기
+{% highlight python %}
+# 한 책을 여러 저자가 쓸 수도 있고, 한 저자가 여러 책을 쓸 수도 있음
+# models.py
+
+from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=64)
+    price = models.IntegerField()
+    
+    def __str__(self):
+        return f"{self.title}"
+    
+class Writer(models.Model):
+    name = models.CharField(max_length=64)
+    # blank=True는 books 필드는 빈 칸으로 두어도 된다는 뜻
+    books = models.ManyToManyField(Book, blank=True, related_name="written_by")
+    
+    def __str__(self):
+        return f"{self.name}, {self.title}"
+{% endhighlight %}
+
+### 2) migration 만들기 ```python manage.py makemigrations``` 
+
+### 3) migrate 하기 ```python manage.py migrate```
+
+### 4) 데이터 입력하기
+{% highlight python %}
+ # shell에서
+ from projects.models import *
+ 
+ b1 = Book(title="Encyclopedia", price=200)
+ b2 = Book(title="Mystery of 2020", price=10)
+ b3 = Book(title="Short stories", price=20)
+ b1.save()
+ b2.save()
+ b3.save()
+ 
+ w1 = Writer(name="Amy")
+ w1.save()
+ w1.books.add(b1)
+ w1.books.add(b2)
+ w1
+ # 출력 : <Writer: Amy, projects.Book.None>
+ # Writer의 books 필드는 오브젝트 리스트로 나옴. iterate하거나 .all() 사용해야 하나씩 볼 수 있음
+ 
+ w1.books.all()
+ # 출력 : <QuerySet [<Book: Encyclopedia, 200>, <Book: Mystery of 2020, 10>]>
+ 
+ b1.written_by.all()
+ # 출력 : <QuerySet [<Writer: Amy, projects.Book.None>, <Writer: Bob, projects.Book.None>]>
 {% endhighlight %}
