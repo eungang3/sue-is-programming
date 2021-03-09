@@ -352,4 +352,10 @@ class Writer(models.Model):
  
  b1.written_by.all()
  # 출력 : <QuerySet [<Writer: Amy, projects.Book.None>, <Writer: Bob, projects.Book.None>]>
+ 
+ Writer.objects.exclude(name="Bob")
+ # Writer object 중 name 필드가 'Bob'인 것 제외하고 출력
+ # 출력 : <QuerySet [<Writer: Amy, projects.Book.None>]>
 {% endhighlight %}
+
+<br/>
