@@ -335,11 +335,17 @@ class Writer(models.Model):
  
  w1 = Writer(name="Amy")
  w1.save()
- w1.books.add(b1)
- w1.books.add(b2)
+ w1.books.add(b1, b2)
+{% endhighlight %} 
+ 
+### 5) 데이터 출력하기
+{% highlight python %}
  w1
  # 출력 : <Writer: Amy, projects.Book.None>
- # Writer의 books 필드는 오브젝트 리스트로 나옴. iterate하거나 .all() 사용해야 하나씩 볼 수 있음
+ 
+ w1.books
+ # 출력 : <django.db.models.fields.related_descriptors.create_forward_many_to_many_manager.<locals>.ManyRelatedManager object at 0x7fcd67aa17c0>
+ # ManyToMany 필드는 오브젝트 리스트로 나옴. iterate하거나 .all() 사용해야 하나씩 볼 수 있음
  
  w1.books.all()
  # 출력 : <QuerySet [<Book: Encyclopedia, 200>, <Book: Mystery of 2020, 10>]>
