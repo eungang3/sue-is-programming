@@ -209,15 +209,28 @@ CREATE INDEX name_index ON employees (name);
 #### cf) Django Admin
 - 데이터 입력/수정을 할 수 있는 django에 내장된 인터페이스
 - 어드민 유저 등록하기 : shell에서 ```python manage.py createsuperuser```
-- admin.py에 정보 입력
+- admin.py에 정보 입력 후 브라우저에서 사이트 url/admin 입력하면 접속 가능
 {% highlight python %}
 from django.contrib import admin
-from .models import Flight.Airport
+from .models import *
 
-admin.site.register(Employees)
-admin.site.register(Airport)
+admin.site.register(Book)
+admin.site.register(Writer)
 {% endhighlight %}
-- 브라우저에서 사이트 url/admin 입력하면 접속 가능
+
+{% highlight python %}
+# id도 보이게 커스터마이징 하기
+from django.contrib import admin
+from .models import *
+
+class WriterAdmin(admin.ModelAdmin):
+    # ManyToManyField인 "books"는 추가할 수 없음
+    list_display = ("id", "name")
+
+admin.site.register(Book)
+admin.site.register(Writer, WriterAdmin)
+{% endhighlight %}
+
 
 <br/>
 
