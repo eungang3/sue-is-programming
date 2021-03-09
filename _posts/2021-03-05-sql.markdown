@@ -96,10 +96,14 @@ UPDATE employees
     WHERE name = "Sue";
 ```
 
+<br/>
+
 ### 6) 이미 입력한 값 삭제하기
 ```
 DELETE FROM employees WHERE name = "Sue";
 ```
+
+<br/>
 
 ### 7) 기타 clause
 - LIMIT, ORDER BY, GROUP BY, HAVING
@@ -167,29 +171,9 @@ CREATE INDEX name_index ON employees (name);
 <br/>
 
 ### 1) Many to One relationship
- - A 테이블의 id가 B 테이블의 여러 id와 연결될 수 있지만, B 테이블은 A 테이블의 한 id만 가질 수 있는 경우
+ - A 테이블의 id는 B 테이블의 여러 id와 연결될 수 있지만, B 테이블의 id는 A 테이블의 한 id하고만 연결될 수 있는 경우
  - ForeignKey 필드 사용
   
- {% highlight python %}
- # 한 기사는 한 저자만 갖지만, 한 저자가 여러 기사를 쓸 수는 있음
- # models.py
- from django.db import models
- 
- class Writer(models.Model):
-    name = models.CharField(max_length = 64)
-    age = models.IntegerField()
-    
-    def __str__(self):
-        return f"{self.name}"
-    
-  class Article(models.Model):
-    title = models.CharField(max_length=64)
-    author = models.ForeignKey(Writer, on_delete=models.CASCADE, related_name="authors")
-    
-    def __str__(self):
-        return f"{self.title}, {self.author}"
- 
- {% endhighlight %}
 <br/>
 
 ### 2) Many to Many relationship:
@@ -211,7 +195,7 @@ class Book(models.Model):
     
 class Writer(models.Model):
     name = models.CharField(max_length=64)
-    books = models.ManyToManyField(Book, blank=True, related_name="writers")
+    books = models.ManyToManyField(Book, blank=True, related_name="wrote")
     
     def __str__(self):
         return f"{self.name}, {self.title}"
@@ -258,3 +242,73 @@ admin.site.register(Employees)
 admin.site.register(Airport)
 {% endhighlight %}
 - 브라우저에서 사이트 url/admin 입력하면 접속 가능
+
+## 4. 예시(Many to One relationship)
+### 1) model 만들기
+{% highlight python %}
+ # 주문은 한 주문자만 갖지만, 한 주문자가 여러 주문을 시킬 수는 있음
+ # models.py
+ from django.db import models
+ 
+ class Customer(models.Model):
+    name = models.CharField(max_length = 64)
+    membership = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"{self.name}, {self.membership}"
+    
+  class Order(models.Model):
+    menu = models.CharField(max_length=64)
+    # on_delete=models.CASCADE는 primary key를 가진 행이 삭제되면, 이 행도 같이 삭제하라는 뜻
+    # related_name="ordered"는 한 primary key와 연결된 모든 행을 child table에서 검색할 때 사용 
+    customer = models.ForeignKey(Writer, on_delete=models.CASCADE, related_name="ordered")
+    
+    def __str__(self):
+        return f"{self.menu}, {self.customer}" 
+{% endhighlight %}
+
+### 2) migration 만들기 ```python manage.py makemigrations``` 
+
+### 3) migrate 하기 ```python manage.py migrate```
+
+### 4) 데이터 입력하기
+{% highlight python %}
+ # shell에서
+ from projects.models import *
+
+ c1 = Customer(name="Sue", membership="True")
+ c2 = Customer(name="Bob", membership="False")
+ c3 = Customer(name="Alice", membership="True")
+ c1.save()
+ c2.save()
+ c3.save()
+ 
+ o1 = Order(menu="Noodles", customer=c1)
+ o2 = Order(menu="Pizza", customer=c1)
+ o3 = Order(menu="Curry", customer=c2)
+ o1.save()
+ o2.save()
+ o3.save()
+{% endhighlight %}
+
+### 5) 데이터 출력하기
+{% highlight python %}
+customers = Customer.objects.all()
+customers
+# 출력 : <QuerySet [<Customer: Sue, True>, <Customer: Bob, False>, <Customer: Alice, True>]>
+
+first_customer = customers.first()
+first_customer
+# 출력 : <Customer: Sue, True>
+
+first_customer.name
+# 출력 : 'Sue'
+
+Order.objects.all()
+# 출력 : <QuerySet [<Order: Noodles, Sue, True>, <Order: Pizza, Sue, True>, <Order: Curry, Bob, False>]>
+
+c1.ordered.all()
+# related_name에 입력한 'ordered'로 child table(Order)검색
+# 출력 : <QuerySet [<Order: Noodles, Sue, True>, <Order: Pizza, Sue, True>]>
+
+{% endhighlight %}
